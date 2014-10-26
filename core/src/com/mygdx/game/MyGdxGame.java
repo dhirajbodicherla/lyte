@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
 
 import box2dLight.ConeLight;
 import box2dLight.DirectionalLight;
@@ -22,6 +23,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 
 
@@ -71,16 +73,23 @@ public class MyGdxGame extends ApplicationAdapter {
 	
 	@Override
 	public void create () {
+		LevelDef lvl = LevelParser.LoadFile("data/level.json");
+
 		width = Gdx.graphics.getWidth();		//GUI Width
 		height = Gdx.graphics.getHeight(); 		//GUI Height
+		
+		System.out.println(width);
+		System.out.println(height);
 		
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false);
 		
-		world = new World(new Vector2(0, 0), false);
+		world = new World(new Vector2(0.0f, -9.8f), false);
 		renderer = new Box2DDebugRenderer();
 		logger = new FPSLogger();
 		
+		
+		createLevel(lvl);
 		
 		BodyDef circleDef = new BodyDef();
 		circleDef.type = BodyType.DynamicBody;
@@ -101,93 +110,71 @@ public class MyGdxGame extends ApplicationAdapter {
 		circleBody.createFixture(circleFixture);
 		
 		
-		createWalls();
-		createObstacles();
-		
 		circleBody.applyLinearImpulse(1*WORLD_TO_BOX, -1*WORLD_TO_BOX, circleBody.getWorldCenter().x, circleBody.getWorldCenter().y, true);
 		
 		handler = new RayHandler(world);
 		handler.setCombinedMatrix(camera.combined.scl(BOX_TO_WORLD));
 
 		pl = new PointLight(handler, 10, Color.CYAN, 100*WORLD_TO_BOX, circleBody.getPosition().x,circleBody.getPosition().y);
-		//new DirectionalLight(handler, 5000, Color.WHITE, -90);
 		new ConeLight(handler, 100, Color.WHITE, width*WORLD_TO_BOX, width*WORLD_TO_BOX, height*0.5f*WORLD_TO_BOX, 45, 180);
 		
 	}
 	
-	public void createWalls()
+	public void createLevel(LevelDef lvl)
 	{
-		BodyDef wallDef; 
-		PolygonShape wallShape;
+		BodyDef bodyDef; 
+		Shape bodyShape = null;
+		FixtureDef fixtureDef = null; 
+		Body phyBody;
 		
-		
-		//left
-		wallDef = new BodyDef();
-		wallDef.position.set(10*0.5f*WORLD_TO_BOX, height*0.5f*WORLD_TO_BOX);
-		
-		wallShape = new PolygonShape();
-		wallShape.setAsBox(10*0.5f*WORLD_TO_BOX, height*0.5f*WORLD_TO_BOX);
-		(world.createBody(wallDef)).createFixture(wallShape, 0.f);
-		
-		
-		//right
-		wallDef = new BodyDef();
-		wallDef.position.set((width-10*0.5f)*WORLD_TO_BOX, height*0.5f*WORLD_TO_BOX);
-		
-		wallShape = new PolygonShape();
-		wallShape.setAsBox(10*0.5f*WORLD_TO_BOX, height*0.5f*WORLD_TO_BOX);
-		(world.createBody(wallDef)).createFixture(wallShape, 0.f);
-		
-		
-		//bottom
-		wallDef = new BodyDef();
-		wallDef.position.set(width * 0.5f * WORLD_TO_BOX, (10*0.5f)*WORLD_TO_BOX);
-		
-		wallShape = new PolygonShape();
-		wallShape.setAsBox(width*0.5f*WORLD_TO_BOX, (10*0.5f)*WORLD_TO_BOX);
-		(world.createBody(wallDef)).createFixture(wallShape, 0.f);
-		
-		
-		//top
-		wallDef = new BodyDef();
-		wallDef.position.set(width * 0.5f * WORLD_TO_BOX, (height-10*0.5f)*WORLD_TO_BOX);
-		
-		wallShape = new PolygonShape();
-		wallShape.setAsBox(width*0.5f*WORLD_TO_BOX, (10*0.5f)*WORLD_TO_BOX);
-		(world.createBody(wallDef)).createFixture(wallShape, 0.f);
-		
-		
-		
-		
-	}
-
-	public void createObstacles()
-	{
-		Vector2 v1 = new Vector2(50*WORLD_TO_BOX, 50*WORLD_TO_BOX);
-		Vector2 v2 = new Vector2((width*0.5f)*WORLD_TO_BOX, (height*0.5f)*WORLD_TO_BOX);
-		Vector2 v3 = new Vector2(width*0.75f*WORLD_TO_BOX, height*0.75f*WORLD_TO_BOX);
-		Vector2 v4 = new Vector2((width-50)*WORLD_TO_BOX, 60*WORLD_TO_BOX);
-		ArrayList<Vector2> pos = new ArrayList<Vector2>();
-		pos.add(v1);
-		pos.add(v2);
-		pos.add(v3);
-		pos.add(v4);
-		
-		float hsize = 20;
-		
-		BodyDef obsDef; 
-		PolygonShape obsBox;
-		
-		for(int i = 0; i < pos.size() ; i++)
+		for(int i = 0 ; i < lvl.entities.size() ; i++)
 		{
-			obsDef = new BodyDef();
-			obsDef.position.set(pos.get(i));
+			EntityDef ed = lvl.entities.get(i);
+			float x = ed.x;
+			float y = ed.y;
+			float w = ed.w;
+			float h = ed.h;
 			
-			obsBox = new PolygonShape();
-			obsBox.setAsBox(hsize*WORLD_TO_BOX, hsize*WORLD_TO_BOX);
-			(world.createBody(obsDef)).createFixture(obsBox, 0.f);
+			
+			bodyDef = new BodyDef();
+			if(ed.type.equalsIgnoreCase("S"))
+			{
+				bodyDef.type = BodyType.StaticBody;
+			}
+			if(ed.type.equals("D"))
+			{
+				bodyDef.type = BodyType.DynamicBody;
+			}
+			
+			bodyDef.position.set(x*WORLD_TO_BOX, y*WORLD_TO_BOX);
+			
+			
+			if(ed.shape.equalsIgnoreCase("rect"))
+			{
+				bodyShape = new PolygonShape();
+				((PolygonShape) bodyShape).setAsBox((w*0.5f)*WORLD_TO_BOX, h*0.5f*WORLD_TO_BOX);
+			}
+			if(ed.shape.equalsIgnoreCase("circle"))
+			{
+				bodyShape = new CircleShape();
+				bodyShape.setRadius(ed.r * WORLD_TO_BOX);
+			}
+			
+			fixtureDef = new FixtureDef();
+			fixtureDef.shape = bodyShape; 
+			fixtureDef.density = 0.4f;
+			fixtureDef.friction = 0.2f; 
+			fixtureDef.restitution = 0.8f;
+			
+			
+			phyBody = world.createBody(bodyDef);
+			phyBody.createFixture(fixtureDef);
+		
 		}
+		
 	}
+	
+		
 	
 	@Override
 	public void render () {
@@ -200,7 +187,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		Matrix4 cameraCopy = camera.combined.cpy();
 	
 		renderer.render(world, cameraCopy.scl(BOX_TO_WORLD));
-		handler.updateAndRender();
+		
 		world.step(1/60f, 6, 2);
 		
 		logger.log();

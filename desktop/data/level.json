@@ -1,0 +1,12 @@
+{
+	name: "Level 1", 
+	entities: [
+		
+		{name: "Target", type: "D", shape:"circle", x: 200, y: 100, w: 20, h: 20, r: 10},
+		{name: "WallDown", type: "S", shape:"rect", x: 320, y: 10, w: 640, h: 10, },
+		{name: "WallUp", type: "S", shape:"rect", x: 320, y: 475, w: 640, h: 10, },		
+		{name: "WallLeft", type: "S", shape:"rect", x: 5, y: 240, w: 10, h: 480, },
+		{name: "WallRight", type: "S", shape:"rect", x: 635, y: 240, w: 10, h: 480, },
+		
+	]
+}
