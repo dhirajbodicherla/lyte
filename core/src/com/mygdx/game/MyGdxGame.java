@@ -27,7 +27,8 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
-
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
 
 /*
@@ -58,7 +59,7 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor{
 	private static final float BOX_TO_WORLD = 100.f;
 	float width, height;
 	OrthographicCamera camera;
-
+	
 	FPSLogger logger;
 	
 	/* Box 2D Lights */ 
@@ -75,6 +76,13 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor{
 	float dx;
 	float dy;
 	
+	/* 
+	 * GUI
+	 */
+	private OrthographicCamera cameraGUI;
+	private SpriteBatch batch;
+	private BitmapFont font;
+	private int score=0;
 	
 	@Override
 	public void create () {
@@ -104,6 +112,17 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor{
 
 		
 		new ConeLight(handler, 100, Color.WHITE, width*WORLD_TO_BOX, width*WORLD_TO_BOX, height*0.5f*WORLD_TO_BOX, 45, 180);
+		
+		/*
+		 * GUI
+		 */
+		batch = new SpriteBatch();
+		font = new BitmapFont();
+        font.setColor(Color.RED);
+		cameraGUI = new OrthographicCamera(width, height);
+		cameraGUI.position.set(0, 0, 0);
+		cameraGUI.setToOrtho(true); // flip y-axis
+		cameraGUI.update();
 		
 	}
 	
@@ -202,6 +221,8 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor{
 		update();
 		//logger.log();
 		
+		renderGuiScore();
+		
 	}
 	
 	public void update()
@@ -233,6 +254,8 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor{
 	public void dispose() {
 		world.dispose();
 		handler.dispose();
+		batch.dispose();
+        font.dispose();
 	}
 
 	@Override
@@ -277,7 +300,7 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor{
 
 		circleBody.createFixture(circleFixture);
 		
-		
+		score++;
 		circleBody.applyLinearImpulse(dx*WORLD_TO_BOX, dy*WORLD_TO_BOX, circleBody.getWorldCenter().x, circleBody.getWorldCenter().y, true);
 		bullets.add(circleBody);
 		return false;
@@ -309,6 +332,13 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor{
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 	
+	private void renderGuiScore () {
+		 float x = 10;
+		 float y = height-10;
+		 batch.begin();
+		 font.draw(batch, score + "", x, y);
+		 batch.end();
+	}
+		 
 }
