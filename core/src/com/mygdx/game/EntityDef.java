@@ -11,5 +11,4 @@ public class EntityDef {
 	public float w; 
 	public float h;
 	public float r;
-	
 }
