@@ -52,7 +52,7 @@ import com.badlogic.gdx.physics.box2d.World;
  * Foregoing this procedure can cause unexpected results.  
  */
 
-public class MyGdxGame extends ApplicationAdapter{
+public class MyGdxGame extends ApplicationAdapter implements InputProcessor{
 	
 	private static final float WORLD_TO_BOX = 0.01f;
 	private static final float BOX_TO_WORLD = 100.f;
@@ -70,10 +70,15 @@ public class MyGdxGame extends ApplicationAdapter{
 	Box2DDebugRenderer renderer;
 	Body kBody;
 	
+	float dx;
+	float dy;
+	
 	
 	@Override
 	public void create () {
 		LevelDef lvl = LevelParser.LoadFile("data/level.json");
+		
+		Gdx.input.setInputProcessor(this);
 
 		width = Gdx.graphics.getWidth();		//GUI Width
 		height = Gdx.graphics.getHeight(); 		//GUI Height
@@ -81,7 +86,7 @@ public class MyGdxGame extends ApplicationAdapter{
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false);
 		
-		world = new World(new Vector2(0.0f, -9.8f), false);
+		world = new World(new Vector2(0.0f, -0.0f), false);
 		renderer = new Box2DDebugRenderer();
 		logger = new FPSLogger();
 		kBody = null;
@@ -176,8 +181,8 @@ public class MyGdxGame extends ApplicationAdapter{
 		world.step(1/60f, 6, 2);
 		
 		
-		float dx = Gdx.input.getX() * WORLD_TO_BOX - kBody.getWorldCenter().x;
-		float dy = (height-Gdx.input.getY())*WORLD_TO_BOX - kBody.getWorldCenter().y;
+		dx = Gdx.input.getX() * WORLD_TO_BOX - kBody.getWorldCenter().x;
+		dy = (height-Gdx.input.getY())*WORLD_TO_BOX - kBody.getWorldCenter().y;
 		float angle = (float)Math.atan2(dy,dx);
 		
 		kBody.setTransform(kBody.getWorldCenter(), angle);
@@ -188,6 +193,80 @@ public class MyGdxGame extends ApplicationAdapter{
 	public void dispose() {
 		world.dispose();
 		handler.dispose();
+	}
+
+	@Override
+	public boolean keyDown(int keycode) {
+		// TODO Auto-generated method stub
+		
+		return false;
+	}
+
+	@Override
+	public boolean keyUp(int keycode) {
+		// TODO Auto-generated method stub
+		
+		return false;
+	}
+
+	@Override
+	public boolean keyTyped(char character) {
+		// TODO Auto-generated method stub
+		
+		return false;
+	}
+
+	@Override
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		// TODO Auto-generated method stub
+		BodyDef circleDef = new BodyDef();
+		circleDef.type = BodyType.DynamicBody;
+		circleDef.position.set(kBody.getWorldCenter());
+
+		Body circleBody = world.createBody(circleDef);
+
+		CircleShape circleShape = new CircleShape(); 
+		circleShape.setRadius(5 * WORLD_TO_BOX);
+
+
+		FixtureDef circleFixture = new FixtureDef(); 
+		circleFixture.shape = circleShape; 
+		circleFixture.density = 0.4f;
+		circleFixture.friction = 0.2f; 
+		circleFixture.restitution = 0.8f; 
+
+		circleBody.createFixture(circleFixture);
+		
+		
+		circleBody.applyLinearImpulse(dx*WORLD_TO_BOX, dy*WORLD_TO_BOX, circleBody.getWorldCenter().x, circleBody.getWorldCenter().y, true);
+		return false;
+	}
+
+	@Override
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		// TODO Auto-generated method stub
+		
+		return false;
+	}
+
+	@Override
+	public boolean touchDragged(int screenX, int screenY, int pointer) {
+		// TODO Auto-generated method stub
+		
+		return false;
+	}
+
+	@Override
+	public boolean mouseMoved(int screenX, int screenY) {
+		// TODO Auto-generated method stub
+		
+		return false;
+	}
+
+	@Override
+	public boolean scrolled(int amount) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	
