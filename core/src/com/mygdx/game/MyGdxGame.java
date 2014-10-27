@@ -3,13 +3,13 @@ package com.mygdx.game;
 
 
 
-import box2dLight.ConeLight;
+import java.util.ArrayList;
 
+import box2dLight.ConeLight;
 import box2dLight.RayHandler;
 import box2dLight.PointLight;
 
 import com.badlogic.gdx.ApplicationAdapter;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
@@ -69,6 +69,8 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor{
 	World world; 
 	Box2DDebugRenderer renderer;
 	Body kBody;
+	ArrayList<Body> planets;
+	ArrayList<Body>	bullets;
 	
 	float dx;
 	float dy;
@@ -90,6 +92,8 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor{
 		renderer = new Box2DDebugRenderer();
 		logger = new FPSLogger();
 		kBody = null;
+		planets = new ArrayList<Body>();
+		bullets = new ArrayList<Body>();
 		
 		
 		createLevel(lvl);
@@ -162,6 +166,9 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor{
 			{
 				kBody = phyBody; 
 			}
+			else{
+				planets.add(phyBody);
+			}
 		}
 		
 	}
@@ -184,10 +191,43 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor{
 		dx = Gdx.input.getX() * WORLD_TO_BOX - kBody.getWorldCenter().x;
 		dy = (height-Gdx.input.getY())*WORLD_TO_BOX - kBody.getWorldCenter().y;
 		float angle = (float)Math.atan2(dy,dx);
+		Vector2 norm = new Vector2(dx, dy);
+		norm.nor();
+		dx = norm.x;
+		dy = norm.y;
+		
 		
 		kBody.setTransform(kBody.getWorldCenter(), angle);
+		
+		update();
 		//logger.log();
 		
+	}
+	
+	public void update()
+	{
+		for(int i = 0 ; i < bullets.size() ; i++)
+		{
+			Vector2 bulletPos = bullets.get(i).getWorldCenter();
+			for(int j = 0 ; j < planets.size() ;j++)
+			{
+				Shape planetShape = planets.get(j).getFixtureList().get(0).getShape();
+				float planetRadius = planetShape.getRadius();
+				Vector2 planetPosition = planets.get(j).getWorldCenter();
+				Vector2 planetDistance = new Vector2(0,0);
+				planetDistance.add(bulletPos);
+				planetDistance.sub(planetPosition);
+				float finalDistance = planetDistance.len();
+				if(finalDistance <= planetRadius*5.f)
+				{
+					planetDistance.scl(-1.f);
+					float vecSum = Math.abs(planetDistance.x) + Math.abs(planetDistance.y);
+					planetDistance.scl(0.2f*(1/vecSum)*planetRadius / finalDistance);
+					bullets.get(i).applyForce(planetDistance, bullets.get(i).getWorldCenter(),true);
+				}
+				
+			}
+		}
 	}
 	
 	public void dispose() {
@@ -239,6 +279,7 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor{
 		
 		
 		circleBody.applyLinearImpulse(dx*WORLD_TO_BOX, dy*WORLD_TO_BOX, circleBody.getWorldCenter().x, circleBody.getWorldCenter().y, true);
+		bullets.add(circleBody);
 		return false;
 	}
 
