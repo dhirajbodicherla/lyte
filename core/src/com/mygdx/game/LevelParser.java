@@ -13,7 +13,7 @@ public final class LevelParser {
 	private static String mfilename;
 	public static LevelDef LoadFile(String filename)
 	{
-		String locRoot = Gdx.files.getLocalStoragePath();
+		String locRoot = Gdx.files.getLocalStoragePath(); 
 		FileHandle handle = Gdx.files.internal(locRoot+filename);
 		String fileContent = handle.readString();
 		Json json = new Json();
