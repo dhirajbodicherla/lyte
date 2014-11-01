@@ -16,6 +16,7 @@ public class Assets implements Disposable, AssetErrorListener {
 	public AssetFonts fonts;
 	public AssetMirror mirror;
 	public AssetLaser laser;
+	public AssetAsteroid asteroid;
 	// public AssetRock rock;
 	// public AssetGoldCoin goldCoin;
 	// public AssetFeather feather;
@@ -50,6 +51,7 @@ public class Assets implements Disposable, AssetErrorListener {
 		fonts = new AssetFonts();
 		mirror = new AssetMirror(atlas);
 		laser = new AssetLaser(atlas);
+		asteroid = new AssetAsteroid(atlas);
 		// goldCoin = new AssetGoldCoin(atlas);
 		// feather = new AssetFeather(atlas);
 		// levelDecoration = new AssetLevelDecoration(atlas);
@@ -82,6 +84,14 @@ public class Assets implements Disposable, AssetErrorListener {
 		
 		public AssetLaser(TextureAtlas atlas) {
 			laser = atlas.findRegion("laser");
+		}
+	}
+	
+	public class AssetAsteroid{
+		public final AtlasRegion asteroid;
+		
+		public AssetAsteroid(TextureAtlas atlas){
+			asteroid = atlas.findRegion("asteroid");
 		}
 	}
 

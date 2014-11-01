@@ -54,9 +54,9 @@ public class MenuScreen extends AbstractGameScreen {
 
 	private void rebuildStage() {
 
-		skinCanyonBunny = new Skin(
-				Gdx.files.internal(Constants.SKIN_CANYONBUNNY_UI),
-				new TextureAtlas(Constants.TEXTURE_ATLAS_UI));
+		int width = Gdx.graphics.getWidth();
+		int height = Gdx.graphics.getHeight(); 
+		skinCanyonBunny = new Skin( Gdx.files.internal(Constants.SKIN_CANYONBUNNY_UI), new TextureAtlas(Constants.TEXTURE_ATLAS_UI));
 		//
 		Table layerBackground = buildBackgroundLayer();
 		Table layerControls = buildControlsLayer();
@@ -67,8 +67,7 @@ public class MenuScreen extends AbstractGameScreen {
 		stage.clear();
 		Stack stack = new Stack();
 		stage.addActor(stack);
-		stack.setSize(Constants.VIEWPORT_GUI_WIDTH,
-				Constants.VIEWPORT_GUI_HEIGHT);
+		stack.setSize(width, height);
 		stack.add(layerBackground);
 		stack.add(layerControls);
 		// stack.add(layerLogo);
@@ -87,7 +86,7 @@ public class MenuScreen extends AbstractGameScreen {
 
 	private Table buildControlsLayer() {
 		Table layer = new Table();
-		layer.left().top();
+		layer.right().top();
 		// + Play Button
 		btnMenuPlay = new Button(skinCanyonBunny, "play");
 		layer.add(btnMenuPlay);

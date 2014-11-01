@@ -6,25 +6,25 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.game.Entity;
 
-public class Asteroid extends Entity{
+public class Laser extends Entity{
 	public Body b;
 	private int length;
-	private TextureRegion regAsteroid;
+	private TextureRegion regLaser;
 	
-	public Asteroid() {
+	public Laser() {
 		init();
 	}
 	
 	private void init(){
-		regAsteroid = Assets.instance.asteroid.asteroid;
-		dimension.set(new Vector2(0.5f, 0.5f));
+		regLaser = Assets.instance.laser.laser;
+//		dimension.set(new Vector2(0.5f, 0.5f));
 	}
 	
 	@Override
 	public void render(SpriteBatch batch){
 		
 		TextureRegion reg = null;
-		reg = regAsteroid;
+		reg = regLaser;
 		batch.draw(reg.getTexture(), 
 					pos.x , pos.y, 
 					origin.x, origin.y, 

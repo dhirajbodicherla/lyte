@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -16,9 +18,10 @@ public class WorldController extends InputAdapter {
 
 	private Game game;
 	public CameraHelper cameraHelper;
-	// public Level level;
+	public Level level;
 	public int lives;
 	public int score;
+	public World world;
 
 	private static final String TAG = WorldController.class.getName();
 
@@ -29,10 +32,11 @@ public class WorldController extends InputAdapter {
 
 	private void initLevel() {
 		score = 0;
-		// level = new Level('1');
+		level = new Level("data/level.json", world);
 	}
 
 	private void init() {
+		world = new World(new Vector2(0.0f, -0.0f), false);
 		cameraHelper = new CameraHelper();
 		Gdx.input.setInputProcessor(this);
 		lives = Constants.LIVES_START;
@@ -41,6 +45,8 @@ public class WorldController extends InputAdapter {
 
 	public void update(float deltaTime) {
 		handleDebugInput(deltaTime);
+		level.update(deltaTime);
+		handleInputGame(deltaTime);
 		cameraHelper.update(deltaTime);
 	}
 
@@ -113,5 +119,9 @@ public class WorldController extends InputAdapter {
 		}
 
 		return false;
+	}
+	
+	private void handleInputGame (float deltaTime) {
+		
 	}
 }

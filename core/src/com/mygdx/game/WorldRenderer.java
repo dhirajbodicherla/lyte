@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.mygdx.game.Constants;
 
 public class WorldRenderer {
@@ -15,6 +15,8 @@ public class WorldRenderer {
 	private OrthographicCamera cameraGUI;
 	private BitmapFont font;
 	private int score = 0;
+	private Box2DDebugRenderer b2debugRenderer;
+	private static final boolean DEBUG_DRAW_BOX2D_WORLD = false;
 
 	public WorldRenderer(WorldController worldController) {
 		this.worldController = worldController;
@@ -38,6 +40,7 @@ public class WorldRenderer {
 		cameraGUI.position.set(0, 0, 0);
 		cameraGUI.setToOrtho(true); // flip y-axis
 		cameraGUI.update();
+		b2debugRenderer = new Box2DDebugRenderer();
 	}
 
 	public void render() {
@@ -75,8 +78,11 @@ public class WorldRenderer {
 		worldController.cameraHelper.applyTo(camera);
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-		// worldController.level.render(batch);
+		worldController.level.render(batch);
 		batch.end();
+		if (DEBUG_DRAW_BOX2D_WORLD) {
+			b2debugRenderer.render(worldController.world, camera.combined);
+		}
 	}
 
 	private void renderGuiScore(SpriteBatch batch) {
@@ -96,7 +102,7 @@ public class WorldRenderer {
 		for (int i = 0; i < Constants.LIVES_START; i++) {
 			if (lives <= i)
 				batch.setColor(0.5f, 0.5f, 0.5f, 0.5f);
-			batch.draw(Assets.instance.laser.laser,x + i * 50, y, 50, 50, 120,
+			batch.draw(Assets.instance.laser.laser, x + i * 50, y, 50, 50, 120,
 					100, 0.35f, -0.35f, 0);
 			batch.setColor(1, 1, 1, 1);
 		}
