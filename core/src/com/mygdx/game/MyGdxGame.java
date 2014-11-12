@@ -345,6 +345,8 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor{
 	@Override
 	public boolean keyUp(int keycode) {
 		if(keycode == Input.Keys.R)
+			rotateBody();
+		if(keycode == Input.Keys.D)
 			destroyed();
 		if(keycode == Input.Keys.C)
 			createLevel();
