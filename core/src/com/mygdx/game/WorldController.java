@@ -100,6 +100,10 @@ public class WorldController extends InputAdapter {
 			cameraHelper.addZoom(-camZoomSpeed);
 		if (Gdx.input.isKeyPressed(Keys.SLASH))
 			cameraHelper.setZoom(1);
+		
+		if(Gdx.input.isTouched()){
+			level.laser.shoot();
+		}
 	}
 
 	private void moveCamera(float x, float y) {

@@ -27,7 +27,7 @@ public class Level {
 	private ArrayList<EntityDef> entities;
 	private ArrayList<Body> planets;
 	private ArrayList<Asteroid> asteroids;
-	private ArrayList<Laser> lasers;
+	public Laser laser;
 
 	public Level(String filename, World w) {
 		init(filename, w);
@@ -36,14 +36,14 @@ public class Level {
 	private void init(String filename, World world) {
 
 		String locRoot = Gdx.files.getLocalStoragePath();
-		FileHandle handle = Gdx.files.internal(locRoot + filename);
+		FileHandle handle = Gdx.files.internal(filename);
 		String fileContent = handle.readString();
 		Json json = new Json();
 		LevelStructure lvl = json.fromJson(LevelStructure.class, fileContent);
 
 		asteroids = new ArrayList<Asteroid>();
 		planets = new ArrayList<Body>();
-		lasers = new ArrayList<Laser>();
+		laser = new Laser();
 
 		BodyDef bodyDef;
 		Shape bodyShape = null;
@@ -98,7 +98,7 @@ public class Level {
 				l.b = phyBody;
 				l.pos = new Vector2(x * Constants.WORLD_TO_BOX, y
 						* Constants.WORLD_TO_BOX);
-				lasers.add(l);
+//				lasers.add(l);
 			} else {
 				// Gdx.app.debug(TAG, i + "");
 				// planets.add(phyBody);
@@ -116,9 +116,10 @@ public class Level {
 		for (Asteroid a : asteroids) {
 			a.render(batch);
 		}
-		for (Laser l : lasers) {
-			l.render(batch);
-		}
+//		for (Laser l : lasers) {
+//			l.render(batch);
+//		}
+		laser.render(batch);
 		// planets
 	}
 
@@ -127,8 +128,9 @@ public class Level {
 		for (Asteroid a : asteroids) {
 			a.update(deltaTime);
 		}
-		for (Laser l : lasers) {
-			l.update(deltaTime);
-		}
+//		for (Laser l : lasers) {
+//			l.update(deltaTime);
+//		}
+		laser.update(deltaTime);
 	}
 }

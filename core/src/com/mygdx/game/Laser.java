@@ -35,4 +35,8 @@ public class Laser extends Entity{
 					reg.getRegionWidth(), reg.getRegionHeight(),
 					false, false);
 	}
+	
+	public void shoot(){
+		System.out.println("shoot");
+	}
 }
