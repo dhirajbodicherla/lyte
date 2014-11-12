@@ -1,6 +1,0 @@
-{
-	name: "Level 1", 
-	entities: [
-		{name: "Target", type: 'S', shape:'rect', x: 20, y: 20, w: 20, h: 20, },
-	]
-}

@@ -51,17 +51,18 @@ public final class LevelBuilder {
 		return lvls;
 	}
 	
-	public static Body createPhysicsBody(EntityDef ed, Entity e, World world) 
+	public static Body createPhysicsBody(EntityDef ed, Entity e, Vector2 BaseSize, World world) 
 	{
 		BodyDef bodyDef; 
 		Shape bodyShape = null;
 		FixtureDef fixtureDef = null; 
 		Body phyBody;
 		
-		float x = ed.x;
-		float y = ed.y;
-		float w = ed.w;
-		float h = ed.h;
+		float x = (ed.x/BaseSize.x)*MyGdxGame.SCREEN_WIDTH;
+		float y = (ed.y/BaseSize.y)*MyGdxGame.SCREEN_HEIGHT;
+		float w = (ed.w/BaseSize.x)*MyGdxGame.SCREEN_WIDTH;
+		float h = (ed.h/BaseSize.y)*MyGdxGame.SCREEN_HEIGHT;
+		float r = (ed.r/BaseSize.x)*MyGdxGame.SCREEN_WIDTH;
 		
 		
 		bodyDef = new BodyDef();
@@ -87,7 +88,7 @@ public final class LevelBuilder {
 		if(ed.shape.equalsIgnoreCase("circle"))
 		{
 			bodyShape = new CircleShape();
-			bodyShape.setRadius(ed.r * MyGdxGame.WORLD_TO_BOX);
+			bodyShape.setRadius(r * MyGdxGame.WORLD_TO_BOX);
 		}
 		
 		bodyDef.position.set(x*MyGdxGame.WORLD_TO_BOX, y*MyGdxGame.WORLD_TO_BOX);
@@ -120,7 +121,6 @@ public final class LevelBuilder {
 
 		CircleShape circleShape = new CircleShape(); 
 		circleShape.setRadius(5 * MyGdxGame.WORLD_TO_BOX);
-
 
 		FixtureDef circleFixture = new FixtureDef(); 
 		circleFixture.shape = circleShape; 

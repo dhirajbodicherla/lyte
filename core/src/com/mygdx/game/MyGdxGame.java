@@ -51,8 +51,9 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor{
 	public static final float WORLD_TO_BOX = 0.01f;
 	public static final float BOX_TO_WORLD = 100.f;
 	public static final double DEGTORAD = 0.0174532925199432957f;
+	public static float SCREEN_WIDTH, SCREEN_HEIGHT;
+	
 	private OrthographicCamera camera;
-	private float width, height;
 	private int inputMode;			//1. Shoot 2. Drag body 3. Change Angle 
 	
 	
@@ -112,8 +113,11 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor{
 		inputMode = 2;		//Start with drag 
 		
 		//Screen Size
-		width = Gdx.graphics.getWidth();		//GUI Width
-		height = Gdx.graphics.getHeight(); 		//GUI Height
+		SCREEN_WIDTH = Gdx.graphics.getWidth();		//GUI Width
+		SCREEN_HEIGHT = Gdx.graphics.getHeight(); 		//GUI Height
+		SCREEN_WIDTH = 800;
+		SCREEN_HEIGHT = 600;
+		Gdx.graphics.setDisplayMode(800, 600,false);
 		
 		//Init Camera
 		camera = new OrthographicCamera();
@@ -158,18 +162,21 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor{
 			int numAsteroids= ld.mAsteroids !=null ? ld.mAsteroids.size() : 0;
 			int numBlackholes = ld.mBlackholes !=null ? ld.mBlackholes.size() : 0;
 			
+			Vector2 bs = new Vector2(ld.mBaseWidth, ld.mBaseHeight);
+			
+			
 			mTarget = new Entity(ld.mTarget); 
-			mTarget.setPhysicsBody(LevelBuilder.createPhysicsBody(ld.mTarget, mTarget, world));
+			mTarget.setPhysicsBody(LevelBuilder.createPhysicsBody(ld.mTarget, mTarget, bs, world));
 			
 			mSource = new Entity(ld.mSource); 
-			mSource.setPhysicsBody(LevelBuilder.createPhysicsBody(ld.mSource, mSource, world));
+			mSource.setPhysicsBody(LevelBuilder.createPhysicsBody(ld.mSource, mSource, bs,world));
 			
 			
 			for(int i = 0 ; i < numMirrors; i++)
 			{
 				EntityDef ed = ld.mMirrors.get(i);
 				Entity e = new Entity(ed);
-				e.setPhysicsBody(LevelBuilder.createPhysicsBody(ed, e, world));
+				e.setPhysicsBody(LevelBuilder.createPhysicsBody(ed, e, bs,world));
 				mMirrors.add(e);
 			}
 			
@@ -177,7 +184,7 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor{
 			{
 				EntityDef ed = ld.mAsteroids.get(i);
 				Entity e = new Entity(ed);
-				e.setPhysicsBody(LevelBuilder.createPhysicsBody(ed, e, world));
+				e.setPhysicsBody(LevelBuilder.createPhysicsBody(ed, e, bs,world));
 				mAsteroids.add(e);
 			}
 			
@@ -185,7 +192,7 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor{
 			{
 				EntityDef ed = ld.mBlackholes.get(i);
 				Entity e = new Entity(ed);
-				e.setPhysicsBody(LevelBuilder.createPhysicsBody(ed, e, world));
+				e.setPhysicsBody(LevelBuilder.createPhysicsBody(ed, e, bs,world));
 				mBlackholes.add(e);
 			}
 			
@@ -269,9 +276,9 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor{
 		if(gameState == 2)
 		{
 			mx = Gdx.input.getX() * WORLD_TO_BOX;
-			my = (height-Gdx.input.getY())*WORLD_TO_BOX;
+			my = (SCREEN_HEIGHT-Gdx.input.getY())*WORLD_TO_BOX;
 			dx = Gdx.input.getX() * WORLD_TO_BOX - mSource.getPhysicsBody().getWorldCenter().x;
-			dy = (height-Gdx.input.getY())*WORLD_TO_BOX - mSource.getPhysicsBody().getWorldCenter().y;
+			dy = (SCREEN_HEIGHT-Gdx.input.getY())*WORLD_TO_BOX - mSource.getPhysicsBody().getWorldCenter().y;
 			float angle = (float)Math.atan2(dy,dx);
 			Vector2 norm = new Vector2(dx, dy);
 			norm.nor();
@@ -400,7 +407,7 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor{
 	public Vector2 unproject(int x, int y)
 	{
 		mx = Gdx.input.getX() * WORLD_TO_BOX;
-		my = (height-Gdx.input.getY())*WORLD_TO_BOX;
+		my = (SCREEN_HEIGHT-Gdx.input.getY())*WORLD_TO_BOX;
 		return new Vector2(mx, my);
 	}
 
@@ -472,5 +479,5 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor{
 	public boolean scrolled(int amount) {
 		// TODO Auto-generated method stub
 		return false;
-	}		 
+	}
 }
