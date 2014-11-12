@@ -37,7 +37,14 @@ public class Laser extends Entity{
 					false, false);
 	}
 	
-	public void shoot(){
+	public void shoot(int dx, int dy, int pointer){
 		Gdx.app.debug("Laser", "shoot");
+		
+		float fireRadius= (float)(mSource.getSize().x * 0.5);
+		Vector2 dir = new Vector2(dx*Constants.WORLD_TO_BOX*fireRadius, dy*Constants.WORLD_TO_BOX*fireRadius);
+		Vector2 firePoint = dir.add(mSource.getPhysicsBody().getWorldCenter());
+		Body circleBody = LevelBuilder.createPhysicsBody(firePoint, world);
+		circleBody.applyLinearImpulse(dx*Constants.WORLD_TO_BOX, dy*Constants.WORLD_TO_BOX, circleBody.getWorldCenter().x, circleBody.getWorldCenter().y, true);
+		mPhotons.add(circleBody);
 	}
 }

@@ -129,7 +129,7 @@ public class WorldController extends InputAdapter implements InputProcessor {
 	
 	@Override
 	public boolean touchDown (int x, int y, int pointer, int button) {
-		level.laser.shoot();
+		level.laser.shoot(x, y, pointer);
 		return false;
 	}
 }
