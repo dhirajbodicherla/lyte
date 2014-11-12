@@ -98,11 +98,7 @@ public class Level {
 				l.b = phyBody;
 				l.pos = new Vector2(x * Constants.WORLD_TO_BOX, y
 						* Constants.WORLD_TO_BOX);
-//				lasers.add(l);
 			} else {
-				// Gdx.app.debug(TAG, i + "");
-				// planets.add(phyBody);
-				// Asteroid a = (Asteroid) phyBody;
 				Asteroid a = new Asteroid();
 				a.b = phyBody;
 				a.pos = new Vector2(x * Constants.WORLD_TO_BOX, y
@@ -116,9 +112,6 @@ public class Level {
 		for (Asteroid a : asteroids) {
 			a.render(batch);
 		}
-//		for (Laser l : lasers) {
-//			l.render(batch);
-//		}
 		laser.render(batch);
 		// planets
 	}
@@ -128,9 +121,6 @@ public class Level {
 		for (Asteroid a : asteroids) {
 			a.update(deltaTime);
 		}
-//		for (Laser l : lasers) {
-//			l.update(deltaTime);
-//		}
 		laser.update(deltaTime);
 	}
 }
