@@ -12,9 +12,10 @@ import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputProcessor;
 import com.mygdx.game.Constants;
 
-public class WorldController extends InputAdapter {
+public class WorldController extends InputAdapter implements InputProcessor {
 
 	private Game game;
 	public CameraHelper cameraHelper;
@@ -101,9 +102,6 @@ public class WorldController extends InputAdapter {
 		if (Gdx.input.isKeyPressed(Keys.SLASH))
 			cameraHelper.setZoom(1);
 		
-		if(Gdx.input.isTouched()){
-			level.laser.shoot();
-		}
 	}
 
 	private void moveCamera(float x, float y) {
@@ -127,5 +125,11 @@ public class WorldController extends InputAdapter {
 	
 	private void handleInputGame (float deltaTime) {
 		
+	}
+	
+	@Override
+	public boolean touchDown (int x, int y, int pointer, int button) {
+		level.laser.shoot();
+		return false;
 	}
 }
