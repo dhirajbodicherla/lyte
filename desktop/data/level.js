@@ -15,10 +15,10 @@
             id: "Source",
             type: "K",
             shape: "rect",
-            x: 30,
-            y: 30,
-            w: 40,
-            h: 10,
+            x: 1,
+            y: 1,
+            w: 1,
+            h: 1,
             angle: 90
         },
         mMirrors: [{
