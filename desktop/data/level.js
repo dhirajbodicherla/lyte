@@ -25,11 +25,11 @@
             id: "1",
             type: "S",
             shape: "rect",
-            x: 30,
-            y: 450,
-            w: 50,
-            h: 10,
-            angle: 45,
+            x: 2,
+            y: 2,
+            w: 1,
+            h: 1,
+            angle: 90,
             fixedRotation: 1,
             fixedPosition: 1
         }]
