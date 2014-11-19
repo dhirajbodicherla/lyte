@@ -46,16 +46,66 @@ public abstract class Entity {
 	
 	public abstract void render(SpriteBatch batch);
 	
-	public Body getPhysicsBody() {
-		return physicsBody;
+	public String getId() {
+		return id;
 	}
-	public void setPhysicsBody(Body physicsBody) {
-		this.physicsBody = physicsBody;
+	public void setId(String id) {
+		this.id = id;
+	}
+	public Vector2 getPos() {
+		return pos;
+	}
+	public void setPos(Vector2 pos) {
+		this.pos = pos;
 	}
 	public Vector2 getSize() {
 		return size;
 	}
 	public void setSize(Vector2 size) {
 		this.size = size;
+	}
+	public float getAngle() {
+		return angle;
+	}
+	public void setAngle(float angle) {
+		this.angle = angle;
+	}
+	public Body getPhysicsBody() {
+		return physicsBody;
+	}
+	public void setPhysicsBody(Body physicsBody) {
+		this.physicsBody = physicsBody;
+	}
+
+	public float getRadius() {
+		return radius;
+	}
+
+	public void setRadius(float radius) {
+		this.radius = radius;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public int getFixedRotation() {
+		return fixedRotation;
+	}
+
+	public void setFixedRotation(int fixedRotation) {
+		this.fixedRotation = fixedRotation;
+	}
+
+	public int getFixedPosition() {
+		return fixedPosition;
+	}
+
+	public void setFixedPosition(int fixedPosition) {
+		this.fixedPosition = fixedPosition;
 	}
 }

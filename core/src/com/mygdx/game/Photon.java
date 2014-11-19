@@ -7,21 +7,22 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.game.Entity;
 
-public class Asteroid extends Entity{
+public class Photon extends Entity{
 	public Body b;
 	private int length;
 	private TextureRegion regAsteroid;
 	
-	public Asteroid() {
+	public Photon() {
 		init();
 	}
 	
-	public Asteroid(EntityDef ed){
+	public Photon(EntityDef ed){
 		super(ed);
 		init();
 	}
 	
 	private void init(){
+//		need to change the below to photon
 		regAsteroid = Assets.instance.asteroid.asteroid;
 		dimension.set(new Vector2(0.5f, 0.5f));
 	}

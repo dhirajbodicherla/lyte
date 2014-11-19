@@ -39,7 +39,7 @@ public class Level {
 	private ArrayList<Mirror> mMirrors;
 	
 	//Light Photons
-	public static ArrayList<Body> mPhotons;
+	public static ArrayList<Photon> mPhotons;
 
 	public Level(String filename, World w) {
 		this.world = w;
@@ -54,7 +54,7 @@ public class Level {
 		mBlackholes = new ArrayList<BlackHole>();
 		mAsteroids = new ArrayList<Asteroid>();
 		mMirrors = new ArrayList<Mirror>();
-		mPhotons = new ArrayList<Body>();
+		mPhotons = new ArrayList<Photon>();
 		
 		LevelStructure ld = mLevels.list.get(2);
 		
@@ -75,25 +75,20 @@ public class Level {
 		
 		mTarget.setPhysicsBody(createPhysicsBody(ld.mTarget, mTarget, bs));
 		
-		mSource = new Laser(ld.mSource);
-		mSource.setPhysicsBody(createPhysicsBody(ld.mSource, mSource, bs));
-		
+//		mSource = new Laser(ld.mSource);
+//		mSource.setPhysicsBody(createPhysicsBody(ld.mSource, mSource, bs));
+
 		for(int i = 0 ; i < numMirrors; i++) {
 			EntityDef ed = ld.mMirrors.get(i);
-			Mirror e = new Mirror(ed);
-			e.setPhysicsBody(createPhysicsBody(ed, e, bs));
-			mMirrors.add(e);
+//			Mirror e = new Mirror(ed);
+//			e.setPhysicsBody(createPhysicsBody(ed, e, bs));
+//			mMirrors.add(e);
 		}
 		
 		for(int i = 0 ; i < numAsteroids; i++)
 		{
 			EntityDef ed = ld.mAsteroids.get(i);
-			Asteroid e = new Asteroid(ed) {
-				@Override
-				public void render(SpriteBatch batch) {
-					// TODO Auto-generated method stub
-				}
-			};
+			Asteroid e = new Asteroid(ed);
 			e.setPhysicsBody(createPhysicsBody(ed, e, bs));
 			mAsteroids.add(e);
 		}
@@ -101,9 +96,9 @@ public class Level {
 		for(int i = 0 ; i < numBlackholes; i++)
 		{
 			EntityDef ed = ld.mBlackholes.get(i);
-			BlackHole e = new BlackHole(ed);
-			e.setPhysicsBody(createPhysicsBody(ed, e, bs));
-			mBlackholes.add(e);
+//			BlackHole e = new BlackHole(ed);
+//			e.setPhysicsBody(createPhysicsBody(ed, e, bs));
+//			mBlackholes.add(e);
 		}
 		
 		/*
@@ -182,15 +177,15 @@ public class Level {
 	}
 
 	public void render(SpriteBatch batch) {
-		mSource.render(batch);
+//		mSource.render(batch);
 		for (Asteroid a : mAsteroids) {
 			a.render(batch);
 		}
 		for (Mirror m : mMirrors) {
-			m.render(batch);
+//			m.render(batch);
 		}
 		for (BlackHole b : mBlackholes) {
-			b.render(batch);
+//			b.render(batch);
 		}
 		
 		// planets
@@ -203,26 +198,27 @@ public class Level {
 
 	public void update(float deltaTime) {
 //		bunnyHead.update(deltaTime);
-		mSource.update(deltaTime);
+//		mSource.update(deltaTime);
 		for (Asteroid a : mAsteroids) {
 			a.update(deltaTime);
 		}
 		for (Mirror m : mMirrors) {
-			m.update(deltaTime);
+//			m.update(deltaTime);
 		}
 		for (BlackHole b : mBlackholes) {
-			b.update(deltaTime);
+//			b.update(deltaTime);
 		}
-		blackHoleInfluence();
+		for (Photon p : mPhotons) {
+			p.update(deltaTime);
+		}
+//		blackHoleInfluence();
 	}
 	
 	public void blackHoleInfluence() {
-//		Gdx.app.debug("blackholes", String.valueOf(mPhotons.size()));
-		for(int i = 0 ; i < mPhotons.size() ; i++)
-		{
-			Vector2 bulletPos = mPhotons.get(i).getWorldCenter();
-			for(int j = 0 ; j < mBlackholes.size() ;j++)
-			{
+//		Gdx.app.debug("Level", "blackholeinfluence");
+		for(int i = 0 ; i < mPhotons.size() ; i++) {
+			Vector2 bulletPos = mPhotons.get(i).getPhysicsBody().getWorldCenter();
+			for(int j = 0 ; j < mBlackholes.size() ;j++) {
 				Shape planetShape = mBlackholes.get(j).getPhysicsBody().getFixtureList().get(0).getShape();
 				float planetRadius = planetShape.getRadius();
 				Vector2 planetPosition = mBlackholes.get(j).getPhysicsBody().getWorldCenter();
@@ -230,12 +226,12 @@ public class Level {
 				planetDistance.add(bulletPos);
 				planetDistance.sub(planetPosition);
 				float finalDistance = planetDistance.len();
-				if(finalDistance <= planetRadius*10.f)
-				{
+				if(finalDistance <= planetRadius*10.f) {
+					Gdx.app.debug("Level", "finalDistance <= planetRad");
 					planetDistance.scl(-1.f);
 					float vecSum = Math.abs(planetDistance.x) + Math.abs(planetDistance.y);
 					planetDistance.scl(0.5f*(1/vecSum)*planetRadius / finalDistance);
-					mPhotons.get(i).applyForce(planetDistance, mPhotons.get(i).getWorldCenter(),true);
+					mPhotons.get(i).getPhysicsBody().applyForce(planetDistance, mPhotons.get(i).getPhysicsBody().getWorldCenter(),true);
 				}
 				
 			}

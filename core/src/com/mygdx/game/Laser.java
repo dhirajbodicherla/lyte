@@ -25,7 +25,7 @@ public class Laser extends Entity{
 	}
 	
 	private void init(){
-		regLaser = Assets.instance.laser.laser;
+		regLaser = Assets.instance.laser.laser;		
 //		dimension.set(new Vector2(0.5f, 0.5f));
 	}
 	
@@ -44,13 +44,17 @@ public class Laser extends Entity{
 					false, false);
 	}
 	
-	public void shoot(int dx, int dy, int pointer){
+	@Override
+	public void update(float deltaTime){
 		
+	}
+	
+	public void shoot(int dx, int dy, int pointer){
 		float fireRadius= (float)(this.getSize().x * 0.5);
 		Vector2 dir = new Vector2(dx*Constants.WORLD_TO_BOX*fireRadius, dy*Constants.WORLD_TO_BOX*fireRadius);
 		Vector2 firePoint = dir.add(this.getPhysicsBody().getWorldCenter());
 		Body circleBody = Level.createPhysicsBody(firePoint);
-		circleBody.applyLinearImpulse(dx*Constants.BOX_TO_WORLD*100, dy*Constants.BOX_TO_WORLD*100, circleBody.getWorldCenter().x, circleBody.getWorldCenter().y, true);
-		Level.mPhotons.add(circleBody);
+		circleBody.applyLinearImpulse(dx*Constants.BOX_TO_WORLD*100.0f, dy*Constants.BOX_TO_WORLD*100.0f, circleBody.getWorldCenter().x, circleBody.getWorldCenter().y, true);
+//		Level.mPhotons.add(circleBody);
 	}
 }

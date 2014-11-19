@@ -81,8 +81,8 @@
             id: "Source",
             type: "K",
             shape: "rect",
-            x: 1,
-            y: 1,
+            x: 0,
+            y: 0,
             w: 1,
             h: 1,
             angle: 90
@@ -112,7 +112,7 @@
             id: "1",
             type: "S",
             shape: "circle",
-            x: 1,
+            x: 3,
             y: 4,
             r: 3
         }, {
