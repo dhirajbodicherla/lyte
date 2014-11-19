@@ -4,6 +4,10 @@ public class Constants {
 	public static final float WORLD_TO_BOX = 0.01f;
 	public static final float BOX_TO_WORLD = 100.f;
 	
+	public static float SCREEN_WIDTH;
+	public static float SCREEN_HEIGHT;
+	public static final double DEGTORAD = 0.0174532925199432957f;
+	
 	public static final float VIEWPORT_WIDTH = 5.0f;
 	// Visible game world is 5 meters tall
 	public static final float VIEWPORT_HEIGHT = 5.0f;

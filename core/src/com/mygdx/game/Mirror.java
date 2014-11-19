@@ -7,34 +7,34 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.game.Entity;
 
-public class Asteroid extends Entity{
+public class Mirror extends Entity{
 	public Body b;
 	private int length;
-	private TextureRegion regAsteroid;
+	private TextureRegion regMirror;
 	
-	public Asteroid() {
+	public Mirror() {
 		init();
 	}
 	
-	public Asteroid(EntityDef ed){
+	public Mirror(EntityDef ed){
 		super(ed);
 		init();
 	}
 	
 	private void init(){
-		regAsteroid = Assets.instance.asteroid.asteroid;
+		regMirror = Assets.instance.mirror.mirror;
 		dimension.set(new Vector2(0.5f, 0.5f));
 	}
 	
 	@Override
 	public void render(SpriteBatch batch){
 		TextureRegion reg = null;
-		reg = regAsteroid;
-		batch.draw(reg.getTexture(), 
-					pos.x , pos.y, 
+		reg = regMirror;
+		batch.draw(reg.getTexture(),
+					pos.x , pos.y,
 					origin.x, origin.y, 
 					dimension.x, dimension.y, 
-					scale.x, scale.y, 
+					scale.x, scale.y,
 					angle,
 					reg.getRegionX(), reg.getRegionY(),
 					reg.getRegionWidth(), reg.getRegionHeight(),

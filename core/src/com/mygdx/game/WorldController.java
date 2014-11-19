@@ -41,6 +41,8 @@ public class WorldController extends InputAdapter implements InputProcessor {
 		cameraHelper = new CameraHelper();
 		Gdx.input.setInputProcessor(this);
 		lives = Constants.LIVES_START;
+		Constants.SCREEN_WIDTH = Gdx.graphics.getWidth();
+		Constants.SCREEN_HEIGHT = Gdx.graphics.getHeight();
 		initLevel();
 	}
 
@@ -129,7 +131,8 @@ public class WorldController extends InputAdapter implements InputProcessor {
 	
 	@Override
 	public boolean touchDown (int x, int y, int pointer, int button) {
-		level.laser.shoot(x, y, pointer);
+//		level.laser.shoot(x, y, pointer);
+		level.mSource.shoot(x, y, pointer);
 		return false;
 	}
 }
