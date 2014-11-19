@@ -81,29 +81,30 @@
             id: "Source",
             type: "K",
             shape: "rect",
-            x: 40,
-            y: 20,
-            w: 40,
-            h: 10
+            x: 1,
+            y: 1,
+            w: 1,
+            h: 1,
+            angle: 90
         },
         mMirrors: [{
             id: "1",
             type: "S",
             shape: "rect",
-            x: 500,
-            y: 100,
-            w: 50,
-            h: 10,
+            x: 2,
+            y: 2,
+            w: 1,
+            h: 1,
             fixedRotation: 1,
             fixedPosition: 1
         }, {
             id: "2",
             type: "S",
             shape: "rect",
-            x: 100,
-            y: 400,
-            w: 50,
-            h: 10,
+            x: 3,
+            y: 3,
+            w: 1,
+            h: 1,
             fixedRotation: 0,
             fixedPosition: 1
         }],
@@ -111,33 +112,33 @@
             id: "1",
             type: "S",
             shape: "circle",
-            x: 100,
-            y: 200,
-            r: 20
+            x: 1,
+            y: 4,
+            r: 3
         }, {
             id: "2",
             type: "S",
             shape: "circle",
-            x: 400,
-            y: 300,
-            r: 20
+            x: 1,
+            y: 5,
+            r: 3
         }],
         mBlackholes: [{
             id: "1",
             type: "S",
             shape: "circle",
-            x: 50,
-            y: 800,
-            r: 10,
+            x: 3,
+            y: 3,
+            r: 3,
             ir: 30,
             g: 4
         }, {
             id: "2",
             type: "S",
             shape: "circle",
-            x: 50,
-            y: 300,
-            r: 10,
+            x: 4,
+            y: 4,
+            r: 3,
             ir: 10,
             g: 2
         }]

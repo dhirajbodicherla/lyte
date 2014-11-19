@@ -34,7 +34,7 @@ public class Level {
 	
 	private Entity mTarget;
 	public Laser mSource;
-	private ArrayList<Entity> mBlackholes;
+	private ArrayList<BlackHole> mBlackholes;
 	private ArrayList<Asteroid> mAsteroids;
 	private ArrayList<Mirror> mMirrors;
 	
@@ -51,12 +51,12 @@ public class Level {
 		mLevels= ParseFile("data/level.js");
 		mTarget = null;
 		mSource = null;
-		mBlackholes = new ArrayList<Entity>();
+		mBlackholes = new ArrayList<BlackHole>();
 		mAsteroids = new ArrayList<Asteroid>();
 		mMirrors = new ArrayList<Mirror>();
 		mPhotons = new ArrayList<Body>();
 		
-		LevelStructure ld = mLevels.list.get(0);
+		LevelStructure ld = mLevels.list.get(2);
 		
 		int numMirrors = ld.mMirrors !=null ? ld.mMirrors.size() : 0;
 		int numAsteroids= ld.mAsteroids !=null ? ld.mAsteroids.size() : 0;
@@ -101,12 +101,7 @@ public class Level {
 		for(int i = 0 ; i < numBlackholes; i++)
 		{
 			EntityDef ed = ld.mBlackholes.get(i);
-			Entity e = new Entity(ed) {
-				@Override
-				public void render(SpriteBatch batch) {
-					// TODO Auto-generated method stub
-				}
-			};
+			BlackHole e = new BlackHole(ed);
 			e.setPhysicsBody(createPhysicsBody(ed, e, bs));
 			mBlackholes.add(e);
 		}
@@ -194,6 +189,9 @@ public class Level {
 		for (Mirror m : mMirrors) {
 			m.render(batch);
 		}
+		for (BlackHole b : mBlackholes) {
+			b.render(batch);
+		}
 		
 		// planets
 		
@@ -211,6 +209,9 @@ public class Level {
 		}
 		for (Mirror m : mMirrors) {
 			m.update(deltaTime);
+		}
+		for (BlackHole b : mBlackholes) {
+			b.update(deltaTime);
 		}
 		blackHoleInfluence();
 	}

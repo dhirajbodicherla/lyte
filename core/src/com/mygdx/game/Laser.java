@@ -50,7 +50,7 @@ public class Laser extends Entity{
 		Vector2 dir = new Vector2(dx*Constants.WORLD_TO_BOX*fireRadius, dy*Constants.WORLD_TO_BOX*fireRadius);
 		Vector2 firePoint = dir.add(this.getPhysicsBody().getWorldCenter());
 		Body circleBody = Level.createPhysicsBody(firePoint);
-		circleBody.applyLinearImpulse(dx*Constants.WORLD_TO_BOX*100, dy*Constants.WORLD_TO_BOX*100, circleBody.getWorldCenter().x, circleBody.getWorldCenter().y, true);
+		circleBody.applyLinearImpulse(dx*Constants.BOX_TO_WORLD*100, dy*Constants.BOX_TO_WORLD*100, circleBody.getWorldCenter().x, circleBody.getWorldCenter().y, true);
 		Level.mPhotons.add(circleBody);
 	}
 }
