@@ -49,12 +49,29 @@ public class Laser extends Entity{
 		
 	}
 	
-	public void shoot(int dx, int dy, int pointer){
-		float fireRadius= (float)(this.getSize().x * 0.5);
-		Vector2 dir = new Vector2(dx*Constants.WORLD_TO_BOX*fireRadius, dy*Constants.WORLD_TO_BOX*fireRadius);
+	public void shoot(int x, int y, int pointer, World w){
+		Vector2 norm = TrackMouse(x,y);
+		float fireRadius= (float)(this.getSize().x * 1.5);
+		Vector2 dir = new Vector2(norm.x*Constants.WORLD_TO_BOX*fireRadius, norm.y*Constants.WORLD_TO_BOX*fireRadius);
 		Vector2 firePoint = dir.add(this.getPhysicsBody().getWorldCenter());
-		Body circleBody = Level.createPhysicsBody(firePoint);
-		circleBody.applyLinearImpulse(dx*Constants.BOX_TO_WORLD*100.0f, dy*Constants.BOX_TO_WORLD*100.0f, circleBody.getWorldCenter().x, circleBody.getWorldCenter().y, true);
-//		Level.mPhotons.add(circleBody);
+		Body circleBody = Level.createPhysicsBody(firePoint, w);
+		circleBody.applyLinearImpulse(norm.x/20, norm.y/20, circleBody.getWorldCenter().x, circleBody.getWorldCenter().y, true);
+		
+		Level.mPhotons.add(circleBody);
+	}
+	
+	public Vector2 TrackMouse(int x, int y){
+		
+		float mx = x * Constants.WORLD_TO_BOX;
+		float my = (Constants.SCREEN_HEIGHT-Gdx.input.getY())*Constants.WORLD_TO_BOX;
+		float dx = x * Constants.WORLD_TO_BOX - this.getPhysicsBody().getWorldCenter().x;
+		float dy = (Constants.SCREEN_HEIGHT-Gdx.input.getY())*Constants.WORLD_TO_BOX - this.getPhysicsBody().getWorldCenter().y;
+		float angle = (float)Math.atan2(dy,dx);
+		Vector2 norm = new Vector2(dx, dy);
+		norm.nor();
+		dx = norm.x;
+		dy = norm.y;
+		this.getPhysicsBody().setTransform(this.getPhysicsBody().getWorldCenter(), angle);
+		return new Vector2(dx, dy);
 	}
 }

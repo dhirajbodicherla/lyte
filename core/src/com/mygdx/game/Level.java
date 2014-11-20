@@ -39,7 +39,7 @@ public class Level {
 	private ArrayList<Mirror> mMirrors;
 	
 	//Light Photons
-	public static ArrayList<Photon> mPhotons;
+	public static ArrayList<Body> mPhotons;
 
 	public Level(String filename, World w) {
 		this.world = w;
@@ -47,14 +47,13 @@ public class Level {
 	}
 
 	private void init(String filename, World world) {
-		
 		mLevels= ParseFile("data/level.js");
 		mTarget = null;
 		mSource = null;
 		mBlackholes = new ArrayList<BlackHole>();
 		mAsteroids = new ArrayList<Asteroid>();
 		mMirrors = new ArrayList<Mirror>();
-		mPhotons = new ArrayList<Photon>();
+		mPhotons = new ArrayList<Body>();
 		
 		LevelStructure ld = mLevels.list.get(2);
 		
@@ -75,14 +74,14 @@ public class Level {
 		
 		mTarget.setPhysicsBody(createPhysicsBody(ld.mTarget, mTarget, bs));
 		
-//		mSource = new Laser(ld.mSource);
-//		mSource.setPhysicsBody(createPhysicsBody(ld.mSource, mSource, bs));
+		mSource = new Laser(ld.mSource);
+		mSource.setPhysicsBody(createPhysicsBody(ld.mSource, mSource, bs));
 
 		for(int i = 0 ; i < numMirrors; i++) {
 			EntityDef ed = ld.mMirrors.get(i);
-//			Mirror e = new Mirror(ed);
-//			e.setPhysicsBody(createPhysicsBody(ed, e, bs));
-//			mMirrors.add(e);
+			Mirror e = new Mirror(ed);
+			e.setPhysicsBody(createPhysicsBody(ed, e, bs));
+			mMirrors.add(e);
 		}
 		
 		for(int i = 0 ; i < numAsteroids; i++)
@@ -96,9 +95,9 @@ public class Level {
 		for(int i = 0 ; i < numBlackholes; i++)
 		{
 			EntityDef ed = ld.mBlackholes.get(i);
-//			BlackHole e = new BlackHole(ed);
-//			e.setPhysicsBody(createPhysicsBody(ed, e, bs));
-//			mBlackholes.add(e);
+			BlackHole e = new BlackHole(ed);
+			e.setPhysicsBody(createPhysicsBody(ed, e, bs));
+			mBlackholes.add(e);
 		}
 		
 		/*
@@ -177,15 +176,15 @@ public class Level {
 	}
 
 	public void render(SpriteBatch batch) {
-//		mSource.render(batch);
+		mSource.render(batch);
 		for (Asteroid a : mAsteroids) {
 			a.render(batch);
 		}
 		for (Mirror m : mMirrors) {
-//			m.render(batch);
+			m.render(batch);
 		}
 		for (BlackHole b : mBlackholes) {
-//			b.render(batch);
+			b.render(batch);
 		}
 		
 		// planets
@@ -198,26 +197,25 @@ public class Level {
 
 	public void update(float deltaTime) {
 //		bunnyHead.update(deltaTime);
-//		mSource.update(deltaTime);
+		mSource.update(deltaTime);
 		for (Asteroid a : mAsteroids) {
 			a.update(deltaTime);
 		}
 		for (Mirror m : mMirrors) {
-//			m.update(deltaTime);
+			m.update(deltaTime);
 		}
 		for (BlackHole b : mBlackholes) {
-//			b.update(deltaTime);
+			b.update(deltaTime);
 		}
-		for (Photon p : mPhotons) {
-			p.update(deltaTime);
-		}
-//		blackHoleInfluence();
+//		for (Photon p : mPhotons) {
+//			p.update(deltaTime);
+//		}
+		blackHoleInfluence();
 	}
 	
 	public void blackHoleInfluence() {
-//		Gdx.app.debug("Level", "blackholeinfluence");
 		for(int i = 0 ; i < mPhotons.size() ; i++) {
-			Vector2 bulletPos = mPhotons.get(i).getPhysicsBody().getWorldCenter();
+			Vector2 bulletPos = mPhotons.get(i).getWorldCenter();
 			for(int j = 0 ; j < mBlackholes.size() ;j++) {
 				Shape planetShape = mBlackholes.get(j).getPhysicsBody().getFixtureList().get(0).getShape();
 				float planetRadius = planetShape.getRadius();
@@ -227,11 +225,10 @@ public class Level {
 				planetDistance.sub(planetPosition);
 				float finalDistance = planetDistance.len();
 				if(finalDistance <= planetRadius*10.f) {
-					Gdx.app.debug("Level", "finalDistance <= planetRad");
 					planetDistance.scl(-1.f);
 					float vecSum = Math.abs(planetDistance.x) + Math.abs(planetDistance.y);
 					planetDistance.scl(0.5f*(1/vecSum)*planetRadius / finalDistance);
-					mPhotons.get(i).getPhysicsBody().applyForce(planetDistance, mPhotons.get(i).getPhysicsBody().getWorldCenter(),true);
+					mPhotons.get(i).applyForce(planetDistance, mPhotons.get(i).getWorldCenter(),true);
 				}
 				
 			}
@@ -322,8 +319,6 @@ public class Level {
 		fixtureDef.friction = 0.2f; 
 		fixtureDef.restitution = 0.8f;
 		
-		
-		
 		phyBody = world.createBody(bodyDef);
 		phyBody.createFixture(fixtureDef);
 		phyBody.setUserData(e);
@@ -332,7 +327,7 @@ public class Level {
 
 	}
 	
-	public static Body createPhysicsBody(Vector2 pos) {
+	public static Body createPhysicsBody(Vector2 pos, World w) {
 		BodyDef circleDef = new BodyDef();
 		circleDef.type = BodyType.DynamicBody;
 		circleDef.position.set(pos);
@@ -352,4 +347,5 @@ public class Level {
 		
 		return circleBody;
 	}
+	
 }

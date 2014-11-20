@@ -67,15 +67,15 @@
         }]
     }, {
         mName: "Level 6",
-        mBaseWidth: 640,
-        mBaseHeight: 480,
+        mBaseWidth: 64,
+        mBaseHeight: 48,
         mTarget: {
             id: "Target",
             type: "S",
             shape: "circle",
-            x: 590,
-            y: 460,
-            r: 20
+            x: 5,
+            y: 4,
+            r: 2
         },
         mSource: {
             id: "Source",
@@ -112,23 +112,23 @@
             id: "1",
             type: "S",
             shape: "circle",
-            x: 3,
-            y: 4,
+            x: -20,
+            y: -20,
             r: 3
         }, {
             id: "2",
             type: "S",
             shape: "circle",
-            x: 1,
-            y: 5,
+            x: -30,
+            y: -30,
             r: 3
         }],
         mBlackholes: [{
             id: "1",
             type: "S",
             shape: "circle",
-            x: 3,
-            y: 3,
+            x: 30,
+            y: 30,
             r: 3,
             ir: 30,
             g: 4
@@ -136,8 +136,8 @@
             id: "2",
             type: "S",
             shape: "circle",
-            x: 4,
-            y: 4,
+            x: 40,
+            y: 40,
             r: 3,
             ir: 10,
             g: 2

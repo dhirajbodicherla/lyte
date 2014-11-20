@@ -37,7 +37,7 @@ public class WorldController extends InputAdapter implements InputProcessor {
 	}
 
 	private void init() {
-		world = new World(new Vector2(0.0f, -0.0f), false);
+		world = new World(new Vector2(0.0f, 0.0f), false);
 		cameraHelper = new CameraHelper();
 		Gdx.input.setInputProcessor(this);
 		lives = Constants.LIVES_START;
@@ -47,6 +47,7 @@ public class WorldController extends InputAdapter implements InputProcessor {
 	}
 
 	public void update(float deltaTime) {
+		world.step(1/60.f, 6, 2);
 		handleDebugInput(deltaTime);
 		level.update(deltaTime);
 		handleInputGame(deltaTime);
@@ -132,7 +133,7 @@ public class WorldController extends InputAdapter implements InputProcessor {
 	@Override
 	public boolean touchDown (int x, int y, int pointer, int button) {
 //		level.laser.shoot(x, y, pointer);
-		level.mSource.shoot(x, y, pointer);
+		level.mSource.shoot(x, y, pointer, world);
 		return false;
 	}
 }

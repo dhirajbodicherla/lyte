@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.mygdx.game.Entity;
 
 public class Asteroid extends Entity{
@@ -24,6 +25,7 @@ public class Asteroid extends Entity{
 	private void init(){
 		regAsteroid = Assets.instance.asteroid.asteroid;
 		dimension.set(new Vector2(0.5f, 0.5f));
+//		this.getp
 	}
 	
 	@Override
