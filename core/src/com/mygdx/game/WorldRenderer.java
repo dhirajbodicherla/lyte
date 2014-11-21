@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.mygdx.game.Constants;
 
@@ -41,6 +43,7 @@ public class WorldRenderer {
 		cameraGUI.setToOrtho(true); // flip y-axis
 		cameraGUI.update();
 		b2debugRenderer = new Box2DDebugRenderer();
+		this.worldController.setCamera(camera);
 	}
 
 	public void render() {

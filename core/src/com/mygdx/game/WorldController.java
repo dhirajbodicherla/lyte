@@ -1,12 +1,14 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
@@ -23,6 +25,7 @@ public class WorldController extends InputAdapter implements InputProcessor {
 	public int lives;
 	public int score;
 	public World world;
+	private OrthographicCamera camera;
 
 	private static final String TAG = WorldController.class.getName();
 
@@ -106,6 +109,10 @@ public class WorldController extends InputAdapter implements InputProcessor {
 			cameraHelper.setZoom(1);
 		
 	}
+	
+	public void setCamera(OrthographicCamera camera){
+		this.camera = camera;
+	}
 
 	private void moveCamera(float x, float y) {
 		x += cameraHelper.getPosition().x;
@@ -132,8 +139,9 @@ public class WorldController extends InputAdapter implements InputProcessor {
 	
 	@Override
 	public boolean touchDown (int x, int y, int pointer, int button) {
-//		level.laser.shoot(x, y, pointer);
-		level.mSource.shoot(x, y, pointer, world);
+		Vector3 worldCoordinates = new Vector3(x, y, 0);
+		camera.unproject(worldCoordinates);
+		level.mSource.shoot(worldCoordinates.x, worldCoordinates.y, pointer, world);
 		return false;
 	}
 }

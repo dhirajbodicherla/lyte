@@ -63,15 +63,7 @@ public class Level {
 		
 		Vector2 bs = new Vector2(ld.mBaseWidth, ld.mBaseHeight);
 		
-		mTarget = new Entity(ld.mTarget) {
-			
-			@Override
-			public void render(SpriteBatch batch) {
-				// TODO Auto-generated method stub
-				
-			}
-		};
-		
+		mTarget = new Earth(ld.mTarget);
 		mTarget.setPhysicsBody(createPhysicsBody(ld.mTarget, mTarget, bs));
 		
 		mSource = new Laser(ld.mSource);
@@ -178,13 +170,13 @@ public class Level {
 	public void render(SpriteBatch batch) {
 		mSource.render(batch);
 		for (Asteroid a : mAsteroids) {
-			a.render(batch);
+//			a.render(batch);
 		}
 		for (Mirror m : mMirrors) {
-			m.render(batch);
+//			m.render(batch);
 		}
 		for (BlackHole b : mBlackholes) {
-			b.render(batch);
+//			b.render(batch);
 		}
 		
 		// planets
@@ -199,13 +191,13 @@ public class Level {
 //		bunnyHead.update(deltaTime);
 		mSource.update(deltaTime);
 		for (Asteroid a : mAsteroids) {
-			a.update(deltaTime);
+//			a.update(deltaTime);
 		}
 		for (Mirror m : mMirrors) {
-			m.update(deltaTime);
+//			m.update(deltaTime);
 		}
 		for (BlackHole b : mBlackholes) {
-			b.update(deltaTime);
+//			b.update(deltaTime);
 		}
 //		for (Photon p : mPhotons) {
 //			p.update(deltaTime);
@@ -276,11 +268,17 @@ public class Level {
 		FixtureDef fixtureDef = null; 
 		Body phyBody;
 		
-		float x = (ed.x/BaseSize.x)*Constants.SCREEN_WIDTH;
-		float y = (ed.y/BaseSize.y)*Constants.SCREEN_HEIGHT;
-		float w = (ed.w/BaseSize.x)*Constants.SCREEN_WIDTH;
-		float h = (ed.h/BaseSize.y)*Constants.SCREEN_HEIGHT;
-		float r = (ed.r/BaseSize.x)*Constants.SCREEN_WIDTH;
+		float x = (ed.x);
+		float y = (ed.y);
+		float w = (ed.w);
+		float h = (ed.h);
+		float r = (ed.r);
+		
+//		float x = (ed.x/BaseSize.x)*Constants.SCREEN_WIDTH;
+//		float y = (ed.y/BaseSize.y)*Constants.SCREEN_HEIGHT;
+//		float w = (ed.w/BaseSize.x)*Constants.SCREEN_WIDTH;
+//		float h = (ed.h/BaseSize.y)*Constants.SCREEN_HEIGHT;
+//		float r = (ed.r/BaseSize.x)*Constants.SCREEN_WIDTH;
 		
 		
 		bodyDef = new BodyDef();
@@ -335,7 +333,7 @@ public class Level {
 		Body circleBody = world.createBody(circleDef);
 
 		CircleShape circleShape = new CircleShape(); 
-		circleShape.setRadius(5 * Constants.WORLD_TO_BOX);
+		circleShape.setRadius(2 * Constants.WORLD_TO_BOX);
 
 		FixtureDef circleFixture = new FixtureDef(); 
 		circleFixture.shape = circleShape; 

@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.Entity;
@@ -49,23 +50,26 @@ public class Laser extends Entity{
 		
 	}
 	
-	public void shoot(int x, int y, int pointer, World w){
-		Vector2 norm = TrackMouse(x,y);
-		float fireRadius= (float)(this.getSize().x * 1.5);
-		Vector2 dir = new Vector2(norm.x*Constants.WORLD_TO_BOX*fireRadius, norm.y*Constants.WORLD_TO_BOX*fireRadius);
+	public void shoot(float x, float y, int pointer, World w){		
+		float fireRadius= (float)(this.getSize().x * 0.5);
+		Vector2 dir = new Vector2(x*Constants.WORLD_TO_BOX*fireRadius, y*Constants.WORLD_TO_BOX*fireRadius);
 		Vector2 firePoint = dir.add(this.getPhysicsBody().getWorldCenter());
+		float dx = x - this.getPhysicsBody().getWorldCenter().x;
+		float dy = y - this.getPhysicsBody().getWorldCenter().y;
+		float angle = (float)Math.atan2(dy,dx);
+		this.getPhysicsBody().setTransform(this.getPhysicsBody().getWorldCenter(), angle);
 		Body circleBody = Level.createPhysicsBody(firePoint, w);
-		circleBody.applyLinearImpulse(norm.x/20, norm.y/20, circleBody.getWorldCenter().x, circleBody.getWorldCenter().y, true);
+		circleBody.applyLinearImpulse(x * Constants.WORLD_TO_BOX, y * Constants.WORLD_TO_BOX, circleBody.getWorldCenter().x, circleBody.getWorldCenter().y, true);
 		
 		Level.mPhotons.add(circleBody);
 	}
 	
 	public Vector2 TrackMouse(int x, int y){
 		
-		float mx = x * Constants.WORLD_TO_BOX;
+		float mx = Gdx.input.getX() * Constants.WORLD_TO_BOX;
 		float my = (Constants.SCREEN_HEIGHT-Gdx.input.getY())*Constants.WORLD_TO_BOX;
-		float dx = x * Constants.WORLD_TO_BOX - this.getPhysicsBody().getWorldCenter().x;
-		float dy = (Constants.SCREEN_HEIGHT-Gdx.input.getY())*Constants.WORLD_TO_BOX - this.getPhysicsBody().getWorldCenter().y;
+		float dx = mx - this.getPhysicsBody().getWorldCenter().x;
+		float dy = my - this.getPhysicsBody().getWorldCenter().y;
 		float angle = (float)Math.atan2(dy,dx);
 		Vector2 norm = new Vector2(dx, dy);
 		norm.nor();

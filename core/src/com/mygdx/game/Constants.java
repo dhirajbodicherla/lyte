@@ -1,8 +1,8 @@
 package com.mygdx.game;
 
 public class Constants {
-	public static final float WORLD_TO_BOX = 0.01f;
-	public static final float BOX_TO_WORLD = 100.f;
+	public static final float WORLD_TO_BOX = 0.1f;
+	public static final float BOX_TO_WORLD = 10.f;
 	
 	public static float SCREEN_WIDTH;
 	public static float SCREEN_HEIGHT;
@@ -12,7 +12,7 @@ public class Constants {
 	// Visible game world is 5 meters tall
 	public static final float VIEWPORT_HEIGHT = 15.0f;
 
-	public static final float VIEWPORT_GUI_WIDTH = 300.0f;
+	public static final float VIEWPORT_GUI_WIDTH = 640.0f;
 
 	public static final float VIEWPORT_GUI_HEIGHT = 480.0f;
 
