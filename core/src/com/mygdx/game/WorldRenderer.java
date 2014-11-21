@@ -18,7 +18,7 @@ public class WorldRenderer {
 	private BitmapFont font;
 	private int score = 0;
 	private Box2DDebugRenderer b2debugRenderer;
-	private static final boolean DEBUG_DRAW_BOX2D_WORLD = true;
+	private static final boolean DEBUG_DRAW_BOX2D_WORLD = false;
 
 	public WorldRenderer(WorldController worldController) {
 		this.worldController = worldController;

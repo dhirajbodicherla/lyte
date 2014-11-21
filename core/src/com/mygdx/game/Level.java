@@ -39,7 +39,7 @@ public class Level {
 	private ArrayList<Mirror> mMirrors;
 	
 	//Light Photons
-	public static ArrayList<Body> mPhotons;
+	public static ArrayList<Photon> mPhotons;
 
 	public Level(String filename, World w) {
 		this.world = w;
@@ -53,7 +53,7 @@ public class Level {
 		mBlackholes = new ArrayList<BlackHole>();
 		mAsteroids = new ArrayList<Asteroid>();
 		mMirrors = new ArrayList<Mirror>();
-		mPhotons = new ArrayList<Body>();
+		mPhotons = new ArrayList<Photon>();
 		
 		LevelStructure ld = mLevels.list.get(2);
 		
@@ -64,15 +64,15 @@ public class Level {
 		Vector2 bs = new Vector2(ld.mBaseWidth, ld.mBaseHeight);
 		
 		mTarget = new Earth(ld.mTarget);
-		mTarget.setPhysicsBody(createPhysicsBody(ld.mTarget, mTarget, bs));
+		mTarget.setPhysicsBody(createPhysicsBody(ld.mTarget, mTarget));
 		
 		mSource = new Laser(ld.mSource);
-		mSource.setPhysicsBody(createPhysicsBody(ld.mSource, mSource, bs));
-
+		mSource.setPhysicsBody(createPhysicsBody(ld.mSource, mSource));
+		
 		for(int i = 0 ; i < numMirrors; i++) {
 			EntityDef ed = ld.mMirrors.get(i);
 			Mirror e = new Mirror(ed);
-			e.setPhysicsBody(createPhysicsBody(ed, e, bs));
+			e.setPhysicsBody(createPhysicsBody(ed, e));
 			mMirrors.add(e);
 		}
 		
@@ -80,7 +80,7 @@ public class Level {
 		{
 			EntityDef ed = ld.mAsteroids.get(i);
 			Asteroid e = new Asteroid(ed);
-			e.setPhysicsBody(createPhysicsBody(ed, e, bs));
+			e.setPhysicsBody(createPhysicsBody(ed, e));
 			mAsteroids.add(e);
 		}
 		
@@ -88,7 +88,7 @@ public class Level {
 		{
 			EntityDef ed = ld.mBlackholes.get(i);
 			BlackHole e = new BlackHole(ed);
-			e.setPhysicsBody(createPhysicsBody(ed, e, bs));
+			e.setPhysicsBody(createPhysicsBody(ed, e));
 			mBlackholes.add(e);
 		}
 		
@@ -178,6 +178,9 @@ public class Level {
 		for (BlackHole b : mBlackholes) {
 			b.render(batch);
 		}
+		for (Photon p : mPhotons) {
+			p.render(batch);
+		}
 	}
 
 	public void update(float deltaTime) {
@@ -191,15 +194,15 @@ public class Level {
 		for (BlackHole b : mBlackholes) {
 			b.update(deltaTime);
 		}
-//		for (Photon p : mPhotons) {
-//			p.update(deltaTime);
-//		}
+		for (Photon p : mPhotons) {
+			p.update(deltaTime);
+		}
 		blackHoleInfluence();
 	}
 	
 	public void blackHoleInfluence() {
 		for(int i = 0 ; i < mPhotons.size() ; i++) {
-			Vector2 bulletPos = mPhotons.get(i).getWorldCenter();
+			Vector2 bulletPos = mPhotons.get(i).getPhysicsBody().getWorldCenter();
 			for(int j = 0 ; j < mBlackholes.size() ;j++) {
 				Shape planetShape = mBlackholes.get(j).getPhysicsBody().getFixtureList().get(0).getShape();
 				float planetRadius = planetShape.getRadius();
@@ -212,7 +215,7 @@ public class Level {
 					planetDistance.scl(-1.f);
 					float vecSum = Math.abs(planetDistance.x) + Math.abs(planetDistance.y);
 					planetDistance.scl(5f*(1/vecSum)*planetRadius / finalDistance);
-					mPhotons.get(i).applyForce(planetDistance, mPhotons.get(i).getWorldCenter(),true);
+					mPhotons.get(i).getPhysicsBody().applyForce(planetDistance, mPhotons.get(i).getPhysicsBody().getWorldCenter(),true);
 				}
 			}
 		}
@@ -253,7 +256,7 @@ public class Level {
 		return lvls;
 	}
 	
-	public Body createPhysicsBody(EntityDef ed, Entity e, Vector2 BaseSize) {
+	public static Body createPhysicsBody(EntityDef ed, Entity e) {
 		BodyDef bodyDef; 
 		Shape bodyShape = null;
 		FixtureDef fixtureDef = null; 

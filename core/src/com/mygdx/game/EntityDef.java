@@ -1,7 +1,5 @@
 package com.mygdx.game;
 
-
-
 public class EntityDef {
 	public String name;
 	public String id;

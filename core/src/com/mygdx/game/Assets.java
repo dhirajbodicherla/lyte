@@ -18,6 +18,7 @@ public class Assets implements Disposable, AssetErrorListener {
 	public AssetLaser laser;
 	public AssetAsteroid asteroid;
 	public AssetBlackHole blackhole;
+	public AssetPhoton photon;
 	// public AssetRock rock;
 	// public AssetGoldCoin goldCoin;
 	// public AssetFeather feather;
@@ -54,6 +55,7 @@ public class Assets implements Disposable, AssetErrorListener {
 		laser = new AssetLaser(atlas);
 		asteroid = new AssetAsteroid(atlas);
 		blackhole = new AssetBlackHole(atlas);
+		photon = new AssetPhoton(atlas);
 		// goldCoin = new AssetGoldCoin(atlas);
 		// feather = new AssetFeather(atlas);
 		// levelDecoration = new AssetLevelDecoration(atlas);
@@ -102,6 +104,14 @@ public class Assets implements Disposable, AssetErrorListener {
 		
 		public AssetBlackHole(TextureAtlas atlas){
 			blackhole = atlas.findRegion("blackhole");
+		}
+	}
+	
+	public class AssetPhoton{
+		public final AtlasRegion photon;
+		
+		public AssetPhoton(TextureAtlas atlas){
+			photon = atlas.findRegion("photon");
 		}
 	}
 

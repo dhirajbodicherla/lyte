@@ -23,19 +23,18 @@ public class Photon extends Entity{
 	
 	private void init(){
 //		need to change the below to photon
-		regAsteroid = Assets.instance.asteroid.asteroid;
-		origin.set(size.x / 2, size.y / 2);
+		regAsteroid = Assets.instance.photon.photon;
+		origin.set(radius, radius);
 	}
 	
 	@Override
 	public void render(SpriteBatch batch){
-		
 		TextureRegion reg = null;
 		reg = regAsteroid;
 		batch.draw(reg.getTexture(), 
-					pos.x - origin.x, pos.y - origin.y, 
-					origin.x, origin.y, 
-					size.x, size.y, 
+					this.getPhysicsBody().getPosition().x - origin.x, this.getPhysicsBody().getPosition().y - origin.y, 
+					origin.x*2, origin.y*2,
+					radius*2, radius*2, 
 					scale.x, scale.y, 
 					angle,
 					reg.getRegionX(), reg.getRegionY(),
