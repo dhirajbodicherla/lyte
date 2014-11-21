@@ -23,7 +23,7 @@ public abstract class Entity {
 	public Entity(){
 		this.pos = new Vector2();
 		this.size = new Vector2(1,1);
-		this.origin = new Vector2();
+		this.origin = new Vector2(1,1);
 		this.dimension = new Vector2(1,1);
 		this.scale = new Vector2(1,1);
 		this.angle = 0;
@@ -37,7 +37,7 @@ public abstract class Entity {
 		this.angle = ed.angle;
 		this.fixedPosition = ed.fixedPosition;
 		this.fixedRotation = ed.fixedRotation;
-		this.origin = new Vector2();
+		this.origin = new Vector2(0,0);
 		this.dimension = new Vector2(1,1);
 		this.scale = new Vector2(1,1);
 	}

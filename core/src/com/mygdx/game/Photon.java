@@ -24,7 +24,7 @@ public class Photon extends Entity{
 	private void init(){
 //		need to change the below to photon
 		regAsteroid = Assets.instance.asteroid.asteroid;
-		dimension.set(new Vector2(0.5f, 0.5f));
+		origin.set(size.x / 2, size.y / 2);
 	}
 	
 	@Override
@@ -33,9 +33,9 @@ public class Photon extends Entity{
 		TextureRegion reg = null;
 		reg = regAsteroid;
 		batch.draw(reg.getTexture(), 
-					pos.x , pos.y, 
+					pos.x - origin.x, pos.y - origin.y, 
 					origin.x, origin.y, 
-					dimension.x, dimension.y, 
+					size.x, size.y, 
 					scale.x, scale.y, 
 					angle,
 					reg.getRegionX(), reg.getRegionY(),

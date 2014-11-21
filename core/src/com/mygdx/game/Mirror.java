@@ -23,7 +23,7 @@ public class Mirror extends Entity{
 	
 	private void init(){
 		regMirror = Assets.instance.mirror.mirror;
-		dimension.set(new Vector2(0.5f, 0.5f));
+		origin.set(size.x, size.y);
 	}
 	
 	@Override
@@ -31,10 +31,10 @@ public class Mirror extends Entity{
 		TextureRegion reg = null;
 		reg = regMirror;
 		batch.draw(reg.getTexture(),
-					pos.x , pos.y,
+					pos.x - origin.x, pos.y - origin.y, 
 					origin.x, origin.y, 
-					dimension.x, dimension.y, 
-					scale.x, scale.y,
+					size.x*2, size.y*2, 
+					scale.x, scale.y, 
 					angle,
 					reg.getRegionX(), reg.getRegionY(),
 					reg.getRegionWidth(), reg.getRegionHeight(),

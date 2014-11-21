@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -26,18 +27,19 @@ public class Laser extends Entity{
 	}
 	
 	private void init(){
-		regLaser = Assets.instance.laser.laser;		
-//		dimension.set(new Vector2(0.5f, 0.5f));
+		regLaser = Assets.instance.laser.laser;
+		origin.set(size.x, size.y);
 	}
 	
 	@Override
 	public void render(SpriteBatch batch){
 		TextureRegion reg = null;
 		reg = regLaser;
+		
 		batch.draw(reg.getTexture(), 
-					pos.x , pos.y, 
+					pos.x - origin.x, pos.y - origin.y, 
 					origin.x, origin.y, 
-					dimension.x, dimension.y, 
+					size.x*2, size.y*2, 
 					scale.x, scale.y, 
 					angle,
 					reg.getRegionX(), reg.getRegionY(),
@@ -52,14 +54,15 @@ public class Laser extends Entity{
 	
 	public void shoot(float x, float y, int pointer, World w){		
 		float fireRadius= (float)(this.getSize().x * 0.5);
-		Vector2 dir = new Vector2(x*Constants.WORLD_TO_BOX*fireRadius, y*Constants.WORLD_TO_BOX*fireRadius);
+		Vector2 dir = new Vector2(x*fireRadius, y*fireRadius);
 		Vector2 firePoint = dir.add(this.getPhysicsBody().getWorldCenter());
 		float dx = x - this.getPhysicsBody().getWorldCenter().x;
 		float dy = y - this.getPhysicsBody().getWorldCenter().y;
 		float angle = (float)Math.atan2(dy,dx);
+		this.angle = angle * MathUtils.radiansToDegrees;
 		this.getPhysicsBody().setTransform(this.getPhysicsBody().getWorldCenter(), angle);
 		Body circleBody = Level.createPhysicsBody(firePoint, w);
-		circleBody.applyLinearImpulse(x * Constants.WORLD_TO_BOX, y * Constants.WORLD_TO_BOX, circleBody.getWorldCenter().x, circleBody.getWorldCenter().y, true);
+		circleBody.applyLinearImpulse(x, y, circleBody.getWorldCenter().x, circleBody.getWorldCenter().y, true);
 		
 		Level.mPhotons.add(circleBody);
 	}

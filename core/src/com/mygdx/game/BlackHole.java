@@ -22,8 +22,8 @@ public class BlackHole extends Entity{
 	}
 	
 	private void init(){
-		regBlackHole = Assets.instance.asteroid.asteroid;
-		dimension.set(new Vector2(0.5f, 0.5f));
+		regBlackHole = Assets.instance.blackhole.blackhole;
+		origin.set(radius, radius);
 	}
 	
 	@Override
@@ -31,9 +31,9 @@ public class BlackHole extends Entity{
 		TextureRegion reg = null;
 		reg = regBlackHole;
 		batch.draw(reg.getTexture(), 
-					pos.x , pos.y, 
+					pos.x - origin.x, pos.y - origin.y,
 					origin.x, origin.y, 
-					dimension.x, dimension.y, 
+					radius*2, radius*2,
 					scale.x, scale.y, 
 					angle,
 					reg.getRegionX(), reg.getRegionY(),

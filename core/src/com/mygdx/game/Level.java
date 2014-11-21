@@ -170,34 +170,26 @@ public class Level {
 	public void render(SpriteBatch batch) {
 		mSource.render(batch);
 		for (Asteroid a : mAsteroids) {
-//			a.render(batch);
+			a.render(batch);
 		}
 		for (Mirror m : mMirrors) {
-//			m.render(batch);
+			m.render(batch);
 		}
 		for (BlackHole b : mBlackholes) {
-//			b.render(batch);
+			b.render(batch);
 		}
-		
-		// planets
-		
-//		for(Entity m : mMirrors){
-//			m.render(batch);
-//		}
-//		laser.render(batch);
 	}
 
 	public void update(float deltaTime) {
-//		bunnyHead.update(deltaTime);
 		mSource.update(deltaTime);
 		for (Asteroid a : mAsteroids) {
-//			a.update(deltaTime);
+			a.update(deltaTime);
 		}
 		for (Mirror m : mMirrors) {
-//			m.update(deltaTime);
+			m.update(deltaTime);
 		}
 		for (BlackHole b : mBlackholes) {
-//			b.update(deltaTime);
+			b.update(deltaTime);
 		}
 //		for (Photon p : mPhotons) {
 //			p.update(deltaTime);
@@ -216,13 +208,12 @@ public class Level {
 				planetDistance.add(bulletPos);
 				planetDistance.sub(planetPosition);
 				float finalDistance = planetDistance.len();
-				if(finalDistance <= planetRadius*10.f) {
+				if(finalDistance <= planetRadius*2.f) {
 					planetDistance.scl(-1.f);
 					float vecSum = Math.abs(planetDistance.x) + Math.abs(planetDistance.y);
-					planetDistance.scl(0.5f*(1/vecSum)*planetRadius / finalDistance);
+					planetDistance.scl(5f*(1/vecSum)*planetRadius / finalDistance);
 					mPhotons.get(i).applyForce(planetDistance, mPhotons.get(i).getWorldCenter(),true);
 				}
-				
 			}
 		}
 	}
@@ -299,15 +290,15 @@ public class Level {
 		if(ed.shape.equalsIgnoreCase("rect"))
 		{
 			bodyShape = new PolygonShape();
-			((PolygonShape) bodyShape).setAsBox((w*0.5f)*Constants.WORLD_TO_BOX, h*0.5f*Constants.WORLD_TO_BOX);
+			((PolygonShape) bodyShape).setAsBox(w, h);
 		}
 		if(ed.shape.equalsIgnoreCase("circle"))
 		{
 			bodyShape = new CircleShape();
-			bodyShape.setRadius(r * Constants.WORLD_TO_BOX);
+			bodyShape.setRadius(r);
 		}
 		
-		bodyDef.position.set(x*Constants.WORLD_TO_BOX, y*Constants.WORLD_TO_BOX);
+		bodyDef.position.set(x, y);
 		bodyDef.angle = (float) ((ed.angle)*Constants.DEGTORAD);
 		bodyDef.fixedRotation = true;
 		
@@ -333,7 +324,7 @@ public class Level {
 		Body circleBody = world.createBody(circleDef);
 
 		CircleShape circleShape = new CircleShape(); 
-		circleShape.setRadius(2 * Constants.WORLD_TO_BOX);
+		circleShape.setRadius(0.3f);
 
 		FixtureDef circleFixture = new FixtureDef(); 
 		circleFixture.shape = circleShape; 

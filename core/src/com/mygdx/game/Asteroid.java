@@ -24,19 +24,18 @@ public class Asteroid extends Entity{
 	
 	private void init(){
 		regAsteroid = Assets.instance.asteroid.asteroid;
-		dimension.set(new Vector2(0.5f, 0.5f));
-//		this.getp
+		origin.set(radius, radius);
 	}
 	
 	@Override
 	public void render(SpriteBatch batch){
-		
+		///Gdx.app.debug("asteroid", String.valueOf(pos.x) + '-' + String.valueOf(origin.x));
 		TextureRegion reg = null;
 		reg = regAsteroid;
 		batch.draw(reg.getTexture(), 
-					pos.x , pos.y, 
-					origin.x, origin.y, 
-					dimension.x, dimension.y, 
+					pos.x - origin.x, pos.y - origin.y,
+					origin.x*2, origin.y*2,
+					radius*2, radius*2, 
 					scale.x, scale.y, 
 					angle,
 					reg.getRegionX(), reg.getRegionY(),
