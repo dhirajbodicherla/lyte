@@ -11,6 +11,7 @@ public class Photon extends Entity{
 	public Body b;
 	private int length;
 	private TextureRegion regAsteroid;
+	public boolean isDeleted = false;
 	
 	public Photon() {
 		init();
@@ -29,6 +30,7 @@ public class Photon extends Entity{
 	
 	@Override
 	public void render(SpriteBatch batch){
+		if(isDeleted) return;
 		TextureRegion reg = null;
 		reg = regAsteroid;
 		batch.draw(reg.getTexture(), 
@@ -45,5 +47,10 @@ public class Photon extends Entity{
 	@Override
 	public void update(float deltaTime){
 		
+	}
+	
+	@Override
+	public void delete(){
+		isDeleted = true;
 	}
 }

@@ -19,6 +19,8 @@ public class Assets implements Disposable, AssetErrorListener {
 	public AssetAsteroid asteroid;
 	public AssetBlackHole blackhole;
 	public AssetPhoton photon;
+	public AssetEarth earth;
+	public AssetSpace space;
 	// public AssetRock rock;
 	// public AssetGoldCoin goldCoin;
 	// public AssetFeather feather;
@@ -56,9 +58,8 @@ public class Assets implements Disposable, AssetErrorListener {
 		asteroid = new AssetAsteroid(atlas);
 		blackhole = new AssetBlackHole(atlas);
 		photon = new AssetPhoton(atlas);
-		// goldCoin = new AssetGoldCoin(atlas);
-		// feather = new AssetFeather(atlas);
-		// levelDecoration = new AssetLevelDecoration(atlas);
+		earth = new AssetEarth(atlas);
+		space = new AssetSpace(atlas);
 	}
 
 	@Override
@@ -68,12 +69,6 @@ public class Assets implements Disposable, AssetErrorListener {
 		fonts.defaultNormal.dispose();
 		fonts.defaultBig.dispose();
 	}
-
-	// @Override
-	// public void error(String filename, Class type, Throwable throwable) {
-	// Gdx.app.error(TAG, "Couldn't load asset '" + filename + "'",
-	// (Exception) throwable);
-	// }
 
 	public class AssetMirror {
 		public final AtlasRegion mirror;
@@ -112,6 +107,22 @@ public class Assets implements Disposable, AssetErrorListener {
 		
 		public AssetPhoton(TextureAtlas atlas){
 			photon = atlas.findRegion("photon");
+		}
+	}
+	
+	public class AssetEarth{
+		public final AtlasRegion earth;
+		
+		public AssetEarth(TextureAtlas atlas){
+			earth = atlas.findRegion("earth");
+		}
+	}
+	
+	public class AssetSpace{
+		public final AtlasRegion space;
+		
+		public AssetSpace(TextureAtlas atlas){
+			space = atlas.findRegion("bg");
 		}
 	}
 

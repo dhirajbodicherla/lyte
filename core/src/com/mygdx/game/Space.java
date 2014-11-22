@@ -1,49 +1,36 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.game.Entity;
 
-public class Earth extends Entity{
+public class Space extends Entity{
 	public Body b;
 	private int length;
-	private TextureRegion regEarth;
+	private TextureRegion regMirror;
 	
-	public Earth() {
-		init();
-	}
-	
-	public Earth(EntityDef ed){
-		super(ed);
+	public Space() {
 		init();
 	}
 	
 	private void init(){
-		regEarth = Assets.instance.earth.earth;
-		origin.set(radius, radius);
+		regMirror = Assets.instance.space.space;
+		origin.set(size.x, size.y);
 	}
 	
 	@Override
 	public void render(SpriteBatch batch){
-		
 		TextureRegion reg = null;
-		reg = regEarth;
-		batch.draw(reg.getTexture(), 
-					pos.x - origin.x, pos.y - origin.y,
-					origin.x*2, origin.y*2,
-					radius*2, radius*2, 
+		reg = regMirror;
+		batch.draw(reg.getTexture(),
+					-30,-30, 
+					origin.x, origin.y, 
+					40, 40, 
 					scale.x, scale.y, 
 					angle,
 					reg.getRegionX(), reg.getRegionY(),
 					reg.getRegionWidth(), reg.getRegionHeight(),
 					false, false);
-	}
-	
-	@Override
-	public void update(float deltaTime){
-		
 	}
 }

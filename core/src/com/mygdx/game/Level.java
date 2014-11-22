@@ -32,14 +32,15 @@ public class Level {
 	/* new defs from J's repo */
 	private LevelCollection mLevels;
 	
-	private Entity mTarget;
+	private Space mSpace; /* background */
+	private Earth mTarget;
 	public Laser mSource;
-	private ArrayList<BlackHole> mBlackholes;
+	public ArrayList<BlackHole> mBlackholes;
 	private ArrayList<Asteroid> mAsteroids;
 	private ArrayList<Mirror> mMirrors;
 	
 	//Light Photons
-	public static ArrayList<Photon> mPhotons;
+	public ArrayList<Photon> mPhotons;
 
 	public Level(String filename, World w) {
 		this.world = w;
@@ -48,6 +49,8 @@ public class Level {
 
 	private void init(String filename, World world) {
 		mLevels= ParseFile("data/level.js");
+		mSpace = new Space();
+		mSpace.pos.set(-1, -1);
 		mTarget = null;
 		mSource = null;
 		mBlackholes = new ArrayList<BlackHole>();
@@ -66,7 +69,7 @@ public class Level {
 		mTarget = new Earth(ld.mTarget);
 		mTarget.setPhysicsBody(createPhysicsBody(ld.mTarget, mTarget));
 		
-		mSource = new Laser(ld.mSource);
+		mSource = new Laser(ld.mSource, this);
 		mSource.setPhysicsBody(createPhysicsBody(ld.mSource, mSource));
 		
 		for(int i = 0 ; i < numMirrors; i++) {
@@ -91,83 +94,11 @@ public class Level {
 			e.setPhysicsBody(createPhysicsBody(ed, e));
 			mBlackholes.add(e);
 		}
-		
-		/*
-		String locRoot = Gdx.files.getLocalStoragePath();
-		FileHandle handle = Gdx.files.internal(filename);
-		String fileContent = handle.readString();
-		Json json = new Json();
-		LevelStructure lvl = json.fromJson(LevelStructure.class, fileContent);
-
-		asteroids = new ArrayList<Asteroid>();
-		planets = new ArrayList<Body>();
-		laser = new Laser();
-
-		BodyDef bodyDef;
-		Shape bodyShape = null;
-		FixtureDef fixtureDef = null;
-		Body phyBody;
-
-		for (int i = 0; i < lvl.entities.length; i++) {
-			EntityDef ed = lvl.entities[i];
-			float x = ed.x;
-			float y = ed.y;
-			float w = ed.w;
-			float h = ed.h;
-
-			bodyDef = new BodyDef();
-			if (ed.type.equalsIgnoreCase("S")) {
-				bodyDef.type = BodyType.StaticBody;
-			}
-			if (ed.type.equals("D")) {
-				bodyDef.type = BodyType.DynamicBody;
-			}
-
-			if (ed.type.equals("K")) {
-				bodyDef.type = BodyType.KinematicBody;
-			}
-
-			// bodyDef.position.set(x * Constants.WORLD_TO_BOX, y *
-			// Constants.WORLD_TO_BOX);
-
-			if (ed.shape.equalsIgnoreCase("rect")) {
-				bodyShape = new PolygonShape();
-				((PolygonShape) bodyShape).setAsBox((w * 0.5f)
-						* Constants.WORLD_TO_BOX, h * 0.5f
-						* Constants.WORLD_TO_BOX);
-			}
-			if (ed.shape.equalsIgnoreCase("circle")) {
-				bodyShape = new CircleShape();
-				bodyShape.setRadius(ed.r * Constants.WORLD_TO_BOX);
-			}
-
-			fixtureDef = new FixtureDef();
-			fixtureDef.shape = bodyShape;
-			fixtureDef.density = 0.4f;
-			fixtureDef.friction = 0.2f;
-			fixtureDef.restitution = 0.8f;
-
-			phyBody = world.createBody(bodyDef);
-			phyBody.createFixture(fixtureDef);
-
-			if (ed.type.equals("K")) {
-				// kBody = phyBody;
-				Laser l = new Laser();
-				l.b = phyBody;
-				l.pos = new Vector2(x * Constants.WORLD_TO_BOX, y
-						* Constants.WORLD_TO_BOX);
-			} else {
-				Asteroid a = new Asteroid();
-				a.b = phyBody;
-				a.pos = new Vector2(x * Constants.WORLD_TO_BOX, y
-						* Constants.WORLD_TO_BOX);
-				asteroids.add(a);
-			}
-		}
-		*/
 	}
 
 	public void render(SpriteBatch batch) {
+		mSpace.render(batch);
+		mTarget.render(batch);
 		mSource.render(batch);
 		for (Asteroid a : mAsteroids) {
 			a.render(batch);
@@ -184,6 +115,7 @@ public class Level {
 	}
 
 	public void update(float deltaTime) {
+		mTarget.update(deltaTime);
 		mSource.update(deltaTime);
 		for (Asteroid a : mAsteroids) {
 			a.update(deltaTime);
@@ -211,7 +143,7 @@ public class Level {
 				planetDistance.add(bulletPos);
 				planetDistance.sub(planetPosition);
 				float finalDistance = planetDistance.len();
-				if(finalDistance <= planetRadius*2.f) {
+				if(finalDistance <= planetRadius*3f) {
 					planetDistance.scl(-1.f);
 					float vecSum = Math.abs(planetDistance.x) + Math.abs(planetDistance.y);
 					planetDistance.scl(5f*(1/vecSum)*planetRadius / finalDistance);
@@ -312,7 +244,7 @@ public class Level {
 		fixtureDef.restitution = 0.8f;
 		
 		phyBody = world.createBody(bodyDef);
-		phyBody.createFixture(fixtureDef);
+		phyBody.createFixture(fixtureDef).setUserData(e);
 		phyBody.setUserData(e);
 		
 		return phyBody;

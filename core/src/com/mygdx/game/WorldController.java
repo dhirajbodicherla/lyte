@@ -7,9 +7,17 @@ import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -17,7 +25,7 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputProcessor;
 import com.mygdx.game.Constants;
 
-public class WorldController extends InputAdapter implements InputProcessor {
+public class WorldController extends InputAdapter implements InputProcessor, Disposable {
 
 	private Game game;
 	public CameraHelper cameraHelper;
@@ -26,6 +34,8 @@ public class WorldController extends InputAdapter implements InputProcessor {
 	public int score;
 	public World world;
 	private OrthographicCamera camera;
+	private Circle c1 = new Circle();
+	private Circle c2 = new Circle();
 
 	private static final String TAG = WorldController.class.getName();
 
@@ -41,6 +51,50 @@ public class WorldController extends InputAdapter implements InputProcessor {
 
 	private void init() {
 		world = new World(new Vector2(0.0f, 0.0f), false);
+		
+		world.setContactListener(new ContactListener() {
+			
+			@Override
+			public void preSolve(Contact contact, Manifold oldManifold) {
+				// TODO Auto-generated method stub
+			}
+			
+			@Override
+			public void postSolve(Contact contact, ContactImpulse impulse) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void endContact(Contact contact) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void beginContact(Contact contact) {
+				// TODO Auto-generated method stub
+				Fixture fa = contact.getFixtureA();
+				Fixture fb = contact.getFixtureB();
+				Entity ed1 = (Entity) fa.getUserData();
+				Entity ed2 = (Entity) fb.getUserData();
+				if(ed1.name.equals("photon") && ed2.name.equals("blackhole")){
+					Gdx.app.debug("contact 1", ed2.name+" hit "+ed1.name);
+				}
+				if(ed1.name.equals("blackhole") && ed2.name.equals("photon")){
+					final Fixture toRemove = fb;
+					((Entity)fb.getUserData()).delete();
+					Gdx.app.postRunnable(new Runnable() {
+						@Override
+						public void run () {
+//							((Entity)toRemove.getUserData()).delete();
+							world.destroyBody(toRemove.getBody());
+						}
+					});
+				}
+			}
+		});
+		
 		cameraHelper = new CameraHelper();
 		Gdx.input.setInputProcessor(this);
 		lives = Constants.LIVES_START;
@@ -55,6 +109,29 @@ public class WorldController extends InputAdapter implements InputProcessor {
 		level.update(deltaTime);
 		handleInputGame(deltaTime);
 		cameraHelper.update(deltaTime);
+		//testCollisions();
+	}
+	
+	private void testCollisions(){
+//		Gdx.app.debug("testCollections", String.valueOf(level.mPhotons.size()) + ':' + String.valueOf(level.mBlackholes.size()) );
+		for(Photon p : level.mPhotons){
+			Vector2 v1 = p.getPhysicsBody().getWorldCenter();
+			c1.set(v1.x, v1.y, p.radius);
+			for(BlackHole b : level.mBlackholes){
+				Vector2 v2 = b.getPhysicsBody().getWorldCenter();
+				c2.set(v2.x, v2.y, b.radius);
+				if(!c1.overlaps(c2)) continue;
+				Gdx.app.debug("photon", String.valueOf(v2.x) + ':' + String.valueOf(v2.y) + ':' + String.valueOf(b.radius));
+				photonDisappearsIntoBlackHole(p, b);
+				break;
+			}
+		}
+	}
+	
+	private void photonDisappearsIntoBlackHole(Photon p, BlackHole b){
+		Gdx.app.debug("testing collisions bro", p.name + " hit " + b.name);
+		p.delete();
+//		world.destroyBody(p.getPhysicsBody());
 	}
 
 	private void backToMenu() {
@@ -143,5 +220,10 @@ public class WorldController extends InputAdapter implements InputProcessor {
 		camera.unproject(worldCoordinates);
 		level.mSource.shoot(worldCoordinates.x, worldCoordinates.y, pointer, world);
 		return false;
+	}
+	
+	@Override
+	public void dispose(){
+		if (world != null) world.dispose();
 	}
 }

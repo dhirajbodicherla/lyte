@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -19,6 +20,9 @@ public abstract class Entity {
 	public Vector2 origin;
 	public Vector2 dimension;
 	public Vector2 scale;
+	
+	/* for collision detection */
+	public Rectangle bounds;
 	
 	public Entity(){
 		this.pos = new Vector2();
@@ -40,11 +44,14 @@ public abstract class Entity {
 		this.origin = new Vector2(0,0);
 		this.dimension = new Vector2(1,1);
 		this.scale = new Vector2(1,1);
+		this.name = ed.name;
 	}
 	
 	public void update(float deltaTime){ }
 	
 	public abstract void render(SpriteBatch batch);
+	
+	public void delete(){ }
 	
 	public String getId() {
 		return id;
@@ -108,4 +115,6 @@ public abstract class Entity {
 	public void setFixedPosition(int fixedPosition) {
 		this.fixedPosition = fixedPosition;
 	}
+	
+	
 }

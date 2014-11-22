@@ -1,40 +1,54 @@
 
 lyte.png
-size: 388,454
+size: 710,902
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 asteroid
   rotate: false
-  xy: 2, 2
+  xy: 516, 708
   size: 64, 64
   orig: 64, 64
+  offset: 0, 0
+  index: -1
+bg
+  rotate: false
+  xy: 2, 390
+  size: 512, 512
+  orig: 512, 512
   offset: 0, 0
   index: -1
 blackhole
   rotate: false
-  xy: 132, 132
+  xy: 646, 838
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
+earth
+  rotate: false
+  xy: 516, 774
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
 laser
   rotate: false
-  xy: 2, 68
+  xy: 2, 2
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 mirror
   rotate: false
-  xy: 260, 326
+  xy: 260, 260
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 photon
   rotate: false
-  xy: 2, 198
+  xy: 2, 132
   size: 256, 256
   orig: 256, 256
   offset: 0, 0

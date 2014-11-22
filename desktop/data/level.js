@@ -71,14 +71,16 @@
         mBaseHeight: 1,
         mTarget: {
         	id: "Target",
+        	name: "Target",
             type: "S",
             shape: "circle",
-            x: 50,
-            y: 40,
-            r: 4
+            x: 7,
+            y: 3,
+            r: 1
         },
         mSource: {
         	id: "Source",
+        	name: "Source",
             type: "K",
             shape: "rect",
             x: 0,
@@ -88,7 +90,8 @@
             angle: 90
         },
         mMirrors: [{
-            id: "1",
+            id: "m1",
+            name: "mirror",
             type: "S",
             shape: "rect",
             x: 5,
@@ -98,7 +101,8 @@
             fixedRotation: 1,
             fixedPosition: 1
         }, {
-            id: "2",
+            id: "m2",
+            name: "mirror",
             type: "S",
             shape: "rect",
             x: -5,
@@ -109,14 +113,16 @@
             fixedPosition: 1
         }],
         mAsteroids: [{
-            id: "1",
+            id: "a1",
+            name: "asteroid",
             type: "S",
             shape: "circle",
             x: 5,
             y: -5,
             r: 1
         }, {
-            id: "2",
+            id: "a2",
+            name: "asteroid",
             type: "S",
             shape: "circle",
             x: -3,
@@ -124,7 +130,8 @@
             r: 1
         }],
         mBlackholes: [{
-            id: "1",
+            id: "b1",
+            name: "blackhole",
             type: "S",
             shape: "circle",
             x: -8,
@@ -133,7 +140,8 @@
             ir: 1,
             g: 4
         }, {
-            id: "2",
+            id: "b2",
+            name: "blackhole",
             type: "S",
             shape: "circle",
             x: -6,

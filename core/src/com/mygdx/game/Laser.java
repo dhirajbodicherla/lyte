@@ -17,13 +17,15 @@ public class Laser extends Entity{
 	public Body b;
 	private int length;
 	private TextureRegion regLaser;
+	private Level level;
 	
 	public Laser() {
 		init();
 	}
 	
-	public Laser(EntityDef ed){
+	public Laser(EntityDef ed, Level level){
 		super(ed);
+		this.level = level;
 		init();
 	}
 	
@@ -75,11 +77,9 @@ public class Laser extends Entity{
 		p.setPhysicsBody(Level.createPhysicsBody(ed, p));
 		p.getPhysicsBody().applyLinearImpulse(x, y, p.getPhysicsBody().getWorldCenter().x, p.getPhysicsBody().getWorldCenter().y, true);
 		
-		
-		
 		this.getPhysicsBody().setTransform(this.getPhysicsBody().getWorldCenter(), angle);
 		
-		Level.mPhotons.add(p);
+		this.level.mPhotons.add(p);
 	}
 	
 	public Vector2 TrackMouse(int x, int y){
