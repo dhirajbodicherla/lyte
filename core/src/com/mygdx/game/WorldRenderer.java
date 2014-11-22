@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.Constants;
 
 public class WorldRenderer {
@@ -19,6 +21,7 @@ public class WorldRenderer {
 	private int score = 0;
 	private Box2DDebugRenderer b2debugRenderer;
 	private static final boolean DEBUG_DRAW_BOX2D_WORLD = false;
+	private Viewport viewport;
 
 	public WorldRenderer(WorldController worldController) {
 		this.worldController = worldController;
@@ -31,6 +34,7 @@ public class WorldRenderer {
 				Constants.VIEWPORT_HEIGHT);
 		camera.position.set(0, 0, 0);
 		camera.update();
+		viewport = new FitViewport(800, 480, camera);
 
 		/*
 		 * GUI Stuff
@@ -61,6 +65,7 @@ public class WorldRenderer {
 		cameraGUI.position.set(cameraGUI.viewportWidth / 2,
 				cameraGUI.viewportHeight / 2, 0);
 		cameraGUI.update();
+		viewport.update(width, height);
 	}
 
 	// @Override
