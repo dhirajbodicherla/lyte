@@ -8,7 +8,7 @@
         mBaseHeight: 480,
         mTarget:{id:"Target", type:"S", shape:"circle", x:590, y:430, r:40},
         mSource:{id:"Source", type:"K", shape:"rect", x:30, y:30, w:40, h:10, angle: 90},
-        mMirrors: [{id:"1",type:"S",shape:"rect",x:30,y:450,w:50,h:10, angle:45, fixedRotation:1, fixedPosition:1}] 
+        mMirrors: [{id:"1",type:"S",shape:"rect",x:30,y:450,w:50,h:10, angle:90, fixedRotation:1, fixedPosition:1}] 
     }, 
 
     {

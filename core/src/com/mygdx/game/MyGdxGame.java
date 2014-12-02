@@ -1,12 +1,22 @@
 package com.mygdx.game;
 import java.util.ArrayList;
 
+import box2dLight.PointLight;
+import box2dLight.RayHandler;
+
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -56,6 +66,10 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor{
 	private OrthographicCamera camera;
 	private int inputMode;			//1. Shoot 2. Drag body 3. Change Angle 
 	
+	private SpriteBatch batch;
+    private Pixmap pixmap;
+    private Texture texture;
+    private Sprite sprite;
 	
 	/* Box2d Stuff */ 
 	World world; 
@@ -101,6 +115,20 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor{
 	
 	@Override
 	public void create () {
+		batch = new SpriteBatch();
+		pixmap = new Pixmap(50, 50, Pixmap.Format.RGBA8888);
+		
+		//fill it with white
+		pixmap.setColor(Color.WHITE);
+		//pixmap.fill();
+		pixmap.drawCircle(pixmap.getWidth()/2, pixmap.getHeight()/2, pixmap.getHeight()/2 - 1);
+		
+        texture = new Texture(pixmap);
+        
+        pixmap.dispose();
+        
+        sprite = new Sprite(texture);
+        
 		initGame();	
 		createLevel();
 	}
@@ -108,7 +136,7 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor{
 	public void initGame()
 	{
 		//Current Level
-		currentLevel = 0;			//Levels always start with 1 unlike array index
+		currentLevel = 0;			//Levels always start with 0
 		
 		inputMode = 2;		//Start with drag 
 		
@@ -126,6 +154,9 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor{
 		//Init Physics World and Debug
 		world = new World(new Vector2(0.0f, 0.0f), false);
 		renderer = new Box2DDebugRenderer();
+		
+		
+		
 		
 		
 		//Initialize Levels
@@ -256,6 +287,12 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor{
 	
 		renderer.render(world, cameraCopy.scl(BOX_TO_WORLD));
 		
+		batch.begin();
+        sprite.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
+        sprite.draw(batch);
+        batch.end();
+		
+		//rayHandler.updateAndRender();
 		world.step(1/60f, 6, 2);
 		update();
 		
@@ -277,8 +314,8 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor{
 		{
 			mx = Gdx.input.getX() * WORLD_TO_BOX;
 			my = (SCREEN_HEIGHT-Gdx.input.getY())*WORLD_TO_BOX;
-			dx = Gdx.input.getX() * WORLD_TO_BOX - mSource.getPhysicsBody().getWorldCenter().x;
-			dy = (SCREEN_HEIGHT-Gdx.input.getY())*WORLD_TO_BOX - mSource.getPhysicsBody().getWorldCenter().y;
+			dx = mx - mSource.getPhysicsBody().getWorldCenter().x;
+			dy = my - mSource.getPhysicsBody().getWorldCenter().y;
 			float angle = (float)Math.atan2(dy,dx);
 			Vector2 norm = new Vector2(dx, dy);
 			norm.nor();
