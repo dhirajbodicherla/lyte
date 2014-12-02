@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public abstract class Entity {
@@ -20,6 +21,9 @@ public abstract class Entity {
 	public Vector2 origin;
 	public Vector2 dimension;
 	public Vector2 scale;
+	
+	public float stateTime;
+	public Animation animation;
 	
 	/* for collision detection */
 	public Rectangle bounds;
@@ -116,5 +120,9 @@ public abstract class Entity {
 		this.fixedPosition = fixedPosition;
 	}
 	
+	public void setAnimation(Animation animation){
+		this.animation = animation;
+		stateTime = 0;
+	}
 	
 }

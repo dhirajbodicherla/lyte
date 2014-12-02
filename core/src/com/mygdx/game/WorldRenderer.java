@@ -34,7 +34,7 @@ public class WorldRenderer {
 				Constants.VIEWPORT_HEIGHT);
 		camera.position.set(0, 0, 0);
 		camera.update();
-		viewport = new FitViewport(800, 480, camera);
+//		viewport = new FitViewport(800, 480, camera);
 
 		/*
 		 * GUI Stuff
@@ -65,7 +65,7 @@ public class WorldRenderer {
 		cameraGUI.position.set(cameraGUI.viewportWidth / 2,
 				cameraGUI.viewportHeight / 2, 0);
 		cameraGUI.update();
-		viewport.update(width, height);
+//		viewport.update(width, height);
 	}
 
 	// @Override

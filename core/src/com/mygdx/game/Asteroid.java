@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -23,15 +24,18 @@ public class Asteroid extends Entity{
 	}
 	
 	private void init(){
-		regAsteroid = Assets.instance.asteroid.asteroid;
-		origin.set(radius, radius);
+//		regAsteroid = Assets.instance.asteroid.asteroid;
+//		origin.set(radius, radius);
+		setAnimation(Assets.instance.asteroid.animAsteroid);
+		stateTime = MathUtils.random(0.0f, 1.0f);
 	}
 	
 	@Override
 	public void render(SpriteBatch batch){
 		///Gdx.app.debug("asteroid", String.valueOf(pos.x) + '-' + String.valueOf(origin.x));
 		TextureRegion reg = null;
-		reg = regAsteroid;
+//		reg = regAsteroid;
+		reg = animation.getKeyFrame(stateTime, true);
 		batch.draw(reg.getTexture(), 
 					pos.x - origin.x, pos.y - origin.y,
 					origin.x*2, origin.y*2,
@@ -45,6 +49,6 @@ public class Asteroid extends Entity{
 	
 	@Override
 	public void update(float deltaTime){
-		
+		stateTime += deltaTime;
 	}
 }

@@ -4,8 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetErrorListener;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.mygdx.game.Constants;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
@@ -80,25 +82,40 @@ public class Assets implements Disposable, AssetErrorListener {
 	
 	public class AssetLaser{
 		public final AtlasRegion laser;
+		public final Animation animLaser;
 		
 		public AssetLaser(TextureAtlas atlas) {
 			laser = atlas.findRegion("laser");
+			Array<AtlasRegion> regions = atlas.findRegions("star");
+			AtlasRegion region = regions.first();
+			regions.insert(0, region);
+			animLaser = new Animation(1.0f / 10.0f, regions, Animation.PlayMode.LOOP);
 		}
 	}
 	
 	public class AssetAsteroid{
 		public final AtlasRegion asteroid;
+		public final Animation animAsteroid;
 		
 		public AssetAsteroid(TextureAtlas atlas){
 			asteroid = atlas.findRegion("asteroid");
+			Array<AtlasRegion> regions = atlas.findRegions("asteroid");
+			AtlasRegion region = regions.first();
+			regions.insert(0, region);
+			animAsteroid = new Animation(1.0f / 10.0f, regions, Animation.PlayMode.LOOP);
 		}
 	}
 	
 	public class AssetBlackHole{
 		public final AtlasRegion blackhole;
+		public final Animation animBlackhole;
 		
 		public AssetBlackHole(TextureAtlas atlas){
 			blackhole = atlas.findRegion("blackhole");
+			Array<AtlasRegion> regions = atlas.findRegions("blackhole");
+			AtlasRegion region = regions.first();
+			regions.insert(0, region);
+			animBlackhole = new Animation(1.0f / 10.0f, regions, Animation.PlayMode.LOOP);
 		}
 	}
 	
@@ -112,9 +129,14 @@ public class Assets implements Disposable, AssetErrorListener {
 	
 	public class AssetEarth{
 		public final AtlasRegion earth;
+		public final Animation animEarth;
 		
 		public AssetEarth(TextureAtlas atlas){
 			earth = atlas.findRegion("earth");
+			Array<AtlasRegion> regions = atlas.findRegions("earth");
+			AtlasRegion region = regions.first();
+			regions.insert(0, region);
+			animEarth = new Animation(1.0f / 10.0f, regions, Animation.PlayMode.LOOP);
 		}
 	}
 	

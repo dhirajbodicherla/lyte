@@ -30,15 +30,17 @@ public class Laser extends Entity{
 	}
 	
 	private void init(){
-		regLaser = Assets.instance.laser.laser;
-		origin.set(size.x, size.y);
+//		regLaser = Assets.instance.laser.laser;
+//		origin.set(size.x, size.y);
+		setAnimation(Assets.instance.laser.animLaser);
+		stateTime = MathUtils.random(0.0f, 1.0f);
 	}
 	
 	@Override
 	public void render(SpriteBatch batch){
 		TextureRegion reg = null;
-		reg = regLaser;
-		
+//		reg = regLaser;
+		reg = animation.getKeyFrame(stateTime, true);
 		batch.draw(reg.getTexture(), 
 					pos.x - origin.x, pos.y - origin.y, 
 					origin.x, origin.y, 
@@ -52,7 +54,7 @@ public class Laser extends Entity{
 	
 	@Override
 	public void update(float deltaTime){
-		
+		stateTime += deltaTime;
 	}
 	
 	public void shoot(float x, float y, int pointer, World w){

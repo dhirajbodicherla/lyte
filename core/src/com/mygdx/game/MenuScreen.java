@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 public class MenuScreen extends AbstractGameScreen {
 
@@ -54,8 +55,8 @@ public class MenuScreen extends AbstractGameScreen {
 
 	private void rebuildStage() {
 
-		int width = Gdx.graphics.getWidth();
-		int height = Gdx.graphics.getHeight(); 
+//		int width = Gdx.graphics.getWidth();
+//		int height = Gdx.graphics.getHeight(); 
 		skinCanyonBunny = new Skin( Gdx.files.internal(Constants.SKIN_CANYONBUNNY_UI), new TextureAtlas(Constants.TEXTURE_ATLAS_UI));
 		//
 		Table layerBackground = buildBackgroundLayer();
@@ -67,7 +68,7 @@ public class MenuScreen extends AbstractGameScreen {
 		stage.clear();
 		Stack stack = new Stack();
 		stage.addActor(stack);
-		stack.setSize(width, height);
+		stack.setSize(Constants.VIEWPORT_GUI_WIDTH, Constants.VIEWPORT_GUI_HEIGHT);
 		stack.add(layerBackground);
 		stack.add(layerControls);
 		// stack.add(layerLogo);
@@ -127,8 +128,8 @@ public class MenuScreen extends AbstractGameScreen {
 
 	@Override
 	public void resize(int width, int height) {
-		// stage.setViewport(Constants.VIEWPORT_GUI_WIDTH,
-		// Constants.VIEWPORT_GUI_HEIGHT, false);
+//		stage.setViewport(new StretchViewport(68, 40));
+		stage.getViewport().update(width, height, true);
 	}
 
 	@Override

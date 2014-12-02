@@ -1,55 +1,924 @@
 
 lyte.png
-size: 710,902
+size: 644,772
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-asteroid
+alienplanet
   rotate: false
-  xy: 516, 708
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: -1
-bg
-  rotate: false
-  xy: 2, 390
+  xy: 2, 260
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
-  index: -1
-blackhole
-  rotate: false
-  xy: 646, 838
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: -1
-earth
-  rotate: false
-  xy: 516, 774
-  size: 128, 128
-  orig: 128, 128
-  offset: 0, 0
-  index: -1
+  index: 1
 laser
   rotate: false
-  xy: 2, 2
-  size: 128, 128
-  orig: 128, 128
-  offset: 0, 0
-  index: -1
-mirror
-  rotate: false
-  xy: 260, 260
+  xy: 516, 644
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 photon
   rotate: false
-  xy: 2, 132
+  xy: 2, 2
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
+
+lyte2.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+alienplanet
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 2
+
+lyte3.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+alienplanet
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 3
+
+lyte4.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+alienplanet
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 4
+
+lyte5.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+alienplanet
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 5
+
+lyte6.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+alienplanet
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 6
+
+lyte7.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+alienplanet
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 7
+
+lyte8.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+alienplanet
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 8
+
+lyte9.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+alienplanet
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 9
+
+lyte10.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+alienplanet
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 10
+
+lyte11.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+asteroid
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 1
+
+lyte12.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+asteroid
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 2
+
+lyte13.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+asteroid
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 3
+
+lyte14.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+asteroid
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 4
+
+lyte15.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+asteroid
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 5
+
+lyte16.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+asteroid
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 6
+
+lyte17.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+asteroid
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 7
+
+lyte18.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+asteroid
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 8
+
+lyte19.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+asteroid
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 9
+
+lyte20.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+asteroid
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 10
+
+lyte21.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+asteroid
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 11
+
+lyte22.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+asteroid
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 12
+
+lyte23.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+asteroid
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 13
+
+lyte24.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+asteroid
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 14
+
+lyte25.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+asteroid
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 15
+
+lyte26.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+asteroid
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 16
+
+lyte27.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+asteroid
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 17
+
+lyte28.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+asteroid
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 18
+
+lyte29.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+asteroid
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 19
+
+lyte30.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+asteroid
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 20
+
+lyte31.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+asteroid
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 21
+
+lyte32.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+asteroid
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 22
+
+lyte33.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+asteroid
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 23
+
+lyte34.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+asteroid
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 24
+
+lyte35.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+asteroid
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 25
+
+lyte36.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+asteroid
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 26
+
+lyte37.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+asteroid
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 27
+
+lyte38.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+asteroid
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 28
+
+lyte39.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+asteroid
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 29
+
+lyte40.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+asteroid
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 30
+
+lyte41.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+asteroid
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 31
+
+lyte42.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+asteroid
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 32
+
+lyte43.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+asteroid
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 33
+
+lyte44.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+asteroid
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 34
+
+lyte45.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+asteroid
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 35
+
+lyte46.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+asteroid
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 36
+
+lyte47.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+bg
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+
+lyte48.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+blackhole
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 1
+
+lyte49.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+blackhole
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 2
+
+lyte50.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+blackhole
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 3
+
+lyte51.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+earth
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 1
+
+lyte52.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+earth
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 2
+
+lyte53.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+earth
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 3
+
+lyte54.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+earth
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 4
+
+lyte55.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+earth
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 5
+
+lyte56.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+earth
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 6
+
+lyte57.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+earth
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 7
+
+lyte58.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+earth
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 8
+
+lyte59.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+earth
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 9
+
+lyte60.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+earth
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 10
+
+lyte61.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+earth
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 11
+
+lyte62.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+earth
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 12
+
+lyte63.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+earth
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 13
+
+lyte64.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+earth
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 14
+
+lyte65.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+earth
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 15
+
+lyte66.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+mirror
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+
+lyte67.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+star
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 1
+
+lyte68.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+star
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 2
+
+lyte69.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+star
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 3
+
+lyte70.png
+size: 514,514
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+star
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: 4
