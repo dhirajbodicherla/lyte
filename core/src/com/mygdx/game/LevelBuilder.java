@@ -58,11 +58,11 @@ public final class LevelBuilder {
 		FixtureDef fixtureDef = null; 
 		Body phyBody;
 		
-		float x = (ed.x/BaseSize.x)*MyGdxGame.SCREEN_WIDTH;
-		float y = (ed.y/BaseSize.y)*MyGdxGame.SCREEN_HEIGHT;
-		float w = (ed.w/BaseSize.x)*MyGdxGame.SCREEN_WIDTH;
-		float h = (ed.h/BaseSize.y)*MyGdxGame.SCREEN_HEIGHT;
-		float r = (ed.r/BaseSize.x)*MyGdxGame.SCREEN_WIDTH;
+		float x = ed.x*Constants.WORLD_TO_BOX;
+		float y = ed.y*Constants.WORLD_TO_BOX;
+		float w = ed.w*Constants.WORLD_TO_BOX;
+		float h = ed.h*Constants.WORLD_TO_BOX;
+		float r = ed.r*Constants.WORLD_TO_BOX;
 		
 		
 		bodyDef = new BodyDef();
@@ -83,16 +83,16 @@ public final class LevelBuilder {
 		if(ed.shape.equalsIgnoreCase("rect"))
 		{
 			bodyShape = new PolygonShape();
-			((PolygonShape) bodyShape).setAsBox((w*0.5f)*MyGdxGame.WORLD_TO_BOX, h*0.5f*MyGdxGame.WORLD_TO_BOX);
+			((PolygonShape) bodyShape).setAsBox((w*0.5f), h*0.5f);
 		}
 		if(ed.shape.equalsIgnoreCase("circle"))
 		{
 			bodyShape = new CircleShape();
-			bodyShape.setRadius(r * MyGdxGame.WORLD_TO_BOX);
+			bodyShape.setRadius(r);
 		}
 		
-		bodyDef.position.set(x*MyGdxGame.WORLD_TO_BOX, y*MyGdxGame.WORLD_TO_BOX);
-		bodyDef.angle = (float) ((ed.angle)*MyGdxGame.DEGTORAD);
+		bodyDef.position.set(x, y);
+		bodyDef.angle = (float) ((ed.angle)*Constants.DEGTORAD);
 		bodyDef.fixedRotation = true;
 		
 		fixtureDef = new FixtureDef();
@@ -120,7 +120,7 @@ public final class LevelBuilder {
 		Body circleBody = world.createBody(circleDef);
 
 		CircleShape circleShape = new CircleShape(); 
-		circleShape.setRadius(5 * MyGdxGame.WORLD_TO_BOX);
+		circleShape.setRadius(5*Constants.WORLD_TO_BOX);
 
 		FixtureDef circleFixture = new FixtureDef(); 
 		circleFixture.shape = circleShape; 

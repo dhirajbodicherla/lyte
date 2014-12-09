@@ -1,17 +1,17 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Application;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 
 public class LightPhysics extends Game{
-	
-	GameScreen gameScreen;
 
 	@Override
 	public void create() {
-		// TODO Auto-generated method stub
-		gameScreen = new GameScreen(this);
-		
-		this.setScreen(gameScreen);
+		Gdx.app.setLogLevel(Application.LOG_DEBUG);
+		Assets.instance.init(new AssetManager());
+		setScreen(new MenuScreen(this));
 	}
 
 }

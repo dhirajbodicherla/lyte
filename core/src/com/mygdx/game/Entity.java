@@ -1,47 +1,69 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
 public class Entity {
-	private String id;
-	private Vector2 pos; 
-	private Vector2 size;
-	private float angle; 
-	private Body physicsBody;
-	private String type;
-	private float radius;
-	private int fixedRotation;
-	private int fixedPosition;
+	protected int id;
+	protected String name;
+	protected Vector2 pos; 			//Maintain position in pixels
+	protected Vector2 size;			//Maintain size in pixels
+	protected float angle; 
+	protected Body physicsBody;
+	protected String type;
+	protected float ir;				//Maintain influence radius in pixels
+	protected float radius;			//Maintain radius in pixels
+	protected int fixedRotation;
+	protected int fixedPosition;
+	
+	public Vector2 origin;
+	public Vector2 dimension;
+	public Vector2 scale;
 	
 	
-	public Entity(EntityDef ed)
+	public Entity(EntityDef ed, int index)	//index is the value at the arraylist
 	{
-		this.id = ed.id;
+		this.name = ed.name;
 		this.pos = new Vector2(ed.x, ed.y);
 		this.size = new Vector2(ed.w, ed.h);
 		this.radius = ed.r;
+		this.setIr(ed.ir);
 		this.angle = ed.angle;
 		this.fixedPosition = ed.fixedPosition;
 		this.fixedRotation = ed.fixedRotation;
+		this.origin = new Vector2(0,0);
+		this.dimension = new Vector2(1,1);
+		this.scale = new Vector2(1,1);
 	}
 	
 	public void update()
 	{
 		//update position and angle
+		this.pos.x = this.physicsBody.getPosition().x * Constants.BOX_TO_WORLD;
+		this.pos.y = this.physicsBody.getPosition().y * Constants.BOX_TO_WORLD;
+		this.angle = this.physicsBody.getAngle();
 	}
-	
-	public void render()
+	public void render(SpriteBatch sb)
 	{
 		//render textures and lights
 	}
 	
-	public String getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
+	
+	public int getName() {
+		return id;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	
 	public Vector2 getPos() {
 		return pos;
 	}
@@ -97,6 +119,14 @@ public class Entity {
 
 	public void setFixedPosition(int fixedPosition) {
 		this.fixedPosition = fixedPosition;
+	}
+
+	public float getIr() {
+		return ir;
+	}
+
+	public void setIr(float ir) {
+		this.ir = ir;
 	}
 	
 }

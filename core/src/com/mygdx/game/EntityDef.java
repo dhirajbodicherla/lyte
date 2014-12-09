@@ -3,7 +3,7 @@ package com.mygdx.game;
 
 
 public class EntityDef {
-	public String id;
+	public String name;
 	public String type; 
 	public String shape;
 	public int fixedRotation;	//1 - true, 0 - false;

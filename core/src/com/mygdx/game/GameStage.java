@@ -1,8 +1,262 @@
 package com.mygdx.game;
 
+import java.util.ArrayList;
+
+import box2dLight.RayHandler;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.Manifold;
+import com.badlogic.gdx.physics.box2d.QueryCallback;
+import com.badlogic.gdx.physics.box2d.Shape;
+import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.joints.MouseJoint;
+import com.badlogic.gdx.physics.box2d.joints.MouseJointDef;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public class GameStage extends Stage implements InputProcessor{
+	
+	public static float SCREEN_WIDTH, SCREEN_HEIGHT;
+	private OrthographicCamera camera; 
+	private SpriteBatch batch;
+	
+	/* Box2d Stuff */ 
+	World world; 
+	Box2DDebugRenderer renderer;
+	
+	private int inputMode;			//1. Shoot 2. Drag body 3. Change Angle
+	boolean isMouseDown;
+	float rotAngle;
+	
+	Vector3 mouse;
+	
+	//Mouse Joint
+	private MouseJoint mJoint;
+	private Body virtualBody; 	//Virtual ground body for the mouseJoint
+	private Body hitBody;
+	private Vector3 tmp;
+	private Vector2 tmp2;
+	
+	private Level m_level; 
+	
+	
+	public GameStage()
+	{
+		this.init();
+	}
+	
+	public void initWorld()
+	{
+		world = new World(new Vector2(0.0f, 0.0f), false);
+		renderer = new Box2DDebugRenderer();
+		Vector2 screenSize = new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		m_level = new Level("data/level.js", world, screenSize);
+	}
+	
+	public void setupCamera()
+	{
+		camera = new OrthographicCamera();	//Defaults to screen size
+		camera.setToOrtho(false);
+	}
+	
+	public void initRendering()
+	{
+		//Init Rendering Batch
+		batch = new SpriteBatch();
+	}
+	
+	public void initInteractivity()
+	{
+		mouse = new Vector3();
+		
+		inputMode = 2;		//Start with drag
+		//Initialize Mouse Joints
+		virtualBody = world.createBody(new BodyDef());
+		
+		tmp = new Vector3();
+		tmp2 = new Vector2();
+		
+		isMouseDown = false;
+		
+		rotAngle = 0;
+	}
 
+
+	public void init()
+	{
+		initWorld();
+		setupCamera();
+		initRendering();
+		initInteractivity();
+		
+	}
+	
+
+	public void rotateBody()
+	{
+		if(hitBody!=null&& ((Entity)hitBody.getUserData()).getFixedRotation()!=0){
+			hitBody.setTransform(hitBody.getWorldCenter(), rotAngle);
+			rotAngle+=0.1;
+		}
+	}
+	
+	@Override
+	public boolean keyDown(int keycode) {
+		return false;
+	}
+
+	@Override
+	public boolean keyUp(int keycode) {
+		if(keycode == Input.Keys.R)
+			rotateBody();
+		if(keycode == Input.Keys.D)
+			m_level.destroy();
+		if(keycode == Input.Keys.RIGHT)
+		{
+			m_level.nextLevel();
+		}
+		if(keycode == Input.Keys.LEFT)
+		{
+			m_level.prevLevel();
+		}
+		
+		return false;
+	}
+	
+	private QueryCallback queryCallBack = new QueryCallback()
+	{
+		public boolean reportFixture(Fixture fixture) {
+			if(fixture.testPoint(tmp.x, tmp.y)){
+				hitBody = fixture.getBody();
+				return true;
+			}
+			else{
+				return false;
+			}
+		}
+	};
+
+	@Override
+	public boolean touchDown(int x, int y, int pointer, int button) 
+	{
+		if(button == Input.Buttons.LEFT){
+			m_level.launchPhoton();
+		}
+		
+		if(button == Input.Buttons.RIGHT){
+			
+			isMouseDown = true;
+			//tmp = unproject(x,y);
+			tmp = new Vector3(x, y, 0);
+			camera.unproject(tmp);
+			hitBody = null;
+			world.QueryAABB(queryCallBack, tmp.x-0.0001f, tmp.y-0.0001f, tmp.x+0.0001f, tmp.y+0.0001f);
+			if(hitBody == virtualBody)hitBody=null;
+			
+			if(hitBody!=null && ((Entity)hitBody.getUserData()).getFixedPosition()!=0)
+			{
+				hitBody.setType(BodyType.DynamicBody);
+				MouseJointDef mJointDef = new MouseJointDef();
+				mJointDef.bodyA = virtualBody;
+				mJointDef.bodyB = hitBody;
+				mJointDef.collideConnected = true;
+				mJointDef.target.set(tmp.x, tmp.y);
+				mJointDef.maxForce = 1000.f * hitBody.getMass();
+				mJoint = (MouseJoint)world.createJoint(mJointDef);
+				hitBody.setAwake(true);
+			}
+			
+		}
+		
+		return false;
+	}
+
+	@Override
+	public boolean touchUp(int x, int y, int pointer, int button) {
+		
+		//mouse = new Vector2(Gdx.input.getX(), Gdx.input.getY());
+		
+		isMouseDown = false;
+		if(mJoint!=null)
+		{
+			hitBody.setType(BodyType.StaticBody);
+			world.destroyJoint(mJoint);
+            mJoint = null;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean touchDragged(int x, int y, int pointer) {
+		
+		if(mJoint!=null){
+			tmp = new Vector3(x, y, 0);
+			camera.unproject(tmp);
+			mJoint.setTarget(tmp2.set(tmp.x,tmp.y));
+		}
+		
+		return false;
+	}
+
+	@Override
+	public boolean mouseMoved(int screenX, int screenY) {
+		mouse.x = screenX;
+		mouse.y = screenY;
+		camera.unproject(mouse);
+		return false;
+	}
+	
+	public void draw()
+	{
+		super.draw();
+		Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1); 	//Black Background
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		
+		camera.update();
+		
+		Matrix4 cameraCopy = camera.combined.cpy();
+		
+		//Render Level here
+		m_level.render(batch);
+		m_level.update(mouse);
+		
+		
+		renderer.render(world, cameraCopy.scl(Constants.BOX_TO_WORLD));
+		world.step(1/60f, 6, 2);
+		update();	//keep checking if the level is solved
+	}
+	
+	public void update()
+	{
+		if(m_level.isSolved)
+		{
+			m_level.nextLevel();
+		}
+	}
+	
+	
+	public void dispose() {
+		world.dispose();
+		m_level.destroy();
+	}
 }

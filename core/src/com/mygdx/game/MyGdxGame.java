@@ -1,7 +1,6 @@
 package com.mygdx.game;
 import java.util.ArrayList;
 
-import box2dLight.PointLight;
 import box2dLight.RayHandler;
 
 import com.badlogic.gdx.ApplicationAdapter;
@@ -15,8 +14,6 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -24,13 +21,12 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.JointDef;
 import com.badlogic.gdx.physics.box2d.QueryCallback;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.MouseJointDef;
 import com.badlogic.gdx.physics.box2d.joints.MouseJoint;
-import com.sun.org.glassfish.external.statistics.annotations.Reset;
+
 
 
 
@@ -67,13 +63,12 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor{
 	private int inputMode;			//1. Shoot 2. Drag body 3. Change Angle 
 	
 	private SpriteBatch batch;
-    private Pixmap pixmap;
-    private Texture texture;
-    private Sprite sprite;
+    
 	
 	/* Box2d Stuff */ 
 	World world; 
 	Box2DDebugRenderer renderer;
+	RayHandler handler;
 	
 	//Level Stuff
 	int currentLevel;
@@ -82,12 +77,12 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor{
 	//Game Elements
 	private Entity mTarget;
 	private Entity mSource;
-	private ArrayList<Entity> mBlackholes;
-	private ArrayList<Entity> mAsteroids;
-	private ArrayList<Entity> mMirrors;
+	private ArrayList<BlackHole> mBlackholes;
+	private ArrayList<Asteroid> mAsteroids;
+	private ArrayList<Mirror> mMirrors;
 	
 	//Light Photons
-	private ArrayList<Body> mPhotons;
+	private ArrayList<Photon> mPhotons;
 	
 	//Mouse Direction
 	float dx;
@@ -115,20 +110,7 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor{
 	
 	@Override
 	public void create () {
-		batch = new SpriteBatch();
-		pixmap = new Pixmap(50, 50, Pixmap.Format.RGBA8888);
 		
-		//fill it with white
-		pixmap.setColor(Color.WHITE);
-		//pixmap.fill();
-		pixmap.drawCircle(pixmap.getWidth()/2, pixmap.getHeight()/2, pixmap.getHeight()/2 - 1);
-		
-        texture = new Texture(pixmap);
-        
-        pixmap.dispose();
-        
-        sprite = new Sprite(texture);
-        
 		initGame();	
 		createLevel();
 	}
@@ -147,6 +129,9 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor{
 		SCREEN_HEIGHT = 600;
 		Gdx.graphics.setDisplayMode(800, 600,false);
 		
+		//Init Rendering Batch
+		batch = new SpriteBatch();
+		
 		//Init Camera
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false);
@@ -154,7 +139,7 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor{
 		//Init Physics World and Debug
 		world = new World(new Vector2(0.0f, 0.0f), false);
 		renderer = new Box2DDebugRenderer();
-		
+		handler = new RayHandler(world);
 		
 		
 		
@@ -163,10 +148,10 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor{
 		mLevels= LevelBuilder.ParseFile("data/level.js");
 		mTarget = null;
 		mSource = null;
-		mBlackholes = new ArrayList<Entity>();
-		mAsteroids = new ArrayList<Entity>();
-		mMirrors = new ArrayList<Entity>();
-		mPhotons = new ArrayList<Body>();
+		mBlackholes = new ArrayList<BlackHole>();
+		mAsteroids = new ArrayList<Asteroid>();
+		mMirrors = new ArrayList<Mirror>();
+		mPhotons = new ArrayList<Photon>();
 		
 		//Initialize Mouse Joints
 		virtualBody = world.createBody(new BodyDef());
@@ -206,7 +191,7 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor{
 			for(int i = 0 ; i < numMirrors; i++)
 			{
 				EntityDef ed = ld.mMirrors.get(i);
-				Entity e = new Entity(ed);
+				Mirror e = new Mirror(ed);
 				e.setPhysicsBody(LevelBuilder.createPhysicsBody(ed, e, bs,world));
 				mMirrors.add(e);
 			}
@@ -214,16 +199,20 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor{
 			for(int i = 0 ; i < numAsteroids; i++)
 			{
 				EntityDef ed = ld.mAsteroids.get(i);
-				Entity e = new Entity(ed);
-				e.setPhysicsBody(LevelBuilder.createPhysicsBody(ed, e, bs,world));
+				Asteroid e = new Asteroid(ed);
+				Body b = LevelBuilder.createPhysicsBody(ed, e, bs,world);
+				e.setPhysicsBody(b);
 				mAsteroids.add(e);
 			}
 			
 			for(int i = 0 ; i < numBlackholes; i++)
 			{
 				EntityDef ed = ld.mBlackholes.get(i);
-				Entity e = new Entity(ed);
-				e.setPhysicsBody(LevelBuilder.createPhysicsBody(ed, e, bs,world));
+				BlackHole e = new BlackHole(ed);
+				Body b = LevelBuilder.createPhysicsBody(ed, e, bs,world);
+				b.setAngularVelocity(0.5f);
+				b.setAngularDamping(0.f);
+				e.setPhysicsBody(b);
 				mBlackholes.add(e);
 			}
 			
@@ -259,7 +248,7 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor{
 			}
 			for(int i = 0 ; i < numPhotons; i++)
 			{
-				Body b = mPhotons.get(i);
+				Body b = mPhotons.get(i).getPhysicsBody();
 				world.destroyBody(b);
 			}
 			
@@ -278,19 +267,34 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor{
 	
 	@Override
 	public void render () {
-		Gdx.gl.glClearColor(0, 0, 0, 1); 	//Black Background
+		Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1); 	//Black Background
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		camera.update();
 		
 		Matrix4 cameraCopy = camera.combined.cpy();
+		
+		for(BlackHole b : mBlackholes )
+		{b.render(batch);}
+		
+		for(Photon p : mPhotons )
+		{p.render(batch);}
+		
+		for(Mirror m : mMirrors)
+		{m.render(batch);}
+		
+		for(Asteroid a : mAsteroids)
+		{a.render(batch);}
 	
 		renderer.render(world, cameraCopy.scl(BOX_TO_WORLD));
+		//handler.updateAndRender();
 		
-		batch.begin();
-        sprite.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
+		/*batch.begin();
+		sprite.setPosition(100, 470);
         sprite.draw(batch);
-        batch.end();
+		batch.end();*/
+		
+		
 		
 		//rayHandler.updateAndRender();
 		world.step(1/60f, 6, 2);
@@ -334,8 +338,17 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor{
 			Vector2 dir = new Vector2(dx*WORLD_TO_BOX*fireRadius, dy*WORLD_TO_BOX*fireRadius);
 			Vector2 firePoint = dir.add(mSource.getPhysicsBody().getWorldCenter());
 			Body circleBody = LevelBuilder.createPhysicsBody(firePoint, world);
-			circleBody.applyLinearImpulse(dx*WORLD_TO_BOX, dy*WORLD_TO_BOX, circleBody.getWorldCenter().x, circleBody.getWorldCenter().y, true);
-			mPhotons.add(circleBody);
+			
+			
+			EntityDef ed = new EntityDef();
+			ed.x = circleBody.getWorldCenter().x * Constants.BOX_TO_WORLD;
+			ed.y = circleBody.getWorldCenter().y * Constants.BOX_TO_WORLD;
+			ed.r = 5;
+			Photon p = new Photon(ed);
+			p.setPhysicsBody(circleBody);
+			p.getPhysicsBody().applyLinearImpulse(dx*WORLD_TO_BOX, dy*WORLD_TO_BOX, circleBody.getWorldCenter().x, circleBody.getWorldCenter().y, true);
+			mPhotons.add(p);
+			
 		}
 	}
 	
@@ -345,22 +358,23 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor{
 		{
 			for(int i = 0 ; i < mPhotons.size() ; i++)
 			{
-				Vector2 bulletPos = mPhotons.get(i).getWorldCenter();
+				Vector2 bulletPos = mPhotons.get(i).getPhysicsBody().getWorldCenter();
 				for(int j = 0 ; j < mBlackholes.size() ;j++)
 				{
 					Shape planetShape = mBlackholes.get(j).getPhysicsBody().getFixtureList().get(0).getShape();
 					float planetRadius = planetShape.getRadius();
+					float planetInfluenceRadius = mBlackholes.get(j).getIr() * Constants.WORLD_TO_BOX;
 					Vector2 planetPosition = mBlackholes.get(j).getPhysicsBody().getWorldCenter();
 					Vector2 planetDistance = new Vector2(0,0);
 					planetDistance.add(bulletPos);
 					planetDistance.sub(planetPosition);
 					float finalDistance = planetDistance.len();
-					if(finalDistance <= planetRadius*10.f)
+					if(finalDistance <= planetInfluenceRadius)
 					{
 						planetDistance.scl(-1.f);
 						float vecSum = Math.abs(planetDistance.x) + Math.abs(planetDistance.y);
-						planetDistance.scl(0.5f*(1/vecSum)*planetRadius / finalDistance);
-						mPhotons.get(i).applyForce(planetDistance, mPhotons.get(i).getWorldCenter(),true);
+						planetDistance.scl(0.3f*(1/vecSum)*planetRadius / finalDistance);
+						mPhotons.get(i).getPhysicsBody().applyForce(planetDistance, mPhotons.get(i).getPhysicsBody().getWorldCenter(),true);
 					}
 					
 				}
