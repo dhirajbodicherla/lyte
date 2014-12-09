@@ -31,8 +31,7 @@ public class HUDStage extends Stage
 	
 	public void init()
 	{
-		
-		
+
 		atlas = new TextureAtlas(Gdx.files.internal("data/ui/HUD.pack"));
 		skin = new Skin(atlas);
 		table = new Table(skin);

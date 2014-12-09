@@ -28,6 +28,7 @@ public class GameScreen extends AbstractGameScreen{
 		
 		gameStage.draw();
 		hud.render();
+		
 	}
 
 	@Override

@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -10,7 +11,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 public class MenuScreen extends AbstractGameScreen {
 
@@ -18,110 +23,122 @@ public class MenuScreen extends AbstractGameScreen {
 	private Skin skinCanyonBunny;
 
 	private static final String TAG = MenuScreen.class.getName();
-	private Button btnMenuPlay;
+	
 
 	private Image imgBackground;
 	private Image imgLogo;
 
-	// debug
+	/*// debug
 	private final float DEBUG_REBUILD_INTERVAL = 5.0f;
 	private boolean debugEnabled = false;
-	private float debugRebuildStage;
+	private float debugRebuildStage;*/
+	
+	
+	private Skin skin; 
+	private TextureAtlas atlas;
 
 	public MenuScreen(LightPhysics game) {
 		super(game);
+		
+		stage = new Stage();
+		Gdx.input.setInputProcessor(stage);
+		init();
+	}
+	
+	public void init()
+	{
+		atlas = new TextureAtlas(Gdx.files.internal("data/ui/Menu.pack"));
+		skin = new Skin(atlas);
+		buildStage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}
 
 	@Override
 	public void render(float deltaTime) {
 		Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		// if (Gdx.input.isTouched())
-		// game.setScreen(new GameScreen(game));
-		if (debugEnabled) {
-			debugRebuildStage -= deltaTime;
-			if (debugRebuildStage <= 0) {
-				debugRebuildStage = DEBUG_REBUILD_INTERVAL;
-				rebuildStage();
-			}
-		}
+		
 		stage.act(deltaTime);
 		stage.draw();
-		// Table.drawDebug(stage);
+		
 	}
 
-	private void rebuildStage() {
+	private Table buildForeground(float stageW, float stageH) {
+		Table layer = new Table();
+		float w = (skin.getDrawable("PlayUp").getMinWidth() / 640) * stageW;
+		float h = (skin.getDrawable("PlayUp").getMinHeight() / 480) * stageH;
+		
+		Drawable PlayUp = skin.getDrawable("PlayUp");
+		Drawable PlayDown = skin.getDrawable("PlayDown");
+		Drawable OptUp = skin.getDrawable("OptUp");
+		Drawable OptDown= skin.getDrawable("OptDown");
+		BitmapFont black = new BitmapFont();
+		
+		PlayUp.setMinWidth(w);
+		PlayUp.setMinHeight(h);
+		PlayDown.setMinWidth(w);
+		PlayDown.setMinHeight(h);
+		OptUp.setMinWidth(w);
+		OptUp.setMinHeight(h);
+		OptDown.setMinWidth(w);
+		OptDown.setMinHeight(h);
+		
+		TextButtonStyle playButtonStyle = new TextButtonStyle();
+		playButtonStyle.up = PlayUp;
+		playButtonStyle.down = PlayDown;
+		playButtonStyle.pressedOffsetX = 1;
+		playButtonStyle.pressedOffsetY = -1;
+		playButtonStyle.font = black;
+		
+		TextButtonStyle optButtonStyle = new TextButtonStyle();
+		optButtonStyle.up = OptUp;
+		optButtonStyle.down = OptDown;
+		optButtonStyle.pressedOffsetX = 1;
+		optButtonStyle.pressedOffsetY = -1;
+		optButtonStyle.font = black;
+		
+		TextButton playBtn = new TextButton("", playButtonStyle);
+		TextButton optBtn = new TextButton("", optButtonStyle);
+		
+		
+		Image logo = new Image(skin, "Logo");
+		
+		layer.setBounds(0, 0, stageW, stageH);
+		layer.align(Align.center);
+		layer.add(logo).padBottom(0.3f*stageH);
+		layer.row();
+		layer.add(playBtn).padBottom(0.02f*stageH);
+		layer.row();
+		layer.add(optBtn);
+		
+		
+		return layer;
+	}
+	
+	private void buildStage(float stageW, float stageH) {
+		
+		
+		Table foreground = buildForeground(stageW, stageH);
+		Table background = buildBackground(stageW, stageH);
 
-//		int width = Gdx.graphics.getWidth();
-//		int height = Gdx.graphics.getHeight(); 
-		skinCanyonBunny = new Skin( Gdx.files.internal(Constants.SKIN_CANYONBUNNY_UI), new TextureAtlas(Constants.TEXTURE_ATLAS_UI));
-		//
-		Table layerBackground = buildBackgroundLayer();
-		Table layerControls = buildControlsLayer();
-		// Table layerLogo = buildLogosLayer();
-		// Table layerOptionsWindow = buildOptionsWindowLayer();
-		//
-		// // assemble stage for menu screen
 		stage.clear();
 		Stack stack = new Stack();
 		stage.addActor(stack);
-		stack.setSize(Constants.VIEWPORT_GUI_WIDTH, Constants.VIEWPORT_GUI_HEIGHT);
-		stack.add(layerBackground);
-		stack.add(layerControls);
-		// stack.add(layerLogo);
-		// stack.add(layerObjects);
-		// stack.add(layerLogos);
-		// stage.addActor(layerOptionsWindow);
+		stack.setSize(stageW, stageH);
+		stack.add(background);
+		stack.add(foreground);
+		
 	}
 
-	private Table buildBackgroundLayer() {
+	private Table buildBackground(float stageW, float stageH) {
 		Table layer = new Table();
-		// + Background
-		 imgBackground = new Image(skinCanyonBunny, "bg");
+		 imgBackground = new Image(skin, "MenuBackground");
+		 imgBackground.setBounds(0, 0, stageW, stageH);
 		 layer.add(imgBackground);
-		return layer;
+		
+		 return layer;
 	}
 
-	private Table buildControlsLayer() {
-		Table layer = new Table();
-		layer.right().top();
-		// + Play Button
-		btnMenuPlay = new Button(skinCanyonBunny, "play");
-		layer.add(btnMenuPlay);
-//		btnMenuPlay.addListener(new InputListener() {
-//			public void changed(ChangeEvent event, Actor actor) {
-//				onPlayClicked();
-//			}
-//		});
-		btnMenuPlay.addListener(new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				game.setScreen(new GameScreen(game));
-			}
-		});
-		layer.row();
-
-		// if (debugEnabled)
-//		layer.debug();
-		return layer;
-	}
-
-	private Table buildOptionsWindowLayer() {
-		Table layer = new Table();
-		return layer;
-	}
-
-	private Table buildLogosLayer() {
-		/* make logo better later */
-		Table layer = new Table();
-		layer.left().top();
-		// + Game Logo
-		imgLogo = new Image(skinCanyonBunny, "logo");
-		layer.add(imgLogo);
-		layer.row().expandY();
-
-		return layer;
-	}
+	
 
 	@Override
 	public void resize(int width, int height) {
@@ -131,15 +148,13 @@ public class MenuScreen extends AbstractGameScreen {
 
 	@Override
 	public void show() {
-		stage = new Stage();
-		Gdx.input.setInputProcessor(stage);
-		rebuildStage();
+		
 	}
 
 	@Override
 	public void hide() {
 		stage.dispose();
-		skinCanyonBunny.dispose();
+		skin.dispose();
 	}
 
 	@Override

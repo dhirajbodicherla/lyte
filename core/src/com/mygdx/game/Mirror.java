@@ -14,7 +14,11 @@ public class Mirror extends Entity{
 	private TextureRegion regMirror;
 	Pixmap pix;
 	Texture tex;
+	Texture selection; 
 	private Sprite sprite;
+	
+	private boolean isSelected;
+	
 	
 	public Mirror(EntityDef ed, int index){
 		super(ed, index);
@@ -35,6 +39,7 @@ public class Mirror extends Entity{
 		pix.drawRectangle(0, 0, x, y);
 		tex = new Texture(pix);
 		sprite = new Sprite(tex);
+		isSelected = false;
 		pix.dispose();
 		
 	}

@@ -77,12 +77,15 @@ public class GameStage extends Stage implements InputProcessor{
 	{
 		camera = new OrthographicCamera();	//Defaults to screen size
 		camera.setToOrtho(false);
+		camera.update();
 	}
 	
 	public void initRendering()
 	{
 		//Init Rendering Batch
 		batch = new SpriteBatch();
+		batch.setProjectionMatrix(camera.combined);
+		
 	}
 	
 	public void initInteractivity()
