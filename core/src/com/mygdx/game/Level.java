@@ -27,6 +27,7 @@ public class Level implements ContactListener{
 	//level over? 
 	public boolean isSolved;	//initially set to false
 	
+	
 	//Number of photons hits
 	int photonCount;
 	
@@ -34,6 +35,9 @@ public class Level implements ContactListener{
 	//2 - running
 	//3 - destroyed
 	int gameState;
+	
+	//current Rotatable Body
+	Body SelectedBody;
 	
 	private Vector2 SCREEN;
 	
@@ -126,6 +130,7 @@ public class Level implements ContactListener{
 		currentLevel = 0;			//Levels always start with 0
 		mTarget = null;
 		mSource = null;
+		SelectedBody = null;
 		mBlackholes = new ArrayList<BlackHole>();
 		mAsteroids = new ArrayList<Asteroid>();
 		mMirrors = new ArrayList<Mirror>();
@@ -255,6 +260,25 @@ public class Level implements ContactListener{
 		}
 	}
 
+	public void clockwiseRotate()
+	{
+		if(SelectedBody!=null && ((Entity)SelectedBody.getUserData()).getFixedRotation()!=0){
+			float currentRotation = SelectedBody.getAngle();
+			currentRotation-=0.1f;
+			SelectedBody.setTransform(SelectedBody.getWorldCenter(), currentRotation);
+		}
+	}
+	
+	public void antiClockWiseRotate()
+	{
+		if(SelectedBody!=null && ((Entity)SelectedBody.getUserData()).getFixedRotation()!=0){
+			float currentRotation = SelectedBody.getAngle();
+			currentRotation+=0.1f;
+			SelectedBody.setTransform(SelectedBody.getWorldCenter(), currentRotation);
+		}
+	}
+	
+	
 	public void TrackMouse(Vector3 mouse)
 	{
 		if(gameState == 2)
@@ -269,6 +293,16 @@ public class Level implements ContactListener{
 			mSource.getPhysicsBody().setTransform(mSource.getPhysicsBody().getWorldCenter(), angle);
 		}
 	}
+	
+	public void setSelectedBody(Body b)
+	{
+		SelectedBody = b;
+	}
+	public Body getSelectedBody()
+	{
+		return SelectedBody;
+	}
+	
 	public void blackHoleInfluence() {
 		if(gameState==2)
 		{

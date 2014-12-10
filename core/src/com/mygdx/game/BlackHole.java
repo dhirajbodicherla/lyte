@@ -33,13 +33,13 @@ public class BlackHole extends Entity{
 		
 		pix.setColor(blue);
 		//influence circle
-		pix.drawCircle(x, y, (int)((ir+3)));
+		
 		pix.drawCircle(x, y, (int)((ir-2)));
 		pix.drawCircle(x, y, (int)((ir-1)));
 		pix.drawCircle(x, y, (int)((ir+0)));
 		pix.drawCircle(x, y, (int)((ir+1)));
 		pix.drawCircle(x, y, (int)((ir+2)));
-		pix.drawCircle(x, y, (int)((ir+3)));
+		
 		
 		pix.setColor(yellow);
 		//actual body

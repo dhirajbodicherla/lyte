@@ -14,8 +14,10 @@ public class Mirror extends Entity{
 	private TextureRegion regMirror;
 	
 	Texture tex;
-	Texture selection; 
+	Texture selection;
+	Texture type_tex;
 	private Sprite sprite;
+	private Sprite type;	//if rotatable - set to green, if movable set to blue, if both set to white
 	private Sprite select;
 	
 	public boolean isSelected;
@@ -28,13 +30,17 @@ public class Mirror extends Entity{
 	
 	private void init(){
 		//regMirror = Assets.instance.mirror.mirror;
-		origin.set(size.x, size.y);
+		//origin.set(size.x, size.y);
 		Pixmap pix = new Pixmap((int)(this.size.x), 
 				         (int)(this.size.y), 
 				         Pixmap.Format.RGBA8888);
 		
 		
 		Pixmap pSelection= new Pixmap((int)(this.size.x+10), 
+		         (int)(this.size.y+10), 
+		         Pixmap.Format.RGBA8888);
+		
+		Pixmap pType = new Pixmap((int)(this.size.x+10), 
 		         (int)(this.size.y+10), 
 		         Pixmap.Format.RGBA8888);
 		
@@ -50,15 +56,39 @@ public class Mirror extends Entity{
 		pSelection.setColor(Color.YELLOW);
 		pSelection.drawRectangle(0, 0, x2, y2);
 		
+		if(fixedPosition!=0)
+		{
+			pType.setColor(Color.BLUE);
+			pType.drawRectangle(0, 0, x2, y2);
+		}
+		if(fixedRotation!=0)
+		{
+			pType.setColor(Color.GREEN);
+			pType.drawRectangle(0, 0, x2, y2);
+		}
+		
+		if(fixedPosition!=0 && fixedRotation!=0)
+		{
+			pType.setColor(Color.WHITE);
+			pType.drawRectangle(0, 0, x2, y2);
+		}
+		
+		
+		
 		Pixmap blurSel = BlurUtils.blur(pSelection, 2, 2, true);
+		Pixmap blurType = BlurUtils.blur(pType, 2, 2, true);
 		
 		tex = new Texture(pix);
 		selection = new Texture(blurSel);
+		type_tex = new Texture(blurType);
 		
 		sprite = new Sprite(tex);
 		select = new Sprite(selection);
+		type = new Sprite(type_tex);
 		isSelected = false;
 		pix.dispose();
+		blurSel.dispose();
+		blurType.dispose();
 		
 	}
 	
@@ -95,8 +125,15 @@ public class Mirror extends Entity{
 		select.setPosition(x2, y2);
 		select.setRotation(angle*MathUtils.radiansToDegrees);
 		
+		type.setPosition(x2, y2);
+		type.setRotation(angle*MathUtils.radiansToDegrees);
+		
 		if(isSelected)
 			select.draw(sb);
+		
+		if(!isSelected)
+			type.draw(sb);
+		
         sprite.draw(sb);
 		sb.end();
 	}

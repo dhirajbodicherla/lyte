@@ -58,7 +58,7 @@ public class GameStage extends Stage implements InputProcessor, GestureListener{
 	private Vector3 tmp;
 	private Vector2 tmp2;
 	
-	private Level m_level; 
+	public Level m_level; 
 	
 	
 	public GameStage()
@@ -179,6 +179,7 @@ public class GameStage extends Stage implements InputProcessor, GestureListener{
 			hitBody.setType(BodyType.StaticBody);
 			world.destroyJoint(mJoint);
             mJoint = null;
+            hitBody=null;
 		}
 		return false;
 	}
@@ -239,15 +240,27 @@ public class GameStage extends Stage implements InputProcessor, GestureListener{
 
 	@Override
 	public boolean touchDown(float x, float y, int pointer, int button) {
-		// TODO Auto-generated method stub
+		tmp = new Vector3(x, y, 0);
+		camera.unproject(tmp);
+		tmp.scl(Constants.WORLD_TO_BOX);
+		
+		world.QueryAABB(queryCallBack, tmp.x-0.0001f, tmp.y-0.0001f, tmp.x+0.0001f, tmp.y+0.0001f);
+		if(hitBody == virtualBody)hitBody=null;
+		
+		
+		if(hitBody!=null && ((Entity)hitBody.getUserData()).getFixedRotation()!=0)
+		{
+			((Mirror)(hitBody.getUserData())).isSelected = true;
+			m_level.setSelectedBody(hitBody);
+			System.out.println("Selected");
+		}
+		
 		return false;
 	}
 
 	@Override
 	public boolean tap(float x, float y, int count, int button) {
-		if(button == Input.Buttons.LEFT){
-			//m_level.launchPhoton();
-		}
+		
 		return false;
 	}
 

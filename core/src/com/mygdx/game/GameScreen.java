@@ -15,7 +15,7 @@ public class GameScreen extends AbstractGameScreen{
 	{
 		super(g);
 		gameStage = new GameStage();
-		hud = new HUDStage();
+		hud = new HUDStage(gameStage.m_level);
 		InputMultiplexer im = new InputMultiplexer();
 	    GestureDetector gd = new GestureDetector(gameStage);
 		im.addProcessor(gameStage);

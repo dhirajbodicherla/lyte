@@ -5,12 +5,14 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 public class HUDStage extends Stage
@@ -19,13 +21,15 @@ public class HUDStage extends Stage
 	private OrthographicCamera guiCamera;
 	private SpriteBatch batch;
 	
-	private Table table; 
+	private Table top, bottom; 
 	private TextButton pause, replay, start, left, right;
 	private Skin skin; 
 	private TextureAtlas atlas;
+	private Level m_level;
 	
-	public HUDStage()
+	public HUDStage(Level lv)
 	{
+		m_level = lv;
 		init();
 	}
 	
@@ -34,7 +38,8 @@ public class HUDStage extends Stage
 
 		atlas = new TextureAtlas(Gdx.files.internal("data/ui/HUD.pack"));
 		skin = new Skin(atlas);
-		table = new Table(skin);
+		top = new Table(skin);
+		bottom = new Table(skin);
 		BitmapFont black = new BitmapFont();
 		float w = (skin.getDrawable("PauseUp").getMinWidth() / 640) * Gdx.graphics.getWidth() ;
 		float h = (skin.getDrawable("PauseUp").getMinHeight() / 480) * Gdx.graphics.getHeight();
@@ -96,6 +101,25 @@ public class HUDStage extends Stage
 		right = new TextButton("", rightButtonStyle);
 		
 		
+		start.addListener(new ClickListener(){
+			public void clicked(InputEvent event, float x, float y) {
+				m_level.launchPhoton();
+			}
+		});
+		
+		left.addListener(new ClickListener(){
+			public void clicked(InputEvent event, float x, float y) {
+				m_level.antiClockWiseRotate();
+			}
+		});
+		
+		right.addListener(new ClickListener(){
+			public void clicked(InputEvent event, float x, float y) {
+				m_level.clockwiseRotate();
+			}
+		});
+		
+		
 		replay.align(Align.right);
 		pause.align(Align.left);
 		start.align(Align.right);
@@ -103,19 +127,25 @@ public class HUDStage extends Stage
 		left.align(Align.left);
 		
 		//table.setBounds(0,  0.85f*Gdx.graphics.getHeight(), Gdx.graphics.getWidth(), 0.15f*Gdx.graphics.getHeight());
-		//table.setBounds(0, Gdx.graphics.getHeight()-h, Gdx.graphics.getWidth(), h);
-		table.setFillParent(true);
+		top.setBounds(0, Gdx.graphics.getHeight()-h, Gdx.graphics.getWidth(), h);
+		bottom.setBounds(0, 0, Gdx.graphics.getWidth(), h*2);
+//		table.setFillParent(true);
 		//table.align(Align.right);
 		//table.debug();
-		table.add(pause);
-		table.add(replay);
-		table.add(start);
+		top.add(pause).padRight(0.84f*Gdx.graphics.getWidth());
+		top.add(replay);
+		bottom.add();
+		bottom.add();
+		bottom.add(start).padLeft(0.84f*Gdx.graphics.getWidth());
+		bottom.row();
+		bottom.add(left);
+		bottom.add();
+		bottom.add(right).padLeft(0.84f*Gdx.graphics.getWidth());
+		//top.debug();
+		//bottom.debug();
 		
-		table.add(left);
-
-		table.add(right);
-		table.debug();
-		this.addActor(table);
+		this.addActor(top);
+		this.addActor(bottom);
 	}
 	
 	public void render()
