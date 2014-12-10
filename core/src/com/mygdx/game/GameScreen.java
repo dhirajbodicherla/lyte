@@ -11,10 +11,10 @@ public class GameScreen extends AbstractGameScreen{
 	private GameStage gameStage;
 	private HUDStage  hud;
 	
-	public GameScreen(LightPhysics g)
+	public GameScreen(LightPhysics g, int level)
 	{
 		super(g);
-		gameStage = new GameStage();
+		gameStage = new GameStage(level);
 		hud = new HUDStage();
 		InputMultiplexer im = new InputMultiplexer();
 	    GestureDetector gd = new GestureDetector(gameStage);

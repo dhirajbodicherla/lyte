@@ -49,9 +49,10 @@ public class Level implements ContactListener{
 	float dx, dy;
 
 	
-	public Level(String filename, World world, Vector2 s) {
+	public Level(String filename, World world, Vector2 s, int level) {
 		m_world = world;
 		SCREEN = s;
+		currentLevel = level -1 ;			// Levels always start with 0 
 		init(filename);
 		
 	}
@@ -123,7 +124,6 @@ public class Level implements ContactListener{
 	
 	private void setupGameObjects()
 	{
-		currentLevel = 0;			//Levels always start with 0
 		mTarget = null;
 		mSource = null;
 		mBlackholes = new ArrayList<BlackHole>();

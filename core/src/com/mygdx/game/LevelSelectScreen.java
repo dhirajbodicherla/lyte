@@ -17,14 +17,14 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
-public class MenuScreen extends AbstractGameScreen {
+public class LevelSelectScreen extends AbstractGameScreen {
 
 	private Stage stage;
 	private Image imgBackground;
 	private Skin skin; 
 	private TextureAtlas atlas;
 
-	public MenuScreen(LightPhysics game) {
+	public LevelSelectScreen(LightPhysics game) {
 		super(game);
 		
 		stage = new Stage();
@@ -51,6 +51,7 @@ public class MenuScreen extends AbstractGameScreen {
 
 	private Table buildForeground(float stageW, float stageH) {
 		Table layer = new Table();
+		layer.setFillParent(true);
 		float w = (skin.getDrawable("PlayUp").getMinWidth() / 640) * stageW;
 		float h = (skin.getDrawable("PlayUp").getMinHeight() / 480) * stageH;
 		
@@ -83,26 +84,44 @@ public class MenuScreen extends AbstractGameScreen {
 		optButtonStyle.pressedOffsetY = -1;
 		optButtonStyle.font = black;
 		
-		TextButton playBtn = new TextButton("", playButtonStyle);
-		TextButton optBtn = new TextButton("", optButtonStyle);
+		TextButton level1 = new TextButton("Level 1", playButtonStyle);
+		TextButton level2 = new TextButton("Level 2", optButtonStyle);
+		TextButton level3 = new TextButton("Level 3", optButtonStyle);
+		TextButton level4 = new TextButton("Level 4", optButtonStyle);
 		
-		playBtn.addListener(new ClickListener(){
+		level1.addListener(new ClickListener(){
 			public void clicked(InputEvent event, float x, float y) {
-				game.setScreen(new LevelSelectScreen(game));
+				game.setScreen(new GameScreen(game, 1));
+			}
+		});
+		level2.addListener(new ClickListener(){
+			public void clicked(InputEvent event, float x, float y) {
+				game.setScreen(new GameScreen(game, 2));
+			}
+		});
+		level3.addListener(new ClickListener(){
+			public void clicked(InputEvent event, float x, float y) {
+				game.setScreen(new GameScreen(game, 1));
+			}
+		});
+		level4.addListener(new ClickListener(){
+			public void clicked(InputEvent event, float x, float y) {
+				game.setScreen(new GameScreen(game, 2));
 			}
 		});
 		
-		
+		layer.top().left();
 		Image logo = new Image(skin, "Logo");
-		
+//		layer.setDebug(true);
 		layer.setBounds(0, 0, stageW, stageH);
-		layer.align(Align.center);
-		layer.add(logo).padBottom(0.3f*stageH);
-		layer.row();
-		layer.add(playBtn).padBottom(0.02f*stageH);
-		layer.row();
-		layer.add(optBtn);
+//		layer.align(Align.center);
 		
+//		layer.add(logo).padBottom(stageH);
+//		layer.row();
+		layer.add(level1);
+		layer.add(level2).padTop(100.0f);
+		layer.add(level3).padTop(150.0f);
+		layer.add(level4).padTop(200.0f);
 		
 		return layer;
 	}
