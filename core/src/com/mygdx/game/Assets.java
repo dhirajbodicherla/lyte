@@ -89,7 +89,7 @@ public class Assets implements Disposable, AssetErrorListener {
 			Array<AtlasRegion> regions = atlas.findRegions("star");
 			AtlasRegion region = regions.first();
 			regions.insert(0, region);
-			animLaser = new Animation(1.0f / 10.0f, regions, Animation.PlayMode.LOOP);
+			animLaser = new Animation(1.0f / 10.0f, regions, Animation.PlayMode.LOOP_PINGPONG);
 		}
 	}
 	
@@ -102,7 +102,7 @@ public class Assets implements Disposable, AssetErrorListener {
 			Array<AtlasRegion> regions = atlas.findRegions("asteroid");
 			AtlasRegion region = regions.first();
 			regions.insert(0, region);
-			animAsteroid = new Animation(1.0f / 10.0f, regions, Animation.PlayMode.LOOP);
+			animAsteroid = new Animation(1.0f / 40.0f, regions, Animation.PlayMode.LOOP);
 		}
 	}
 	
@@ -115,7 +115,7 @@ public class Assets implements Disposable, AssetErrorListener {
 			Array<AtlasRegion> regions = atlas.findRegions("blackhole");
 			AtlasRegion region = regions.first();
 			regions.insert(0, region);
-			animBlackhole = new Animation(1.0f / 10.0f, regions, Animation.PlayMode.LOOP);
+			animBlackhole = new Animation(1.0f / 5.0f, regions, Animation.PlayMode.LOOP);
 		}
 	}
 	

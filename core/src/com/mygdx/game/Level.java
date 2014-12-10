@@ -53,6 +53,7 @@ public class Level implements GestureListener {
 		mLevels = ParseFile("data/level.js");
 		mSpace = new Space();
 		mSpace.pos.set(-1, -1);
+		mSpace.size.set(100.0f, 100.0f);
 		mTarget = null;
 		mSource = null;
 		mBlackholes = new ArrayList<BlackHole>();

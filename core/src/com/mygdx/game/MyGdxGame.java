@@ -63,6 +63,6 @@ public class MyGdxGame extends Game{
 		// Set Libgdx log level to DEBUG
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
 		Assets.instance.init(new AssetManager());
-		setScreen(new MenuScreen(this));
+		setScreen(new GameScreen(this));
 	}
 }

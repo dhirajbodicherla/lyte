@@ -37,8 +37,8 @@ public class Asteroid extends Entity{
 //		reg = regAsteroid;
 		reg = animation.getKeyFrame(stateTime, true);
 		batch.draw(reg.getTexture(), 
-					pos.x - origin.x, pos.y - origin.y,
-					origin.x*2, origin.y*2,
+					pos.x - 1.0f, pos.y - 1.0f,
+					origin.x, origin.y,
 					radius*2, radius*2, 
 					scale.x, scale.y, 
 					angle,

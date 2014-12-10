@@ -26,7 +26,7 @@ public class Space extends Entity{
 		batch.draw(reg.getTexture(),
 					-30,-30, 
 					origin.x, origin.y, 
-					40, 40, 
+					80, 80, 
 					scale.x, scale.y, 
 					angle,
 					reg.getRegionX(), reg.getRegionY(),

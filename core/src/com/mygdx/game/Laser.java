@@ -42,9 +42,9 @@ public class Laser extends Entity{
 //		reg = regLaser;
 		reg = animation.getKeyFrame(stateTime, true);
 		batch.draw(reg.getTexture(), 
-					pos.x - origin.x, pos.y - origin.y, 
-					origin.x, origin.y, 
-					size.x*2, size.y*2, 
+					pos.x+0.5f, pos.y-0.2f, 
+					origin.x-0.3f, origin.y+0.5f, 
+					size.x, size.y, 
 					scale.x, scale.y, 
 					angle,
 					reg.getRegionX(), reg.getRegionY(),

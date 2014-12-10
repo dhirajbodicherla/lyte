@@ -35,7 +35,7 @@ public class BlackHole extends Entity{
 //		reg = regBlackHole;
 		reg = animation.getKeyFrame(stateTime, true);
 		batch.draw(reg.getTexture(), 
-					pos.x - origin.x, pos.y - origin.y,
+					pos.x - 1.0f, pos.y - 1.0f,
 					origin.x, origin.y, 
 					radius*2, radius*2,
 					scale.x, scale.y, 
