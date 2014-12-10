@@ -175,34 +175,4 @@ public class Assets implements Disposable, AssetErrorListener {
 		}
 	}
 
-	public class AssetFonts {
-		public final BitmapFont defaultSmall;
-		public final BitmapFont defaultNormal;
-		public final BitmapFont defaultBig;
-
-		public AssetFonts() {
-			// create three fonts using Libgdx's 15px bitmap font
-//			defaultSmall = new BitmapFont(
-//					Gdx.files.internal("images/arial-15.fnt"), true);
-//			defaultNormal = new BitmapFont(
-//					Gdx.files.internal("images/arial-15.fnt"), true);
-//			defaultBig = new BitmapFont(
-//					Gdx.files.internal("images/arial-15.fnt"), true);
-//			// set font sizes
-//			defaultSmall.setScale(0.75f);
-//			defaultNormal.setScale(1.0f);
-//			defaultBig.setScale(2.0f);
-//			// enable linear texture filtering for smooth fonts
-//			defaultSmall.getRegion().getTexture()
-//					.setFilter(TextureFilter.Linear, TextureFilter.Linear);
-//			defaultNormal.getRegion().getTexture()
-//					.setFilter(TextureFilter.Linear, TextureFilter.Linear);
-//			defaultBig.getRegion().getTexture()
-//					.setFilter(TextureFilter.Linear, TextureFilter.Linear);
-//			
-			defaultSmall = new BitmapFont();
-			defaultNormal = new BitmapFont();
-			defaultBig = new BitmapFont();
-		}
-	}
 }

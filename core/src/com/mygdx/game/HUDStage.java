@@ -20,7 +20,7 @@ public class HUDStage extends Stage
 	private SpriteBatch batch;
 	
 	private Table table; 
-	private TextButton pause, replay;
+	private TextButton pause, replay, start, left, right;
 	private Skin skin; 
 	private TextureAtlas atlas;
 	
@@ -36,24 +36,26 @@ public class HUDStage extends Stage
 		skin = new Skin(atlas);
 		table = new Table(skin);
 		BitmapFont black = new BitmapFont();
+		float w = (skin.getDrawable("PauseUp").getMinWidth() / 640) * Gdx.graphics.getWidth() ;
+		float h = (skin.getDrawable("PauseUp").getMinHeight() / 480) * Gdx.graphics.getHeight();
 		
 		TextButtonStyle pauseButtonStyle = new TextButtonStyle();
-		float w = (skin.getDrawable("PauseNormal").getMinWidth() / 640) * Gdx.graphics.getWidth() ;
-		float h = (skin.getDrawable("PauseNormal").getMinHeight() / 480) * Gdx.graphics.getHeight();
+		TextButtonStyle replayButtonStyle = new TextButtonStyle();
+		TextButtonStyle startButtonStyle = new TextButtonStyle();
+		TextButtonStyle rightButtonStyle = new TextButtonStyle();
+		TextButtonStyle leftButtonStyle = new TextButtonStyle();
 		
-		Drawable pauseUp = skin.getDrawable("PauseNormal");
+		
+		Drawable pauseUp = skin.getDrawable("PauseUp");
 		Drawable pauseDown = skin.getDrawable("PauseDown");
-		Drawable replayUp = skin.getDrawable("ReplayNormal");
+		Drawable replayUp = skin.getDrawable("ReplayUp");
 		Drawable replayDown= skin.getDrawable("ReplayDown");
-		
-		pauseUp.setMinWidth(w*0.5f);
-		pauseUp.setMinHeight(h*0.5f);
-		pauseDown.setMinWidth(w*0.5f);
-		pauseDown.setMinHeight(h*0.5f);
-		replayUp.setMinWidth(w*0.5f);
-		replayUp.setMinHeight(h*0.5f);
-		replayDown.setMinWidth(w*0.5f);
-		replayDown.setMinHeight(h*0.5f);
+		Drawable startUp = skin.getDrawable("StartUp");
+		Drawable startDown = skin.getDrawable("StartDown");
+		Drawable leftUp = skin.getDrawable("LeftUp");
+		Drawable leftDown= skin.getDrawable("LeftDown");
+		Drawable rightUp = skin.getDrawable("RightUp");
+		Drawable rightDown = skin.getDrawable("RightDown");
 		
 		
 		pauseButtonStyle.up = pauseUp;
@@ -62,25 +64,57 @@ public class HUDStage extends Stage
 		pauseButtonStyle.pressedOffsetY = -1;
 		pauseButtonStyle.font = black;
 		
-		pause = new TextButton("", pauseButtonStyle);
-		
-		TextButtonStyle replayButtonStyle = new TextButtonStyle();
 		replayButtonStyle.up = replayUp;
 		replayButtonStyle.down = replayDown;
 		replayButtonStyle.pressedOffsetX = 1;
 		replayButtonStyle.pressedOffsetY = -1;
 		replayButtonStyle.font = black;
 		
+		startButtonStyle.up = startUp;
+		startButtonStyle.down = startDown;
+		startButtonStyle.pressedOffsetX = 1;
+		startButtonStyle.pressedOffsetY = -1;
+		startButtonStyle.font = black;
+		
+		leftButtonStyle.up = leftUp;
+		leftButtonStyle.down = leftDown;
+		leftButtonStyle.pressedOffsetX = 1;
+		leftButtonStyle.pressedOffsetY = -1;
+		leftButtonStyle.font = black;
+		
+		rightButtonStyle.up = rightUp;
+		rightButtonStyle.down = rightDown;
+		rightButtonStyle.pressedOffsetX = 1;
+		rightButtonStyle.pressedOffsetY = -1;
+		rightButtonStyle.font = black;
+		
 		
 		replay = new TextButton("", replayButtonStyle);
+		pause = new TextButton("", pauseButtonStyle);
+		start = new TextButton("", startButtonStyle);
+		left = new TextButton("", leftButtonStyle);
+		right = new TextButton("", rightButtonStyle);
 		
 		
-		table.setBounds(0,  0.85f*Gdx.graphics.getHeight(), Gdx.graphics.getWidth(), 0.15f*Gdx.graphics.getHeight());
-		table.align(Align.right);
+		replay.align(Align.right);
+		pause.align(Align.left);
+		start.align(Align.right);
+		right.align(Align.right);
+		left.align(Align.left);
+		
+		//table.setBounds(0,  0.85f*Gdx.graphics.getHeight(), Gdx.graphics.getWidth(), 0.15f*Gdx.graphics.getHeight());
+		//table.setBounds(0, Gdx.graphics.getHeight()-h, Gdx.graphics.getWidth(), h);
+		table.setFillParent(true);
+		//table.align(Align.right);
 		//table.debug();
-		table.row();
-		table.add(replay);
 		table.add(pause);
+		table.add(replay);
+		table.add(start);
+		
+		table.add(left);
+
+		table.add(right);
+		table.debug();
 		this.addActor(table);
 	}
 	

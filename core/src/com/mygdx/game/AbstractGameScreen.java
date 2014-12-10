@@ -21,10 +21,10 @@ public abstract class AbstractGameScreen implements Screen {
 	public abstract void pause();
 
 	public void resume() {
-		 Assets.instance.init(new AssetManager());
+		 //Assets.instance.init(new AssetManager());
 	}
 
 	public void dispose() {
-		 Assets.instance.dispose();
+		 //Assets.instance.dispose();
 	}
 }

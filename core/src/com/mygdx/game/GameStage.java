@@ -246,7 +246,7 @@ public class GameStage extends Stage implements InputProcessor, GestureListener{
 	@Override
 	public boolean tap(float x, float y, int count, int button) {
 		if(button == Input.Buttons.LEFT){
-			m_level.launchPhoton();
+			//m_level.launchPhoton();
 		}
 		return false;
 	}
