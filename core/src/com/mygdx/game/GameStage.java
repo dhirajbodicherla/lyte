@@ -61,17 +61,17 @@ public class GameStage extends Stage implements InputProcessor, GestureListener{
 	public Level m_level; 
 	
 	
-	public GameStage()
+	public GameStage(int level)
 	{
-		this.init();
+		this.init(level);
 	}
 	
-	public void initWorld()
+	public void initWorld(int level)
 	{
 		world = new World(new Vector2(0.0f, 0.0f), false);
 		renderer = new Box2DDebugRenderer();
 		Vector2 screenSize = new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		m_level = new Level("data/level.js", world, screenSize);
+		m_level = new Level("data/level.js", world, screenSize, level);
 	}
 	
 	public void setupCamera()
@@ -106,9 +106,9 @@ public class GameStage extends Stage implements InputProcessor, GestureListener{
 	}
 
 
-	public void init()
+	public void init(int level)
 	{
-		initWorld();
+		initWorld(level);
 		setupCamera();
 		initRendering();
 		initInteractivity();
@@ -260,7 +260,10 @@ public class GameStage extends Stage implements InputProcessor, GestureListener{
 
 	@Override
 	public boolean tap(float x, float y, int count, int button) {
-		
+
+		if(button == Input.Buttons.LEFT){
+			m_level.launchPhoton();
+		}
 		return false;
 	}
 

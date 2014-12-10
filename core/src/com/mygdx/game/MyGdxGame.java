@@ -170,55 +170,55 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor{
 	public void createLevel()
 	{
 		
-		if(gameState!=2)	//If game is initialized or destroyed then it is allowed to create new objects
-		{
-			LevelDef ld = mLevels.list.get(currentLevel);
-			
-			int numMirrors = ld.mMirrors !=null ? ld.mMirrors.size() : 0;
-			int numAsteroids= ld.mAsteroids !=null ? ld.mAsteroids.size() : 0;
-			int numBlackholes = ld.mBlackholes !=null ? ld.mBlackholes.size() : 0;
-			
-			Vector2 bs = new Vector2(ld.mBaseWidth, ld.mBaseHeight);
-			
-			
-			mTarget = new Entity(ld.mTarget); 
-			mTarget.setPhysicsBody(LevelBuilder.createPhysicsBody(ld.mTarget, mTarget, bs, world));
-			
-			mSource = new Entity(ld.mSource); 
-			mSource.setPhysicsBody(LevelBuilder.createPhysicsBody(ld.mSource, mSource, bs,world));
-			
-			
-			for(int i = 0 ; i < numMirrors; i++)
-			{
-				EntityDef ed = ld.mMirrors.get(i);
-				Mirror e = new Mirror(ed);
-				e.setPhysicsBody(LevelBuilder.createPhysicsBody(ed, e, bs,world));
-				mMirrors.add(e);
-			}
-			
-			for(int i = 0 ; i < numAsteroids; i++)
-			{
-				EntityDef ed = ld.mAsteroids.get(i);
-				Asteroid e = new Asteroid(ed);
-				Body b = LevelBuilder.createPhysicsBody(ed, e, bs,world);
-				e.setPhysicsBody(b);
-				mAsteroids.add(e);
-			}
-			
-			for(int i = 0 ; i < numBlackholes; i++)
-			{
-				EntityDef ed = ld.mBlackholes.get(i);
-				BlackHole e = new BlackHole(ed);
-				Body b = LevelBuilder.createPhysicsBody(ed, e, bs,world);
-				b.setAngularVelocity(0.5f);
-				b.setAngularDamping(0.f);
-				e.setPhysicsBody(b);
-				mBlackholes.add(e);
-			}
-			
-			//Define Mouse joint
-			gameState = 2;	//Set Game State to running
-		}		
+//		if(gameState!=2)	//If game is initialized or destroyed then it is allowed to create new objects
+//		{
+//			LevelDef ld = mLevels.list.get(currentLevel);
+//			
+//			int numMirrors = ld.mMirrors !=null ? ld.mMirrors.size() : 0;
+//			int numAsteroids= ld.mAsteroids !=null ? ld.mAsteroids.size() : 0;
+//			int numBlackholes = ld.mBlackholes !=null ? ld.mBlackholes.size() : 0;
+//			
+//			Vector2 bs = new Vector2(ld.mBaseWidth, ld.mBaseHeight);
+//			
+//			
+//			mTarget = new Entity(ld.mTarget); 
+//			mTarget.setPhysicsBody(LevelBuilder.createPhysicsBody(ld.mTarget, mTarget, bs, world));
+//			
+//			mSource = new Entity(ld.mSource); 
+//			mSource.setPhysicsBody(LevelBuilder.createPhysicsBody(ld.mSource, mSource, bs,world));
+//			
+//			
+//			for(int i = 0 ; i < numMirrors; i++)
+//			{
+//				EntityDef ed = ld.mMirrors.get(i);
+//				Mirror e = new Mirror(ed);
+//				e.setPhysicsBody(LevelBuilder.createPhysicsBody(ed, e, bs,world));
+//				mMirrors.add(e);
+//			}
+//			
+//			for(int i = 0 ; i < numAsteroids; i++)
+//			{
+//				EntityDef ed = ld.mAsteroids.get(i);
+//				Asteroid e = new Asteroid(ed);
+//				Body b = LevelBuilder.createPhysicsBody(ed, e, bs,world);
+//				e.setPhysicsBody(b);
+//				mAsteroids.add(e);
+//			}
+//			
+//			for(int i = 0 ; i < numBlackholes; i++)
+//			{
+//				EntityDef ed = ld.mBlackholes.get(i);
+//				BlackHole e = new BlackHole(ed);
+//				Body b = LevelBuilder.createPhysicsBody(ed, e, bs,world);
+//				b.setAngularVelocity(0.5f);
+//				b.setAngularDamping(0.f);
+//				e.setPhysicsBody(b);
+//				mBlackholes.add(e);
+//			}
+//			
+//			//Define Mouse joint
+//			gameState = 2;	//Set Game State to running
+//		}		
 	}
 	
 	public void destroyed()
@@ -344,10 +344,10 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor{
 			ed.x = circleBody.getWorldCenter().x * Constants.BOX_TO_WORLD;
 			ed.y = circleBody.getWorldCenter().y * Constants.BOX_TO_WORLD;
 			ed.r = 5;
-			Photon p = new Photon(ed);
-			p.setPhysicsBody(circleBody);
-			p.getPhysicsBody().applyLinearImpulse(dx*WORLD_TO_BOX, dy*WORLD_TO_BOX, circleBody.getWorldCenter().x, circleBody.getWorldCenter().y, true);
-			mPhotons.add(p);
+//			Photon p = new Photon(ed);
+//			p.setPhysicsBody(circleBody);
+//			p.getPhysicsBody().applyLinearImpulse(dx*WORLD_TO_BOX, dy*WORLD_TO_BOX, circleBody.getWorldCenter().x, circleBody.getWorldCenter().y, true);
+//			mPhotons.add(p);
 			
 		}
 	}

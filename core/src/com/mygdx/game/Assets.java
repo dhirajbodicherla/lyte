@@ -15,7 +15,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 
 public class Assets implements Disposable, AssetErrorListener {
-	public AssetFonts fonts;
+//	public AssetFonts fonts;
 	public AssetMirror mirror;
 	public AssetLaser laser;
 	public AssetAsteroid asteroid;
@@ -54,7 +54,7 @@ public class Assets implements Disposable, AssetErrorListener {
 			t.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 
 		// create game resource objects
-		fonts = new AssetFonts();
+//		fonts = new AssetFonts();
 		mirror = new AssetMirror(atlas);
 		laser = new AssetLaser(atlas);
 		asteroid = new AssetAsteroid(atlas);
@@ -67,9 +67,9 @@ public class Assets implements Disposable, AssetErrorListener {
 	@Override
 	public void dispose() {
 		assetManager.dispose();
-		fonts.defaultSmall.dispose();
-		fonts.defaultNormal.dispose();
-		fonts.defaultBig.dispose();
+//		fonts.defaultSmall.dispose();
+//		fonts.defaultNormal.dispose();
+//		fonts.defaultBig.dispose();
 	}
 
 	public class AssetMirror {
