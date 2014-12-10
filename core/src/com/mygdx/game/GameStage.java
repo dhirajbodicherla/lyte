@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -34,7 +35,7 @@ import com.badlogic.gdx.physics.box2d.joints.MouseJoint;
 import com.badlogic.gdx.physics.box2d.joints.MouseJointDef;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
-public class GameStage extends Stage implements InputProcessor{
+public class GameStage extends Stage implements InputProcessor, GestureListener{
 	
 	public static float SCREEN_WIDTH, SCREEN_HEIGHT;
 	private OrthographicCamera camera; 
@@ -45,7 +46,7 @@ public class GameStage extends Stage implements InputProcessor{
 	Box2DDebugRenderer renderer;
 	
 	private int inputMode;			//1. Shoot 2. Drag body 3. Change Angle
-	boolean isMouseDown;
+//	boolean isMouseDown;
 	float rotAngle;
 	
 	Vector3 mouse;
@@ -99,7 +100,7 @@ public class GameStage extends Stage implements InputProcessor{
 		tmp = new Vector3();
 		tmp2 = new Vector2();
 		
-		isMouseDown = false;
+		//isMouseDown = false;
 		
 		rotAngle = 0;
 	}
@@ -162,34 +163,6 @@ public class GameStage extends Stage implements InputProcessor{
 	@Override
 	public boolean touchDown(int x, int y, int pointer, int button) 
 	{
-		if(button == Input.Buttons.LEFT){
-			m_level.launchPhoton();
-		}
-		
-		if(button == Input.Buttons.RIGHT){
-			
-			isMouseDown = true;
-			//tmp = unproject(x,y);
-			tmp = new Vector3(x, y, 0);
-			camera.unproject(tmp);
-			hitBody = null;
-			world.QueryAABB(queryCallBack, tmp.x-0.0001f, tmp.y-0.0001f, tmp.x+0.0001f, tmp.y+0.0001f);
-			if(hitBody == virtualBody)hitBody=null;
-			
-			if(hitBody!=null && ((Entity)hitBody.getUserData()).getFixedPosition()!=0)
-			{
-				hitBody.setType(BodyType.DynamicBody);
-				MouseJointDef mJointDef = new MouseJointDef();
-				mJointDef.bodyA = virtualBody;
-				mJointDef.bodyB = hitBody;
-				mJointDef.collideConnected = true;
-				mJointDef.target.set(tmp.x, tmp.y);
-				mJointDef.maxForce = 1000.f * hitBody.getMass();
-				mJoint = (MouseJoint)world.createJoint(mJointDef);
-				hitBody.setAwake(true);
-			}
-			
-		}
 		
 		return false;
 	}
@@ -199,9 +172,10 @@ public class GameStage extends Stage implements InputProcessor{
 		
 		//mouse = new Vector2(Gdx.input.getX(), Gdx.input.getY());
 		
-		isMouseDown = false;
+		//isMouseDown = false;
 		if(mJoint!=null)
 		{
+			((Mirror)hitBody.getUserData()).isSelected = false;
 			hitBody.setType(BodyType.StaticBody);
 			world.destroyJoint(mJoint);
             mJoint = null;
@@ -215,9 +189,9 @@ public class GameStage extends Stage implements InputProcessor{
 		if(mJoint!=null){
 			tmp = new Vector3(x, y, 0);
 			camera.unproject(tmp);
+			tmp.scl(Constants.WORLD_TO_BOX);
 			mJoint.setTarget(tmp2.set(tmp.x,tmp.y));
 		}
-		
 		return false;
 	}
 
@@ -262,4 +236,60 @@ public class GameStage extends Stage implements InputProcessor{
 		world.dispose();
 		m_level.destroy();
 	}
+
+	@Override
+	public boolean touchDown(float x, float y, int pointer, int button) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean tap(float x, float y, int count, int button) {
+		if(button == Input.Buttons.LEFT){
+			m_level.launchPhoton();
+		}
+		return false;
+	}
+
+	@Override
+	public boolean longPress(float x, float y) {
+		tmp = new Vector3(x, y, 0);
+		camera.unproject(tmp);
+		tmp.scl(Constants.WORLD_TO_BOX);
+
+		hitBody = null;
+		world.QueryAABB(queryCallBack, tmp.x-0.0001f, tmp.y-0.0001f, tmp.x+0.0001f, tmp.y+0.0001f);
+		if(hitBody == virtualBody)hitBody=null;
+		
+		if(hitBody!=null && ((Entity)hitBody.getUserData()).getFixedPosition()!=0)
+		{
+			hitBody.setType(BodyType.DynamicBody);
+			MouseJointDef mJointDef = new MouseJointDef();
+			mJointDef.bodyA = virtualBody;
+			mJointDef.bodyB = hitBody;
+			mJointDef.collideConnected = true;
+			mJointDef.target.set(tmp.x, tmp.y);
+			mJointDef.maxForce = 1000.f * hitBody.getMass();
+			mJoint = (MouseJoint)world.createJoint(mJointDef);
+			hitBody.setAwake(true);
+			((Mirror)hitBody.getUserData()).isSelected = true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean fling(float velocityX, float velocityY, int button) {return false;}
+
+	@Override
+	public boolean pan(float x, float y, float deltaX, float deltaY) {return false;}
+
+	@Override
+	public boolean panStop(float x, float y, int pointer, int button) {return false;}
+
+	@Override
+	public boolean zoom(float initialDistance, float distance) {return false;}
+
+	@Override
+	public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2,
+			Vector2 pointer1, Vector2 pointer2) {return false;}
 }

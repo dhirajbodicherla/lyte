@@ -20,20 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 public class MenuScreen extends AbstractGameScreen {
 
 	private Stage stage;
-	private Skin skinCanyonBunny;
-
-	private static final String TAG = MenuScreen.class.getName();
-	
-
 	private Image imgBackground;
-	private Image imgLogo;
-
-	/*// debug
-	private final float DEBUG_REBUILD_INTERVAL = 5.0f;
-	private boolean debugEnabled = false;
-	private float debugRebuildStage;*/
-	
-	
 	private Skin skin; 
 	private TextureAtlas atlas;
 
@@ -99,6 +86,12 @@ public class MenuScreen extends AbstractGameScreen {
 		TextButton playBtn = new TextButton("", playButtonStyle);
 		TextButton optBtn = new TextButton("", optButtonStyle);
 		
+		playBtn.addListener(new ClickListener(){
+			public void clicked(InputEvent event, float x, float y) {
+				game.setScreen(new GameScreen(game));
+			}
+		});
+		
 		
 		Image logo = new Image(skin, "Logo");
 		
@@ -115,8 +108,7 @@ public class MenuScreen extends AbstractGameScreen {
 	}
 	
 	private void buildStage(float stageW, float stageH) {
-		
-		
+
 		Table foreground = buildForeground(stageW, stageH);
 		Table background = buildBackground(stageW, stageH);
 

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.input.GestureDetector;
 
 public class GameScreen extends AbstractGameScreen{
 	
@@ -16,7 +17,9 @@ public class GameScreen extends AbstractGameScreen{
 		gameStage = new GameStage();
 		hud = new HUDStage();
 		InputMultiplexer im = new InputMultiplexer();
+	    GestureDetector gd = new GestureDetector(gameStage);
 		im.addProcessor(gameStage);
+		im.addProcessor(gd);
 		im.addProcessor(hud);
 		Gdx.input.setInputProcessor(im);
 	}
