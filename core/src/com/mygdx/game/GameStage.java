@@ -250,7 +250,6 @@ public class GameStage extends Stage implements InputProcessor, GestureListener{
 		
 		if(hitBody!=null && ((Entity)hitBody.getUserData()).getFixedRotation()!=0)
 		{
-			((Mirror)(hitBody.getUserData())).isSelected = true;
 			m_level.setSelectedBody(hitBody);
 			System.out.println("Selected");
 		}

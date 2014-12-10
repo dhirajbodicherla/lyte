@@ -1,0 +1,47 @@
+
+Menu.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+MenuBackground
+  rotate: false
+  xy: 1, 140
+  size: 640, 480
+  orig: 640, 480
+  offset: 0, 0
+  index: -1
+Logo
+  rotate: false
+  xy: 1, 58
+  size: 490, 80
+  orig: 490, 80
+  offset: 0, 0
+  index: -1
+OptDown
+  rotate: false
+  xy: 643, 565
+  size: 130, 55
+  orig: 130, 55
+  offset: 0, 0
+  index: -1
+OptUp
+  rotate: false
+  xy: 1, 1
+  size: 130, 55
+  orig: 130, 55
+  offset: 0, 0
+  index: -1
+PlayDown
+  rotate: false
+  xy: 493, 83
+  size: 130, 55
+  orig: 130, 55
+  offset: 0, 0
+  index: -1
+PlayUp
+  rotate: false
+  xy: 643, 508
+  size: 130, 55
+  orig: 130, 55
+  offset: 0, 0
+  index: -1
