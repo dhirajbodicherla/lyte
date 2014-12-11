@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -26,6 +27,11 @@ public class HUDStage extends Stage
 	private Skin skin; 
 	private TextureAtlas atlas;
 	private Level m_level;
+	
+	// next level popup box
+	private Window winOptions;
+	private TextButton btnWinOptSave;
+	private TextButton btnWinOptCancel;
 	
 	public HUDStage(Level lv)
 	{
@@ -152,6 +158,11 @@ public class HUDStage extends Stage
 	{
 		this.act();
 		this.draw();
+		
+		if(m_level.isSolved)
+		{
+			m_level.nextLevel();
+		}
 	}
 	 
 }

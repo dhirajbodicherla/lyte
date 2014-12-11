@@ -7,6 +7,7 @@ import box2dLight.RayHandler;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -57,6 +58,7 @@ public class GameStage extends Stage implements InputProcessor, GestureListener{
 	private Body hitBody;
 	private Vector3 tmp;
 	private Vector2 tmp2;
+	private Sound photonShootSound;
 	
 	public Level m_level; 
 	
@@ -72,6 +74,7 @@ public class GameStage extends Stage implements InputProcessor, GestureListener{
 		renderer = new Box2DDebugRenderer();
 		Vector2 screenSize = new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		m_level = new Level("data/level.js", world, screenSize, level);
+//		photonShootSound = Gdx.audio.newSound(Gdx.files.internal("data/sounds/photon_shoot.mp3"));
 	}
 	
 	public void setupCamera()
@@ -226,10 +229,7 @@ public class GameStage extends Stage implements InputProcessor, GestureListener{
 	
 	public void update()
 	{
-		if(m_level.isSolved)
-		{
-			m_level.nextLevel();
-		}
+		
 	}
 	
 	
@@ -241,9 +241,10 @@ public class GameStage extends Stage implements InputProcessor, GestureListener{
 	@Override
 	public boolean touchDown(float x, float y, int pointer, int button) {
 		tmp = new Vector3(x, y, 0);
+		Gdx.app.debug("Touch before ", String.valueOf(tmp.x) + " : " + String.valueOf(tmp.y));
 		camera.unproject(tmp);
 		tmp.scl(Constants.WORLD_TO_BOX);
-		
+		Gdx.app.debug("Touch ", String.valueOf(tmp.x) + " : " + String.valueOf(tmp.y));
 		world.QueryAABB(queryCallBack, tmp.x-0.0001f, tmp.y-0.0001f, tmp.x+0.0001f, tmp.y+0.0001f);
 		if(hitBody == virtualBody)hitBody=null;
 		
@@ -261,7 +262,8 @@ public class GameStage extends Stage implements InputProcessor, GestureListener{
 	public boolean tap(float x, float y, int count, int button) {
 
 		if(button == Input.Buttons.LEFT){
-			m_level.launchPhoton();
+//			photonShootSound.play();
+//			m_level.launchPhoton();
 		}
 		return false;
 	}

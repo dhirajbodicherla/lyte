@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -23,6 +24,7 @@ public class MenuScreen extends AbstractGameScreen {
 	private Image imgBackground;
 	private Skin skin; 
 	private TextureAtlas atlas;
+	private Music music;
 
 	public MenuScreen(LightPhysics game) {
 		super(game);
@@ -36,6 +38,8 @@ public class MenuScreen extends AbstractGameScreen {
 	{
 		atlas = new TextureAtlas(Gdx.files.internal("data/ui/Menu.pack"));
 		skin = new Skin(atlas);
+		music = Gdx.audio.newMusic(Gdx.files.internal("data/sounds/menu_music.mp3"));
+		music.play();
 		buildStage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}
 
@@ -147,6 +151,7 @@ public class MenuScreen extends AbstractGameScreen {
 	public void hide() {
 		stage.dispose();
 		skin.dispose();
+		music.dispose();
 	}
 
 	@Override
