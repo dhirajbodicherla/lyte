@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
@@ -24,7 +25,7 @@ import com.badlogic.gdx.physics.box2d.joints.MouseJoint;
 import com.badlogic.gdx.physics.box2d.joints.MouseJointDef;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
-public class GameStage extends Stage implements InputProcessor, GestureListener{
+public class GameStage extends Stage implements GestureListener{
 	
 	public static float SCREEN_WIDTH, SCREEN_HEIGHT;
 	private OrthographicCamera camera; 
@@ -46,6 +47,7 @@ public class GameStage extends Stage implements InputProcessor, GestureListener{
 	private Vector3 tmp;
 	private Vector2 tmp2;
 	private Sound photonShootSound;
+	public GestureDetector gd;
 	
 	public Level m_level; 
 	
@@ -53,6 +55,8 @@ public class GameStage extends Stage implements InputProcessor, GestureListener{
 	public GameStage(int level)
 	{
 		VIEWPORT = Assets.instance.queryViewport();
+		gd = new GestureDetector(this);
+//        Gdx.input.setInputProcessor(gd);
 		this.init(level);
 	}
 	
@@ -112,6 +116,7 @@ public class GameStage extends Stage implements InputProcessor, GestureListener{
 	
 	@Override
 	public boolean keyDown(int keycode) {
+		Gdx.app.log("my app", "keydown");
 		return false;
 	}
 
@@ -144,41 +149,41 @@ public class GameStage extends Stage implements InputProcessor, GestureListener{
 		}
 	};
 
-	@Override
-	public boolean touchDown(int x, int y, int pointer, int button) 
-	{
-		
-		return false;
-	}
+//	@Override
+//	public boolean touchDown(int x, int y, int pointer, int button) 
+//	{
+//		Gdx.app.log("my app", "touchdown");
+//		return false;
+//	}
 
-	@Override
-	public boolean touchUp(int x, int y, int pointer, int button) {
-		
-		//mouse = new Vector2(Gdx.input.getX(), Gdx.input.getY());
-		
-		//isMouseDown = false;
-		if(mJoint!=null)
-		{
-			((Mirror)hitBody.getUserData()).isSelected = false;
-			hitBody.setType(BodyType.StaticBody);
-			world.destroyJoint(mJoint);
-            mJoint = null;
-            hitBody=null;
-		}
-		return false;
-	}
+//	@Override
+//	public boolean touchUp(int x, int y, int pointer, int button) {
+//		Gdx.app.log("my app", "touchup");
+//		//mouse = new Vector2(Gdx.input.getX(), Gdx.input.getY());
+//		
+//		//isMouseDown = false;
+//		if(mJoint!=null)
+//		{
+//			((Mirror)hitBody.getUserData()).isSelected = false;
+//			hitBody.setType(BodyType.StaticBody);
+//			world.destroyJoint(mJoint);
+//            mJoint = null;
+//            hitBody=null;
+//		}
+//		return false;
+//	}
 
-	@Override
-	public boolean touchDragged(int x, int y, int pointer) {
-		
-		if(mJoint!=null){
-			tmp = new Vector3(x, y, 0);
-			camera.unproject(tmp);
-			tmp.scl(Constants.WORLD_TO_BOX);
-			mJoint.setTarget(tmp2.set(tmp.x,tmp.y));
-		}
-		return false;
-	}
+//	@Override
+//	public boolean touchDragged(int x, int y, int pointer) {
+//		Gdx.app.log("my app", "touchdragged");
+//		if(mJoint!=null){
+//			tmp = new Vector3(x, y, 0);
+//			camera.unproject(tmp);
+//			tmp.scl(Constants.WORLD_TO_BOX);
+//			mJoint.setTarget(tmp2.set(tmp.x,tmp.y));
+//		}
+//		return false;
+//	}
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
@@ -235,12 +240,12 @@ public class GameStage extends Stage implements InputProcessor, GestureListener{
 
 	@Override
 	public boolean tap(float x, float y, int count, int button) {
-
 		return false;
 	}
 
 	@Override
 	public boolean longPress(float x, float y) {
+		Gdx.app.log("my app", "longpress");
 		tmp = new Vector3(x, y, 0);
 		camera.unproject(tmp);
 		tmp.scl(Constants.WORLD_TO_BOX);
@@ -266,18 +271,44 @@ public class GameStage extends Stage implements InputProcessor, GestureListener{
 	}
 
 	@Override
-	public boolean fling(float velocityX, float velocityY, int button) {return false;}
+	public boolean fling(float velocityX, float velocityY, int button) {
+		return false;
+	}
 
 	@Override
-	public boolean pan(float x, float y, float deltaX, float deltaY) {return false;}
+	public boolean pan(float x, float y, float deltaX, float deltaY) {
+		if(mJoint!=null){
+			tmp = new Vector3(x, y, 0);
+			camera.unproject(tmp);
+			tmp.scl(Constants.WORLD_TO_BOX);
+			mJoint.setTarget(tmp2.set(tmp.x,tmp.y));
+		}
+		return false;
+	}
 
 	@Override
-	public boolean panStop(float x, float y, int pointer, int button) {return false;}
+	public boolean panStop(float x, float y, int pointer, int button) {
+//		Gdx.app.log("my app", "touchup");
+		//mouse = new Vector2(Gdx.input.getX(), Gdx.input.getY());
+		
+		//isMouseDown = false;
+		if(mJoint!=null)
+		{
+			((Mirror)hitBody.getUserData()).isSelected = false;
+			hitBody.setType(BodyType.StaticBody);
+			world.destroyJoint(mJoint);
+            mJoint = null;
+            hitBody=null;
+		}
+		return false;
+	}
 
 	@Override
 	public boolean zoom(float initialDistance, float distance) {return false;}
 
 	@Override
 	public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2,
-			Vector2 pointer1, Vector2 pointer2) {return false;}
+			Vector2 pointer1, Vector2 pointer2) {
+		return false;
+	}
 }

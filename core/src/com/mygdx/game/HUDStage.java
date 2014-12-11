@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -34,6 +35,7 @@ public class HUDStage extends Stage
 		m_level = lv;
 		SCREEN = Assets.instance.queryScreen();
 		init();
+//		Gdx.input.setInputProcessor(this);
 	}
 	
 	public void init()
@@ -139,6 +141,13 @@ public class HUDStage extends Stage
 				m_level.antiClockWiseRotate();
 			}
 		});
+		
+//		left.addListener(new InputListener() {
+//            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+//                Gdx.app.log("my app", "Pressed"); //** Usually used to start Game, etc. **//
+//                return true;
+//            }
+//        });
 		
 		right.addListener(new ClickListener(){
 			public void clicked(InputEvent event, float x, float y) {
