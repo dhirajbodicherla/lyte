@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package com.jsd.lyte;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;

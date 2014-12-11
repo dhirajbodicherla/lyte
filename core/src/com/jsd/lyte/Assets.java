@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package com.jsd.lyte;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetDescriptor;
@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
-import com.mygdx.game.Constants;
+import com.jsd.lyte.Constants;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
@@ -32,7 +32,9 @@ public class Assets implements Disposable, AssetErrorListener {
 		// set asset manager error handler
 		assetManager.setErrorListener(this);
 		SCREEN = new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		VIEWPORT = null;
 		calcViewport();
+		Gdx.app.debug("VIEWPORT","Selected Viewport:"+VIEWPORT);
 		
 	}
 	
@@ -41,6 +43,7 @@ public class Assets implements Disposable, AssetErrorListener {
 		int w = Gdx.graphics.getWidth();
 		int h = Gdx.graphics.getHeight();
 		float GCD = (int)(gcd(w, h));
+		Gdx.app.debug("SCREEN", "W: "+w+" H: "+h);
 		int aW = (int) (w/GCD);
 		int aH = (int) (h/GCD);
 		
@@ -51,6 +54,10 @@ public class Assets implements Disposable, AssetErrorListener {
 		//16:9
 		if(aW==16 && aH==9)
 			VIEWPORT = new Vector2(640,360);
+		
+		//8:5
+		if(aW==8 && aH==5)
+			VIEWPORT = new Vector2(640,400);
 		
 		//5:3
 		if(aW==5 && aH==3)
@@ -63,6 +70,10 @@ public class Assets implements Disposable, AssetErrorListener {
 		//3:2
 		if(aW==3 && aH==2)
 			VIEWPORT = new Vector2(600, 480);
+		
+		//if no suitable match reverting to 640x480
+		if(VIEWPORT==null)
+			VIEWPORT = new Vector2(640,480);
 	}
 	
 	private int gcd (int a, int b) {

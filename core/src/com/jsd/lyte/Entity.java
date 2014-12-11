@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package com.jsd.lyte;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;

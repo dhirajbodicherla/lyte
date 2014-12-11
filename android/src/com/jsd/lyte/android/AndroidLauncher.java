@@ -1,10 +1,10 @@
-package com.mygdx.game.android;
+package com.jsd.lyte.android;
 
 import android.os.Bundle;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.mygdx.game.LightPhysics;
+import com.jsd.lyte.LightPhysics;
 
 public class AndroidLauncher extends AndroidApplication {
 	@Override
