@@ -63,6 +63,30 @@ public class HUDStage extends Stage
 		Drawable rightDown = skin.getDrawable("RightDown");
 		
 		
+		pauseUp.setMinWidth(w);
+		pauseUp.setMinHeight(h);
+		pauseDown.setMinWidth(w);
+		pauseDown.setMinHeight(h);
+		replayUp.setMinWidth(w);
+		replayUp.setMinHeight(h);
+		replayDown.setMinWidth(w);
+		replayDown.setMinHeight(h);
+		
+		startUp.setMinWidth(w);
+		startUp.setMinHeight(h);
+		startDown.setMinWidth(w);
+		startDown.setMinHeight(h);
+		
+		leftUp.setMinWidth(w);
+		leftUp.setMinHeight(h);
+		leftDown.setMinWidth(w);
+		leftDown.setMinHeight(h);
+		
+		rightUp.setMinWidth(w);
+		rightUp.setMinHeight(h);
+		rightDown.setMinWidth(w);
+		rightDown.setMinHeight(h);
+		
 		pauseButtonStyle.up = pauseUp;
 		pauseButtonStyle.down = pauseDown;
 		pauseButtonStyle.pressedOffsetX = 1;

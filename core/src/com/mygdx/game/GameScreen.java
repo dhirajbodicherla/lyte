@@ -2,7 +2,6 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.input.GestureDetector;
 
@@ -41,7 +40,7 @@ public class GameScreen extends AbstractGameScreen{
 	@Override
 	public void resize(int width, int height) {
 		// TODO Auto-generated method stub
-		
+		gameStage.resize(width, height);
 	}
 
 	@Override
