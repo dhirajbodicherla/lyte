@@ -283,8 +283,8 @@ public class Level implements ContactListener{
 	{
 		if(gameState == 2)
 		{
-			dx = 320.0f*Constants.WORLD_TO_BOX - mSource.getPhysicsBody().getWorldCenter().x;
-			dy = 240.0f*Constants.WORLD_TO_BOX - mSource.getPhysicsBody().getWorldCenter().y;
+			dx = 320*Constants.WORLD_TO_BOX - mSource.getPhysicsBody().getWorldCenter().x;
+			dy = 240*Constants.WORLD_TO_BOX - mSource.getPhysicsBody().getWorldCenter().y;
 			float angle = (float)Math.atan2(dy,dx);
 			Vector2 norm = new Vector2(dx, dy);
 			norm.nor();

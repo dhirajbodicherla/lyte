@@ -1,8 +1,5 @@
 package com.mygdx.game;
 
-import java.util.ArrayList;
-
-import box2dLight.RayHandler;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -11,9 +8,6 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Matrix4;
@@ -22,14 +16,8 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
-import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.QueryCallback;
-import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.joints.MouseJoint;
@@ -46,7 +34,6 @@ public class GameStage extends Stage implements InputProcessor, GestureListener{
 	World world; 
 	Box2DDebugRenderer renderer;
 	
-	private int inputMode;			//1. Shoot 2. Drag body 3. Change Angle
 //	boolean isMouseDown;
 	float rotAngle;
 	
@@ -72,31 +59,39 @@ public class GameStage extends Stage implements InputProcessor, GestureListener{
 	{
 		world = new World(new Vector2(0.0f, 0.0f), false);
 		renderer = new Box2DDebugRenderer();
-		Vector2 screenSize = new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		//Vector2 screenSize = new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		Vector2 screenSize = new Vector2(640, 480);
 		m_level = new Level("data/level.js", world, screenSize, level);
 //		photonShootSound = Gdx.audio.newSound(Gdx.files.internal("data/sounds/photon_shoot.mp3"));
 	}
 	
 	public void setupCamera()
 	{
-		camera = new OrthographicCamera();	//Defaults to screen size
+		camera = new OrthographicCamera(640,480);	//Defaults to screen size
+//		camera.position.set(640*0.5f, 320*0.5f,0);
+		camera.position.set(0,0,0);
 		camera.setToOrtho(false);
 		camera.update();
 	}
-	
+	public void resize(int width, int height)
+	{
+		camera.viewportHeight = Constants.VIEWPORT_GUI_HEIGHT;
+		camera.viewportWidth = (Constants.VIEWPORT_GUI_HEIGHT / (float) height)
+				* (float) width;
+		camera.position.set(camera.viewportWidth / 2,
+				camera.viewportHeight / 2, 0);
+		camera.update();
+	}
 	public void initRendering()
 	{
 		//Init Rendering Batch
-		batch = new SpriteBatch();
-		batch.setProjectionMatrix(camera.combined);
-		
+		batch = new SpriteBatch();		
 	}
 	
 	public void initInteractivity()
 	{
 		mouse = new Vector3();
 		
-		inputMode = 2;		//Start with drag
 		//Initialize Mouse Joints
 		virtualBody = world.createBody(new BodyDef());
 		
@@ -216,7 +211,7 @@ public class GameStage extends Stage implements InputProcessor, GestureListener{
 		camera.update();
 		
 		Matrix4 cameraCopy = camera.combined.cpy();
-		
+		batch.setProjectionMatrix(camera.combined);
 		//Render Level here
 		m_level.render(batch);
 		m_level.update(mouse);
