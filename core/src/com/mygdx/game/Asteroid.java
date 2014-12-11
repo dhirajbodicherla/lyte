@@ -6,15 +6,16 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 
 public class Asteroid extends Entity{
 	Sprite sprite; 
 	Texture tex; 
 	Pixmap pix; 
 	
-	public Asteroid(EntityDef ed, int index)
+	public Asteroid(EntityDef ed,Vector2 bs, int index)
 	{
-		super(ed, index);
+		super(ed,bs, index);
 		init();
 	}
 	public void dispose()

@@ -15,7 +15,6 @@ public class PhysicsBuilder {
 	public static Body createPhysicsBody(EntityDef ed, 
 										 Entity e, 
 										 Vector2 BaseSize, 
-										 Vector2 SCREEN, 
 										 World world) 
 	{
 		BodyDef bodyDef; 
@@ -23,18 +22,20 @@ public class PhysicsBuilder {
 		FixtureDef fixtureDef = null; 
 		Body phyBody;
 		
-		/*float x = (ed.x/BaseSize.x) * SCREEN.x *Constants.WORLD_TO_BOX;
-		float y = (ed.y/BaseSize.y) * SCREEN.y *Constants.WORLD_TO_BOX;
-		float w = (ed.w/BaseSize.x) * SCREEN.x *Constants.WORLD_TO_BOX;
-		float h = (ed.h/BaseSize.y) * SCREEN.y *Constants.WORLD_TO_BOX;
-		float r = (ed.r/BaseSize.x) * SCREEN.x *Constants.WORLD_TO_BOX;*/
+		Vector2 VIEWPORT = Assets.instance.queryViewport();
+		
+		float x = (ed.x/BaseSize.x) * VIEWPORT.x *Constants.WORLD_TO_BOX;
+		float y = (ed.y/BaseSize.y) * VIEWPORT.y *Constants.WORLD_TO_BOX;
+		float w = (ed.w/BaseSize.x) * VIEWPORT.x *Constants.WORLD_TO_BOX;
+		float h = (ed.h/BaseSize.y) * VIEWPORT.y *Constants.WORLD_TO_BOX;
+		float r = (ed.r/BaseSize.x) * VIEWPORT.x *Constants.WORLD_TO_BOX;
 		
 		
-		float x = ed.x *Constants.WORLD_TO_BOX;
+		/*float x = ed.x *Constants.WORLD_TO_BOX;
 		float y = ed.y *Constants.WORLD_TO_BOX;
 		float w = ed.w *Constants.WORLD_TO_BOX;
 		float h = ed.h *Constants.WORLD_TO_BOX;
-		float r = ed.r *Constants.WORLD_TO_BOX;
+		float r = ed.r *Constants.WORLD_TO_BOX;*/
 		
 		
 		bodyDef = new BodyDef();

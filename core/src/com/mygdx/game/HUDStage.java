@@ -1,10 +1,9 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -17,11 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 public class HUDStage extends Stage
-{
-	
-	private OrthographicCamera guiCamera;
-	private SpriteBatch batch;
-	
+{	
 	private Table top, bottom; 
 	private TextButton pause, replay, start, left, right;
 	private Skin skin; 
@@ -32,10 +27,12 @@ public class HUDStage extends Stage
 	private Window winOptions;
 	private TextButton btnWinOptSave;
 	private TextButton btnWinOptCancel;
+	private Vector2 SCREEN;
 	
 	public HUDStage(Level lv)
 	{
 		m_level = lv;
+		SCREEN = Assets.instance.queryScreen();
 		init();
 	}
 	
@@ -47,8 +44,8 @@ public class HUDStage extends Stage
 		top = new Table(skin);
 		bottom = new Table(skin);
 		BitmapFont black = new BitmapFont();
-		float w = (skin.getDrawable("PauseUp").getMinWidth() / 640) * Gdx.graphics.getWidth() ;
-		float h = (skin.getDrawable("PauseUp").getMinHeight() / 480) * Gdx.graphics.getHeight();
+		float w = (skin.getDrawable("PauseUp").getMinWidth() / 640) * SCREEN.x;
+		float h = w;
 		
 		TextButtonStyle pauseButtonStyle = new TextButtonStyle();
 		TextButtonStyle replayButtonStyle = new TextButtonStyle();
@@ -156,23 +153,18 @@ public class HUDStage extends Stage
 		right.align(Align.right);
 		left.align(Align.left);
 		
-		//table.setBounds(0,  0.85f*Gdx.graphics.getHeight(), Gdx.graphics.getWidth(), 0.15f*Gdx.graphics.getHeight());
-		top.setBounds(0, Gdx.graphics.getHeight()-h, Gdx.graphics.getWidth(), h);
-		bottom.setBounds(0, 0, Gdx.graphics.getWidth(), h*2);
-//		table.setFillParent(true);
-		//table.align(Align.right);
-		//table.debug();
-		top.add(pause).padRight(0.84f*Gdx.graphics.getWidth());
+		top.setBounds(0, SCREEN.y-h, SCREEN.x, h);
+		bottom.setBounds(0, 0, SCREEN.x, h*2);
+
+		top.add(pause).padRight(0.84f*SCREEN.x);
 		top.add(replay);
 		bottom.add();
 		bottom.add();
-		bottom.add(start).padLeft(0.84f*Gdx.graphics.getWidth());
+		bottom.add(start).padLeft(0.84f*SCREEN.x);
 		bottom.row();
 		bottom.add(left);
 		bottom.add();
-		bottom.add(right).padLeft(0.84f*Gdx.graphics.getWidth());
-		//top.debug();
-		//bottom.debug();
+		bottom.add(right).padLeft(0.84f*SCREEN.x);
 		
 		this.addActor(top);
 		this.addActor(bottom);

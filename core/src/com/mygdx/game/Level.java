@@ -39,7 +39,6 @@ public class Level implements ContactListener{
 	//current Rotatable Body
 	Body SelectedBody;
 	
-	private Vector2 SCREEN;
 	
 	//Game Elements
 	private Entity mTarget;
@@ -53,9 +52,8 @@ public class Level implements ContactListener{
 	float dx, dy;
 
 	
-	public Level(String filename, World world, Vector2 s, int level) {
+	public Level(String filename, World world, int level) {
 		m_world = world;
-		SCREEN = s;
 		currentLevel = level -1 ;			// Levels always start with 0 
 		init(filename);
 		
@@ -156,26 +154,26 @@ public class Level implements ContactListener{
 			Vector2 bs = new Vector2(ld.mBaseWidth, ld.mBaseHeight);
 			
 			
-			mTarget = new Entity(ld.mTarget, 0); 
-			mTarget.setPhysicsBody(PhysicsBuilder.createPhysicsBody(ld.mTarget, mTarget, bs, SCREEN, m_world));
+			mTarget = new Entity(ld.mTarget,bs, 0); 
+			mTarget.setPhysicsBody(PhysicsBuilder.createPhysicsBody(ld.mTarget, mTarget, bs, m_world));
 			
-			mSource = new Entity(ld.mSource, 0); 
-			mSource.setPhysicsBody(PhysicsBuilder.createPhysicsBody(ld.mSource, mSource, bs, SCREEN, m_world));
+			mSource = new Entity(ld.mSource,bs, 0); 
+			mSource.setPhysicsBody(PhysicsBuilder.createPhysicsBody(ld.mSource, mSource, bs, m_world));
 			
 			
 			for(int i = 0 ; i < numMirrors; i++)
 			{
 				EntityDef ed = ld.mMirrors.get(i);
-				Mirror e = new Mirror(ed, i);
-				e.setPhysicsBody(PhysicsBuilder.createPhysicsBody(ed, e, bs, SCREEN, m_world));
+				Mirror e = new Mirror(ed,bs, i);
+				e.setPhysicsBody(PhysicsBuilder.createPhysicsBody(ed, e, bs, m_world));
 				mMirrors.add(e);
 			}
 			
 			for(int i = 0 ; i < numAsteroids; i++)
 			{
 				EntityDef ed = ld.mAsteroids.get(i);
-				Asteroid e = new Asteroid(ed, i);
-				Body b = PhysicsBuilder.createPhysicsBody(ed, e, bs, SCREEN, m_world);
+				Asteroid e = new Asteroid(ed,bs, i);
+				Body b = PhysicsBuilder.createPhysicsBody(ed, e, bs, m_world);
 				e.setPhysicsBody(b);
 				mAsteroids.add(e);
 			}
@@ -183,8 +181,8 @@ public class Level implements ContactListener{
 			for(int i = 0 ; i < numBlackholes; i++)
 			{
 				EntityDef ed = ld.mBlackholes.get(i);
-				BlackHole e = new BlackHole(ed, i);
-				Body b = PhysicsBuilder.createPhysicsBody(ed, e, bs, SCREEN, m_world);
+				BlackHole e = new BlackHole(ed,bs, i);
+				Body b = PhysicsBuilder.createPhysicsBody(ed, e, bs, m_world);
 				b.setAngularVelocity(0.5f);
 				b.setAngularDamping(0.f);
 				e.setPhysicsBody(b);
@@ -343,7 +341,7 @@ public class Level implements ContactListener{
 			ed.x = firePoint.x * Constants.BOX_TO_WORLD;
 			ed.y = firePoint.y * Constants.BOX_TO_WORLD;
 			ed.r = 5;
-			Photon p = new Photon(ed, photonCount);
+			Photon p = new Photon(ed,new Vector2(640,480), photonCount);
 			Body circleBody = PhysicsBuilder.createPhysicsBody(ed, p, m_world);
 
 			p.setPhysicsBody(circleBody);

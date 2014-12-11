@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 
 public class Photon extends Entity{
 	
@@ -18,8 +19,8 @@ public class Photon extends Entity{
 	Pixmap pix; 
 	
 	
-	public Photon(EntityDef ed, int index) {
-		super(ed,index);
+	public Photon(EntityDef ed, Vector2 bs,int index) {
+		super(ed,bs,index);
 		init();
 	}
 	

@@ -33,9 +33,9 @@ public class GameStage extends Stage implements InputProcessor, GestureListener{
 	/* Box2d Stuff */ 
 	World world; 
 	Box2DDebugRenderer renderer;
+	Vector2 VIEWPORT;
 	
 //	boolean isMouseDown;
-	float rotAngle;
 	
 	Vector3 mouse;
 	
@@ -52,6 +52,7 @@ public class GameStage extends Stage implements InputProcessor, GestureListener{
 	
 	public GameStage(int level)
 	{
+		VIEWPORT = Assets.instance.queryViewport();
 		this.init(level);
 	}
 	
@@ -59,24 +60,22 @@ public class GameStage extends Stage implements InputProcessor, GestureListener{
 	{
 		world = new World(new Vector2(0.0f, 0.0f), false);
 		renderer = new Box2DDebugRenderer();
-		//Vector2 screenSize = new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		Vector2 screenSize = new Vector2(640, 480);
-		m_level = new Level("data/level.js", world, screenSize, level);
+		m_level = new Level("data/level.js", world, level);
 //		photonShootSound = Gdx.audio.newSound(Gdx.files.internal("data/sounds/photon_shoot.mp3"));
 	}
 	
 	public void setupCamera()
 	{
-		camera = new OrthographicCamera(640,480);	//Defaults to screen size
+		camera = new OrthographicCamera(VIEWPORT.x,VIEWPORT.y);	//Defaults to screen size
 //		camera.position.set(640*0.5f, 320*0.5f,0);
-		camera.position.set(0,0,0);
+		//camera.position.set(0,0,0);
 		camera.setToOrtho(false);
 		camera.update();
 	}
 	public void resize(int width, int height)
 	{
-		camera.viewportHeight = Constants.VIEWPORT_GUI_HEIGHT;
-		camera.viewportWidth = (Constants.VIEWPORT_GUI_HEIGHT / (float) height)
+		camera.viewportHeight = VIEWPORT.y;
+		camera.viewportWidth = (VIEWPORT.y / (float) height)
 				* (float) width;
 		camera.position.set(camera.viewportWidth / 2,
 				camera.viewportHeight / 2, 0);
@@ -98,9 +97,6 @@ public class GameStage extends Stage implements InputProcessor, GestureListener{
 		tmp = new Vector3();
 		tmp2 = new Vector2();
 		
-		//isMouseDown = false;
-		
-		rotAngle = 0;
 	}
 
 
@@ -113,14 +109,6 @@ public class GameStage extends Stage implements InputProcessor, GestureListener{
 		
 	}
 	
-
-	public void rotateBody()
-	{
-		if(hitBody!=null&& ((Entity)hitBody.getUserData()).getFixedRotation()!=0){
-			hitBody.setTransform(hitBody.getWorldCenter(), rotAngle);
-			rotAngle+=0.1;
-		}
-	}
 	
 	@Override
 	public boolean keyDown(int keycode) {
@@ -129,8 +117,6 @@ public class GameStage extends Stage implements InputProcessor, GestureListener{
 
 	@Override
 	public boolean keyUp(int keycode) {
-		if(keycode == Input.Keys.R)
-			rotateBody();
 		if(keycode == Input.Keys.D)
 			m_level.destroy();
 		if(keycode == Input.Keys.RIGHT)
@@ -219,12 +205,6 @@ public class GameStage extends Stage implements InputProcessor, GestureListener{
 		
 		renderer.render(world, cameraCopy.scl(Constants.BOX_TO_WORLD));
 		world.step(1/60f, 6, 2);
-		update();	//keep checking if the level is solved
-	}
-	
-	public void update()
-	{
-		
 	}
 	
 	
@@ -236,16 +216,16 @@ public class GameStage extends Stage implements InputProcessor, GestureListener{
 	@Override
 	public boolean touchDown(float x, float y, int pointer, int button) {
 		tmp = new Vector3(x, y, 0);
-		Gdx.app.debug("Touch before ", String.valueOf(tmp.x) + " : " + String.valueOf(tmp.y));
 		camera.unproject(tmp);
 		tmp.scl(Constants.WORLD_TO_BOX);
-		Gdx.app.debug("Touch ", String.valueOf(tmp.x) + " : " + String.valueOf(tmp.y));
+		
 		world.QueryAABB(queryCallBack, tmp.x-0.0001f, tmp.y-0.0001f, tmp.x+0.0001f, tmp.y+0.0001f);
 		if(hitBody == virtualBody)hitBody=null;
 		
 		
 		if(hitBody!=null && ((Entity)hitBody.getUserData()).getFixedRotation()!=0)
 		{
+			((Mirror)(hitBody.getUserData())).isSelected=true;
 			m_level.setSelectedBody(hitBody);
 			System.out.println("Selected");
 		}
@@ -256,10 +236,6 @@ public class GameStage extends Stage implements InputProcessor, GestureListener{
 	@Override
 	public boolean tap(float x, float y, int count, int button) {
 
-		if(button == Input.Buttons.LEFT){
-//			photonShootSound.play();
-//			m_level.launchPhoton();
-		}
 		return false;
 	}
 

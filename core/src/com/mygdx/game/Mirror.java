@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Entity;
 
 public class Mirror extends Entity{
@@ -23,8 +24,8 @@ public class Mirror extends Entity{
 	public boolean isSelected;
 	
 	
-	public Mirror(EntityDef ed, int index){
-		super(ed, index);
+	public Mirror(EntityDef ed,Vector2 bs, int index){
+		super(ed,bs, index);
 		init();
 	}
 	

@@ -5,6 +5,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
@@ -28,7 +29,6 @@ public class MenuScreen extends AbstractGameScreen {
 
 	public MenuScreen(LightPhysics game) {
 		super(game);
-		
 		stage = new Stage();
 		Gdx.input.setInputProcessor(stage);
 		init();
@@ -40,7 +40,7 @@ public class MenuScreen extends AbstractGameScreen {
 		skin = new Skin(atlas);
 		music = Gdx.audio.newMusic(Gdx.files.internal("data/sounds/menu_music.mp3"));
 		music.play();
-		buildStage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		buildStage();
 	}
 
 	@Override
@@ -53,10 +53,11 @@ public class MenuScreen extends AbstractGameScreen {
 		
 	}
 
-	private Table buildForeground(float stageW, float stageH) {
+	private Table buildForeground() {
+		Vector2 SCREEN = Assets.instance.queryScreen();
 		Table layer = new Table();
-		float w = (skin.getDrawable("PlayUp").getMinWidth() / 640) * stageW;
-		float h = (skin.getDrawable("PlayUp").getMinHeight() / 480) * stageH;
+		float w = (skin.getDrawable("PlayUp").getMinWidth() / 640) * SCREEN.x;
+		float h = (skin.getDrawable("PlayUp").getMinHeight() / 480) * SCREEN.y;
 		
 		Drawable PlayUp = skin.getDrawable("PlayUp");
 		Drawable PlayDown = skin.getDrawable("PlayDown");
@@ -99,11 +100,11 @@ public class MenuScreen extends AbstractGameScreen {
 		
 		Image logo = new Image(skin, "Logo");
 		
-		layer.setBounds(0, 0, stageW, stageH);
+		layer.setBounds(0, 0, SCREEN.x, SCREEN.y);
 		layer.align(Align.center);
-		layer.add(logo).padBottom(0.3f*stageH);
+		layer.add(logo).padBottom(0.3f*SCREEN.y);
 		layer.row();
-		layer.add(playBtn).padBottom(0.02f*stageH);
+		layer.add(playBtn).padBottom(0.02f*SCREEN.y);
 		layer.row();
 		layer.add(optBtn);
 		
@@ -111,24 +112,26 @@ public class MenuScreen extends AbstractGameScreen {
 		return layer;
 	}
 	
-	private void buildStage(float stageW, float stageH) {
+	private void buildStage() {
 
-		Table foreground = buildForeground(stageW, stageH);
-		Table background = buildBackground(stageW, stageH);
+		Table foreground = buildForeground();
+		Table background = buildBackground();
+		Vector2 SCREEN = Assets.instance.queryScreen();
 
 		stage.clear();
 		Stack stack = new Stack();
 		stage.addActor(stack);
-		stack.setSize(stageW, stageH);
+		stack.setSize(SCREEN.x, SCREEN.y);
 		stack.add(background);
 		stack.add(foreground);
 		
 	}
 
-	private Table buildBackground(float stageW, float stageH) {
+	private Table buildBackground() {
+		Vector2 SCREEN = Assets.instance.queryScreen();
 		Table layer = new Table();
 		 imgBackground = new Image(skin, "MenuBackground");
-		 imgBackground.setBounds(0, 0, stageW, stageH);
+		 imgBackground.setBounds(0, 0, SCREEN.x, SCREEN.y);
 		 layer.add(imgBackground);
 		
 		 return layer;

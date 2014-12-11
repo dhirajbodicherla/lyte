@@ -13,24 +13,16 @@ import com.mygdx.game.Constants;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
+import com.badlogic.gdx.math.Vector2;
 
 public class Assets implements Disposable, AssetErrorListener {
-//	public AssetFonts fonts;
-	public AssetMirror mirror;
-	public AssetLaser laser;
-	public AssetAsteroid asteroid;
-	public AssetBlackHole blackhole;
-	public AssetPhoton photon;
-	public AssetEarth earth;
-	public AssetSpace space;
-	// public AssetRock rock;
-	// public AssetGoldCoin goldCoin;
-	// public AssetFeather feather;
-	// public AssetLevelDecoration levelDecoration;
 
 	public static final String TAG = Assets.class.getName();
 	public static final Assets instance = new Assets();
+	
 	private AssetManager assetManager;
+	private Vector2 VIEWPORT;
+	private Vector2 SCREEN;
 
 	// singleton: prevent instantiation from other classes
 	private Assets() {}
@@ -39,114 +31,59 @@ public class Assets implements Disposable, AssetErrorListener {
 		this.assetManager = assetManager;
 		// set asset manager error handler
 		assetManager.setErrorListener(this);
-		// load texture atlas
-		assetManager.load(Constants.TEXTURE_ATLAS_OBJECTS, TextureAtlas.class);
-		// start loading assets and wait until finished
-		assetManager.finishLoading();
+		SCREEN = new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		calcViewport();
 		
-//		for (String a : assetManager.getAssetNames())
-//			Gdx.app.debug(TAG, "asset: " + a);
-
-		TextureAtlas atlas = assetManager.get(Constants.TEXTURE_ATLAS_OBJECTS);
-
-		// enable texture filtering for pixel smoothing
-		for (Texture t : atlas.getTextures())
-			t.setFilter(TextureFilter.Linear, TextureFilter.Linear);
-
-		// create game resource objects
-//		fonts = new AssetFonts();
-		mirror = new AssetMirror(atlas);
-		laser = new AssetLaser(atlas);
-		asteroid = new AssetAsteroid(atlas);
-		blackhole = new AssetBlackHole(atlas);
-		photon = new AssetPhoton(atlas);
-		earth = new AssetEarth(atlas);
-		space = new AssetSpace(atlas);
+	}
+	
+	private void calcViewport()
+	{
+		int w = Gdx.graphics.getWidth();
+		int h = Gdx.graphics.getHeight();
+		float GCD = (int)(gcd(w, h));
+		int aW = (int) (w/GCD);
+		int aH = (int) (h/GCD);
+		
+		//if 4:3
+		if(aW==4 && aH==3)
+			VIEWPORT = new Vector2(640,480);
+		
+		//16:9
+		if(aW==16 && aH==9)
+			VIEWPORT = new Vector2(640,360);
+		
+		//5:3
+		if(aW==5 && aH==3)
+			VIEWPORT = new Vector2(800,480);
+		
+		//5:4
+		if(aW==5 && aH==4)
+			VIEWPORT = new Vector2(600, 480);
+		
+		//3:2
+		if(aW==3 && aH==2)
+			VIEWPORT = new Vector2(600, 480);
+	}
+	
+	private int gcd (int a, int b) {
+        return (b == 0) ? a : gcd (b, a%b);
+    }
+	
+	public Vector2 queryViewport()
+	{
+		return VIEWPORT;
+	}
+	
+	public Vector2 queryScreen()
+	{
+		return SCREEN;
 	}
 
 	@Override
 	public void dispose() {
 		assetManager.dispose();
-//		fonts.defaultSmall.dispose();
-//		fonts.defaultNormal.dispose();
-//		fonts.defaultBig.dispose();
 	}
 
-	public class AssetMirror {
-		public final AtlasRegion mirror;
-
-		public AssetMirror(TextureAtlas atlas) {
-			mirror = atlas.findRegion("mirror");
-		}
-	}
-	
-	public class AssetLaser{
-		public final AtlasRegion laser;
-		public final Animation animLaser;
-		
-		public AssetLaser(TextureAtlas atlas) {
-			laser = atlas.findRegion("laser");
-			Array<AtlasRegion> regions = atlas.findRegions("star");
-			AtlasRegion region = regions.first();
-			regions.insert(0, region);
-			animLaser = new Animation(1.0f / 10.0f, regions, Animation.PlayMode.LOOP);
-		}
-	}
-	
-	public class AssetAsteroid{
-		public final AtlasRegion asteroid;
-		public final Animation animAsteroid;
-		
-		public AssetAsteroid(TextureAtlas atlas){
-			asteroid = atlas.findRegion("asteroid");
-			Array<AtlasRegion> regions = atlas.findRegions("asteroid");
-			AtlasRegion region = regions.first();
-			regions.insert(0, region);
-			animAsteroid = new Animation(1.0f / 10.0f, regions, Animation.PlayMode.LOOP);
-		}
-	}
-	
-	public class AssetBlackHole{
-		public final AtlasRegion blackhole;
-		public final Animation animBlackhole;
-		
-		public AssetBlackHole(TextureAtlas atlas){
-			blackhole = atlas.findRegion("blackhole");
-			Array<AtlasRegion> regions = atlas.findRegions("blackhole");
-			AtlasRegion region = regions.first();
-			regions.insert(0, region);
-			animBlackhole = new Animation(1.0f / 10.0f, regions, Animation.PlayMode.LOOP);
-		}
-	}
-	
-	public class AssetPhoton{
-		public final AtlasRegion photon;
-		
-		public AssetPhoton(TextureAtlas atlas){
-			photon = atlas.findRegion("photon");
-		}
-	}
-	
-	public class AssetEarth{
-		public final AtlasRegion earth;
-		public final Animation animEarth;
-		
-		public AssetEarth(TextureAtlas atlas){
-			earth = atlas.findRegion("earth");
-			Array<AtlasRegion> regions = atlas.findRegions("earth");
-			AtlasRegion region = regions.first();
-			regions.insert(0, region);
-			animEarth = new Animation(1.0f / 10.0f, regions, Animation.PlayMode.LOOP);
-		}
-	}
-	
-	public class AssetSpace{
-		public final AtlasRegion space;
-		
-		public AssetSpace(TextureAtlas atlas){
-			space = atlas.findRegion("bg");
-		}
-	}
 
 	@Override
 	public void error(AssetDescriptor asset, Throwable throwable) {
@@ -154,25 +91,6 @@ public class Assets implements Disposable, AssetErrorListener {
 		Gdx.app.error(TAG, "Couldnt load asset" + asset);
 	}
 
-	public class AssetLevelDecoration {
-		public final AtlasRegion mirror;
-		public final AtlasRegion laser;
-		// public final AtlasRegion cloud02;
-		// public final AtlasRegion cloud03;
-		// public final AtlasRegion mountainLeft;
-		// public final AtlasRegion mountainRight;
-		// public final AtlasRegion waterOverlay;
-
-		public AssetLevelDecoration(TextureAtlas atlas) {
-
-			 mirror = atlas.findRegion("mirror");
-			 laser = atlas.findRegion("laser");
-			// cloud02 = atlas.findRegion("cloud02");
-			// cloud03 = atlas.findRegion("cloud03");
-			// mountainLeft = atlas.findRegion("mountain_left");
-			// mountainRight = atlas.findRegion("mountain_right");
-			// waterOverlay = atlas.findRegion("water_overlay");
-		}
-	}
+	
 
 }

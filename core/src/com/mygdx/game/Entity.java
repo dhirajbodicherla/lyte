@@ -22,13 +22,14 @@ public class Entity {
 	public Vector2 scale;
 	
 	
-	public Entity(EntityDef ed, int index)	//index is the value at the arraylist
+	public Entity(EntityDef ed, Vector2 bs, int index)	//index is the value at the arraylist
 	{
+		Vector2 vp = Assets.instance.queryViewport();
 		this.name = ed.name;
-		this.pos = new Vector2(ed.x, ed.y);
-		this.size = new Vector2(ed.w, ed.h);
-		this.radius = ed.r;
-		this.setIr(ed.ir);
+		this.pos = new Vector2((ed.x/bs.x)*vp.x, (ed.y/bs.y)*vp.y);
+		this.size = new Vector2((ed.w/bs.x)*vp.x, (ed.h/bs.y)*vp.y);
+		this.radius = (ed.r/bs.x)*vp.x;
+		this.ir = (ed.ir/bs.x)*vp.x;
 		this.angle = ed.angle;
 		this.fixedPosition = ed.fixedPosition;
 		this.fixedRotation = ed.fixedRotation;
