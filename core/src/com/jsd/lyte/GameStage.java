@@ -1,6 +1,7 @@
 package com.jsd.lyte;
 
 
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
@@ -46,15 +47,16 @@ public class GameStage extends Stage implements GestureListener{
 	private Vector2 tmp2;
 	private Sound photonShootSound;
 	public GestureDetector gd;
-	
+	private LightPhysics game;
 	public Level m_level; 
 	
 	
-	public GameStage(int level)
+	public GameStage(int level, LightPhysics game)
 	{
 		VIEWPORT = Assets.instance.queryViewport();
 		gd = new GestureDetector(this);
 //        Gdx.input.setInputProcessor(gd);
+		this.game = game;
 		this.init(level);
 	}
 	
@@ -130,7 +132,7 @@ public class GameStage extends Stage implements GestureListener{
 		{
 			m_level.prevLevel();
 		}
-		
+		 
 		return false;
 	}
 	
@@ -146,7 +148,7 @@ public class GameStage extends Stage implements GestureListener{
 			}
 		}
 	};
-
+	
 //	@Override
 //	public boolean touchDown(int x, int y, int pointer, int button) 
 //	{
@@ -228,6 +230,7 @@ public class GameStage extends Stage implements GestureListener{
 		
 		if(hitBody!=null && ((Entity)hitBody.getUserData()).getFixedRotation()!=0)
 		{
+			Gdx.input.vibrate(25);
 			((Mirror)(hitBody.getUserData())).isSelected=true;
 			m_level.setSelectedBody(hitBody);
 		}
@@ -253,6 +256,7 @@ public class GameStage extends Stage implements GestureListener{
 		
 		if(hitBody!=null && ((Entity)hitBody.getUserData()).getFixedPosition()!=0)
 		{
+			Gdx.input.vibrate(25);
 			hitBody.setType(BodyType.DynamicBody);
 			MouseJointDef mJointDef = new MouseJointDef();
 			mJointDef.bodyA = virtualBody;

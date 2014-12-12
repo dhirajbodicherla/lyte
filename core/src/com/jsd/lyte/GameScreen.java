@@ -1,7 +1,10 @@
 package com.jsd.lyte;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.input.GestureDetector;
 
@@ -9,17 +12,21 @@ public class GameScreen extends AbstractGameScreen{
 	
 	private GameStage gameStage;
 	private HUDStage  hud;
+	private LightPhysics game;
 	
 	public GameScreen(LightPhysics g, int level)
 	{
 		super(g);
-		gameStage = new GameStage(level);
-		hud = new HUDStage(gameStage.m_level);
+		gameStage = new GameStage(level, g);
+		game = g;
+		hud = new HUDStage(gameStage.m_level, g);
+		MyGdxGame mg = new MyGdxGame();
 
 		InputMultiplexer im = new InputMultiplexer();
 		im.addProcessor(gameStage.gd);
 		im.addProcessor(hud);
 		Gdx.input.setInputProcessor(im);
+		
 	}
 
 	@Override
@@ -41,13 +48,13 @@ public class GameScreen extends AbstractGameScreen{
 	@Override
 	public void show() {
 		// TODO Auto-generated method stub
-		
+		Gdx.input.setCatchBackKey(true);
 	}
 
 	@Override
 	public void hide() {
 		// TODO Auto-generated method stub
-		
+		Gdx.input.setCatchBackKey(false);
 	}
 
 	@Override
@@ -66,5 +73,4 @@ public class GameScreen extends AbstractGameScreen{
 	public void dispose() {
 		gameStage.dispose();
 	}
-
 }
