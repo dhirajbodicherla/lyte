@@ -165,7 +165,8 @@ public class Level implements ContactListener{
 			{
 				EntityDef ed = ld.mMirrors.get(i);
 				Mirror e = new Mirror(ed,bs, i);
-				e.setPhysicsBody(PhysicsBuilder.createPhysicsBody(ed, e, bs, m_world));
+				Body b = PhysicsBuilder.createPhysicsBody(ed, e, bs, m_world);
+				e.setPhysicsBody(b);
 				mMirrors.add(e);
 			}
 			
@@ -174,6 +175,7 @@ public class Level implements ContactListener{
 				EntityDef ed = ld.mAsteroids.get(i);
 				Asteroid e = new Asteroid(ed,bs, i);
 				Body b = PhysicsBuilder.createPhysicsBody(ed, e, bs, m_world);
+				b.setAngularVelocity(-0.3f);
 				e.setPhysicsBody(b);
 				mAsteroids.add(e);
 			}
