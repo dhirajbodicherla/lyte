@@ -1,6 +1,7 @@
 package com.jsd.lyte;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
@@ -29,13 +30,16 @@ public class HUDStage extends Stage
 	private TextButton btnWinOptSave;
 	private TextButton btnWinOptCancel;
 	private Vector2 SCREEN;
+	private LightPhysics game;
 	
-	public HUDStage(Level lv)
+	public HUDStage(Level lv, LightPhysics g)
 	{
 		m_level = lv;
 		SCREEN = Assets.instance.queryScreen();
 		init();
+		game = g;
 //		Gdx.input.setInputProcessor(this);
+		Gdx.input.setCatchBackKey(true);
 	}
 	
 	public void init()
@@ -139,6 +143,7 @@ public class HUDStage extends Stage
 		left.addListener(new ClickListener(){
 			public void clicked(InputEvent event, float x, float y) {
 				m_level.antiClockWiseRotate();
+				return;
 			}
 		});
 		
@@ -152,6 +157,7 @@ public class HUDStage extends Stage
 		right.addListener(new ClickListener(){
 			public void clicked(InputEvent event, float x, float y) {
 				m_level.clockwiseRotate();
+				return;
 			}
 		});
 		
@@ -189,5 +195,19 @@ public class HUDStage extends Stage
 			m_level.nextLevel();
 		}
 	}
+	@Override
+	public boolean keyUp(int keycode) {
+		// TODO Auto-generated method stub
+		if (keycode == Keys.ESCAPE || keycode == Keys.BACK) {
+			backToMenu();
+		}
+
+		return false;
+	}
+	private void backToMenu() {
+		// switch to menu screen
+		game.setScreen(new MenuScreen(game));
+	}
+	
 	 
 }
