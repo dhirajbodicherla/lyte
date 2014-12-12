@@ -72,6 +72,12 @@ public class Mirror extends Entity{
 		
 		sprite = (Assets.instance.getSpriteAtlas()).createSprite(Constants.SPRITE_MIRROR);
 		
+		float sx = findScale(sprite.getWidth(), this.size.x);
+		float sy = findScale(sprite.getHeight(), this.size.y);
+		
+		
+		//sprite.setScale(0.5f, 0.5f);
+		sprite.setScale(sx, sy);
 		select = new Sprite(selection);
 		type = new Sprite(type_tex);
 		
@@ -80,6 +86,23 @@ public class Mirror extends Entity{
 		blurSel.dispose();
 		blurType.dispose();
 		
+	}
+	
+	private float findScale(float oldValue, float newValue)
+	{
+		float scale=0;;
+		if(newValue > oldValue)
+		{
+			float increase = newValue - oldValue;
+			scale = increase/oldValue;
+			scale += 1;
+		}
+		if(oldValue > newValue)
+		{
+			float decrease = oldValue - newValue;
+			scale = 1-(decrease/oldValue);
+		}
+		return scale;
 	}
 	
 	public void render(SpriteBatch sb){
@@ -94,8 +117,6 @@ public class Mirror extends Entity{
 		float x2 = this.pos.x - ((w+10)*0.5f);
 		float y2 = this.pos.y - ((h+10)*0.5f);
 		
-		
-		sb.begin();
 		sprite.setPosition(x, y);
 		sprite.setCenter(x, y);
 		sprite.setRotation(angle*MathUtils.radiansToDegrees);
@@ -106,6 +127,11 @@ public class Mirror extends Entity{
 		
 		type.setPosition(x2, y2);
 		type.setRotation(angle*MathUtils.radiansToDegrees);
+		
+		
+		//Begin drawing
+		sb.begin();
+		
 		
 		if(isSelected)
 			select.draw(sb);
