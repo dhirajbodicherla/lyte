@@ -43,7 +43,7 @@ public class Assets implements Disposable, AssetErrorListener {
 	{
 		manager.load(Constants.TEXTURE_ATLAS_UI, TextureAtlas.class);
 		manager.load(Constants.TEXTURE_ATLAS_HUD, TextureAtlas.class);
-		//manager.load(Constants.TEXTURE_ATLAS_SPRITE, TextureAtlas.class);
+		manager.load(Constants.TEXTURE_ATLAS_SPRITE, TextureAtlas.class);
 	}
 	
 	//call this after asset manager finishes loading everything
@@ -51,7 +51,7 @@ public class Assets implements Disposable, AssetErrorListener {
 	{
 		menuAtlas = manager.get(Constants.TEXTURE_ATLAS_UI);
 		hudAtlas = manager.get(Constants.TEXTURE_ATLAS_HUD);
-		//spriteAtlas = manager.get(Constants.TEXTURE_ATLAS_SPRITE);
+		spriteAtlas = manager.get(Constants.TEXTURE_ATLAS_SPRITE);
 	}
 	
 	public boolean update()

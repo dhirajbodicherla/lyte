@@ -7,17 +7,23 @@ public class Constants {
 	public static final float BOX_TO_WORLD = 100.f; 
 	
 	//Image file paths
-	public static final String TEXTURE_ATLAS_SPRITE = "data/ui/Sprite.pack";
-	public static final String TEXTURE_ATLAS_HUD = "data/ui/HUD.pack";
+	public static final String TEXTURE_ATLAS_SPRITE = "data/ui/Sprites.pack";
+	public static final String TEXTURE_ATLAS_HUD    = "data/ui/HUD.pack";
 	public static final String TEXTURE_ATLAS_UI     = "data/ui/Menu.pack";
 	public static final String IMG_SPLASH_SCREEN 	= "data/img/SplashScreen.png" ;
 	
+	//Atlas Region Names
 	
-	//Atlas Regions
+	//Sprites
+	public static final String SPRITE_EARTH = "earth";
+	public static final String SPRITE_MIRROR = "mirror"; 
+	public static final String SPRITE_ASTEROID = "asteroid";
 	
+	//Misc
 	public static final String IMG_GAME_LOGO     = "Logo";
 	public static final String IMG_GAME_MENU     = "MenuBackground";
 	
+	//Buttons
 	public static final String BTN_PLAY_UP 	 = "PlayUp";
 	public static final String BTN_PLAY_DOWN = "PlayDown";
 	

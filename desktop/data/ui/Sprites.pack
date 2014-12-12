@@ -1,0 +1,26 @@
+
+Sprites.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+mirror
+  rotate: false
+  xy: 1, 51
+  size: 250, 65
+  orig: 250, 65
+  offset: 0, 0
+  index: -1
+earth
+  rotate: false
+  xy: 253, 1
+  size: 130, 115
+  orig: 130, 115
+  offset: 0, 0
+  index: -1
+asteroid
+  rotate: false
+  xy: 385, 50
+  size: 80, 66
+  orig: 80, 66
+  offset: 0, 0
+  index: -1
