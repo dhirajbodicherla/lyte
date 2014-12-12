@@ -3,10 +3,12 @@ package com.jsd.lyte;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
@@ -25,6 +27,9 @@ public class HUDStage extends Stage
 	private TextButton btnWinOptCancel;
 	private Vector2 SCREEN;
 	private LightPhysics game;
+	private Skin skin;
+	private Window pauseWindow;
+	private Window levelCompleteMessageWindow;
 	
 	public HUDStage(Level lv, LightPhysics g)
 	{
@@ -41,6 +46,9 @@ public class HUDStage extends Stage
 	{
 		top = new Table();
 		bottom = new Table();
+		String locRoot = Gdx.files.getLocalStoragePath();
+//		handle = Gdx.files.internal();
+		skin = new Skin(Gdx.files.internal(locRoot+"data/ui/uiskin.json"));
 		
 		replay = AssetFactory.createButton(atlas, Constants.BTN_REPLAY_UP, Constants.BTN_REPLAY_DOWN, true);
 		pause = AssetFactory.createButton(atlas, Constants.BTN_PAUSE_UP, Constants.BTN_PAUSE_DOWN, true);
@@ -69,6 +77,13 @@ public class HUDStage extends Stage
 			}
 		});
 		
+		pause.addListener(new ClickListener(){
+			public void clicked(InputEvent event, float x, float y){
+				pauseWindow.setVisible(true);
+				return;
+			}
+		});
+		
 		
 		float h = start.getMinWidth();
 		top.setBounds(0, SCREEN.y-h, SCREEN.x, h);
@@ -84,8 +99,28 @@ public class HUDStage extends Stage
 		bottom.add();
 		bottom.add(right).padLeft(0.84f*SCREEN.x);
 		
+		/* pause screen screen */
+		
+		pauseWindow = new Window("", skin);
+		pauseWindow.padTop(64);
+		pauseWindow.add(right);
+		pauseWindow.setSize(this.getWidth() / 1.5f, this.getHeight() / 1.5f);
+		pauseWindow.setPosition(this.getWidth() / 2 - pause.getWidth()/2, 
+						  this.getHeight() / 2 - pause.getHeight()/2);
+		pauseWindow.setVisible(false);
+		
+		levelCompleteMessageWindow = new Window("", skin);
+		levelCompleteMessageWindow.padTop(64);
+		levelCompleteMessageWindow.add(right);
+		levelCompleteMessageWindow.setSize(this.getWidth() / 1.5f, this.getHeight() / 1.5f);
+		levelCompleteMessageWindow.setPosition(this.getWidth() / 2 - pause.getWidth()/2, 
+						  this.getHeight() / 2 - pause.getHeight()/2);
+		levelCompleteMessageWindow.setVisible(false);
+		
+		
 		this.addActor(top);
 		this.addActor(bottom);
+		this.addActor(pauseWindow);
 	}
 	
 	public void render()
@@ -95,7 +130,8 @@ public class HUDStage extends Stage
 		
 		if(m_level.isSolved)
 		{
-			m_level.nextLevel();
+			levelCompleteMessageWindow.setVisible(true);
+//			m_level.nextLevel();
 		}
 	}
 	@Override

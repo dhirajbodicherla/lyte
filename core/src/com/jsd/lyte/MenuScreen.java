@@ -36,6 +36,7 @@ public class MenuScreen extends AbstractGameScreen {
 	{
 		music = Gdx.audio.newMusic(Gdx.files.internal("data/sounds/menu_music.mp3"));
 		music.play();
+		music.setVolume(0.0f);
 		menuaAtlas = Assets.instance.getMenuAtlas();
 		buildStage();
 	}
@@ -59,22 +60,44 @@ public class MenuScreen extends AbstractGameScreen {
 		TextButton optBtn = 
 				AssetFactory.createButton(menuaAtlas, 
 				Constants.BTN_OPT_UP, Constants.BTN_OPT_DOWN, false);
+		TextButton creditsBtn = 
+				AssetFactory.createButton(menuaAtlas, 
+				Constants.BTN_OPT_UP, Constants.BTN_OPT_DOWN, false);
+		TextButton helpBtn = 
+				AssetFactory.createButton(menuaAtlas, 
+				Constants.BTN_OPT_UP, Constants.BTN_OPT_DOWN, false);
+		TextButton quitBtn = 
+				AssetFactory.createButton(menuaAtlas, 
+				Constants.BTN_OPT_UP, Constants.BTN_OPT_DOWN, false);
 		playBtn.addListener(new ClickListener(){
 			public void clicked(InputEvent event, float x, float y) {
 				game.setScreen(new LevelSelectScreen(game));
 			}
 		});
 		
+		quitBtn.addListener(new ClickListener(){
+			public void clicked(InputEvent event, float x, float y) {
+				Gdx.app.exit();
+			}
+		});
+		
 		
 		Image logo = AssetFactory.createImage(menuaAtlas, 
 											  Constants.IMG_GAME_LOGO);
+//		layer.debug();
 		layer.setBounds(0, 0, SCREEN.x, SCREEN.y);
-		layer.align(Align.center);
-		layer.add(logo).padBottom(0.3f*SCREEN.y);
+//		layer.align(Align.center);
+		layer.add(logo);//.padTop(100.0f);
 		layer.row();
-		layer.add(playBtn).padBottom(0.02f*SCREEN.y);
+		layer.add(playBtn);//.padTop(150.0f);
 		layer.row();
-		layer.add(optBtn);
+		layer.add(optBtn);//.padTop(200.0f);
+		layer.row();
+		layer.add(creditsBtn);//.padTop(250.0f);
+		layer.row();
+		layer.add(helpBtn);//.padTop(300.0f);
+		layer.row();
+		layer.add(quitBtn);//.padTop(350.0f);
 		
 		
 		return layer;
