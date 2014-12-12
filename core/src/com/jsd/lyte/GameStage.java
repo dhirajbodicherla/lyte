@@ -208,7 +208,7 @@ public class GameStage extends Stage implements GestureListener{
 		m_level.update(mouse);
 		
 		
-		renderer.render(world, cameraCopy.scl(Constants.BOX_TO_WORLD));
+		//renderer.render(world, cameraCopy.scl(Constants.BOX_TO_WORLD));
 		world.step(1/60f, 6, 2);
 	}
 	

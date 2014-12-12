@@ -51,4 +51,22 @@ public class AssetFactory {
 		return new Image(skin, regionName);
 	}
 	
+	//returns the scale value necessary to attain the new value
+	public static float setToScale(float oldValue, float newValue)
+	{
+		float scale=0;;
+		if(newValue > oldValue)
+		{
+			float increase = newValue - oldValue;
+			scale = increase/oldValue;
+			scale += 1;
+		}
+		if(oldValue > newValue)
+		{
+			float decrease = oldValue - newValue;
+			scale = 1-(decrease/oldValue);
+		}
+		return scale;
+	}
+	
 }
