@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Json;
 
 public class HUDStage extends Stage
 {	
@@ -47,9 +48,16 @@ public class HUDStage extends Stage
 	{
 		top = new Table();
 		bottom = new Table();
-		String locRoot = Gdx.files.getLocalStoragePath();
-//		handle = Gdx.files.internal();
-		skin = new Skin(Gdx.files.internal(locRoot+"data/ui/uiskin.json"));
+		String locRoot = "data/ui/uiskin.json";
+		switch(Gdx.app.getType())
+		{
+			case Desktop:
+				locRoot = Gdx.files.getLocalStoragePath() + locRoot;
+				break;
+			case Android:
+				break;
+		}
+		skin = new Skin(Gdx.files.internal(locRoot));
 		menuaAtlas = Assets.instance.getMenuAtlas();
 		
 		replay = AssetFactory.createButton(atlas, Constants.BTN_REPLAY_UP, Constants.BTN_REPLAY_DOWN, true);
@@ -169,6 +177,6 @@ public class HUDStage extends Stage
 		// switch to menu screen
 		game.setScreen(new MenuScreen(game));
 	}
-	
+
 	 
 }
