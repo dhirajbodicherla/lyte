@@ -365,7 +365,7 @@ public class Level implements ContactListener{
 		Entity ed1 = (Entity) fa.getBody().getUserData();
 		Entity ed2 = (Entity) fb.getBody().getUserData();
 		if(ed1 != null && ed2!= null){
-			if(ed1.name.equals("b") && ed2.name.equals("p")){
+			if((ed1.name.equals("b") ||  ed1.name.equals("a"))&& ed2.name.equals("p")){
 				final Fixture toRemove = fb;
 				removePhoton(((Photon)fb.getBody().getUserData()));
 				Gdx.app.postRunnable(new Runnable() {
