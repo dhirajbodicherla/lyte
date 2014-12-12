@@ -30,6 +30,7 @@ public class HUDStage extends Stage
 	private Skin skin;
 	private Window pauseWindow;
 	private Window levelCompleteMessageWindow;
+	private TextureAtlas menuaAtlas;
 	
 	public HUDStage(Level lv, LightPhysics g)
 	{
@@ -49,6 +50,7 @@ public class HUDStage extends Stage
 		String locRoot = Gdx.files.getLocalStoragePath();
 //		handle = Gdx.files.internal();
 		skin = new Skin(Gdx.files.internal(locRoot+"data/ui/uiskin.json"));
+		menuaAtlas = Assets.instance.getMenuAtlas();
 		
 		replay = AssetFactory.createButton(atlas, Constants.BTN_REPLAY_UP, Constants.BTN_REPLAY_DOWN, true);
 		pause = AssetFactory.createButton(atlas, Constants.BTN_PAUSE_UP, Constants.BTN_PAUSE_DOWN, true);
@@ -101,19 +103,39 @@ public class HUDStage extends Stage
 		
 		/* pause screen screen */
 		
-		pauseWindow = new Window("", skin);
+		TextButton pauseCloseBtn = 
+				AssetFactory.createButton(menuaAtlas, 
+				Constants.BTN_OPT_UP, Constants.BTN_OPT_DOWN, false);
+		TextButton proceedToNextLevelBtn = 
+				AssetFactory.createButton(menuaAtlas, 
+				Constants.BTN_OPT_UP, Constants.BTN_OPT_DOWN, false);
+		
+		pauseCloseBtn.addListener(new ClickListener(){
+			public void clicked(InputEvent event, float x, float y) {
+				pauseWindow.setVisible(false);
+			}
+		});
+		
+		proceedToNextLevelBtn.addListener(new ClickListener(){
+			public void clicked(InputEvent event, float x, float y) {
+				levelCompleteMessageWindow.setVisible(false);
+				m_level.nextLevel();
+			}
+		});
+		
+		pauseWindow = new Window("PAUSE", skin);
 		pauseWindow.padTop(64);
-		pauseWindow.add(right);
+		pauseWindow.add(pauseCloseBtn);
 		pauseWindow.setSize(this.getWidth() / 1.5f, this.getHeight() / 1.5f);
 		pauseWindow.setPosition(this.getWidth() / 2 - pause.getWidth()/2, 
 						  this.getHeight() / 2 - pause.getHeight()/2);
 		pauseWindow.setVisible(false);
 		
-		levelCompleteMessageWindow = new Window("", skin);
+		levelCompleteMessageWindow = new Window("Level complete", skin);
 		levelCompleteMessageWindow.padTop(64);
-		levelCompleteMessageWindow.add(right);
+		levelCompleteMessageWindow.add(proceedToNextLevelBtn);
 		levelCompleteMessageWindow.setSize(this.getWidth() / 1.5f, this.getHeight() / 1.5f);
-		levelCompleteMessageWindow.setPosition(this.getWidth() / 2 - pause.getWidth()/2, 
+		levelCompleteMessageWindow.setPosition(this.getWidth() / 2 - levelCompleteMessageWindow.getWidth()/2, 
 						  this.getHeight() / 2 - pause.getHeight()/2);
 		levelCompleteMessageWindow.setVisible(false);
 		
@@ -121,6 +143,7 @@ public class HUDStage extends Stage
 		this.addActor(top);
 		this.addActor(bottom);
 		this.addActor(pauseWindow);
+		this.addActor(levelCompleteMessageWindow);
 	}
 	
 	public void render()
@@ -131,7 +154,6 @@ public class HUDStage extends Stage
 		if(m_level.isSolved)
 		{
 			levelCompleteMessageWindow.setVisible(true);
-//			m_level.nextLevel();
 		}
 	}
 	@Override
