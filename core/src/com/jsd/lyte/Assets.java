@@ -20,30 +20,56 @@ public class Assets implements Disposable, AssetErrorListener {
 	public static final String TAG = Assets.class.getName();
 	public static final Assets instance = new Assets();
 	
-	private AssetManager assetManager;
+	private AssetManager manager;
 	private Vector2 VIEWPORT;
 	private Vector2 SCREEN;
+	
+	private TextureAtlas menuAtlas;
+	private TextureAtlas spriteAtlas;
+	private TextureAtlas hudAtlas;
 
 	// singleton: prevent instantiation from other classes
 	private Assets() {}
 
 	public void init(AssetManager assetManager) {
-		this.assetManager = assetManager;
+		this.manager = assetManager;
 		// set asset manager error handler
 		assetManager.setErrorListener(this);
-		SCREEN = new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		VIEWPORT = null;
+		//calculate viewport
 		calcViewport();
-		Gdx.app.debug("VIEWPORT","Selected Viewport:"+VIEWPORT);
-		
+	}
+	
+	public void load()
+	{
+		manager.load(Constants.TEXTURE_ATLAS_UI, TextureAtlas.class);
+		manager.load(Constants.TEXTURE_ATLAS_HUD, TextureAtlas.class);
+		//manager.load(Constants.TEXTURE_ATLAS_SPRITE, TextureAtlas.class);
+	}
+	
+	//call this after asset manager finishes loading everything
+	public void setupAssets()
+	{
+		menuAtlas = manager.get(Constants.TEXTURE_ATLAS_UI);
+		hudAtlas = manager.get(Constants.TEXTURE_ATLAS_HUD);
+		//spriteAtlas = manager.get(Constants.TEXTURE_ATLAS_SPRITE);
+	}
+	
+	public boolean update()
+	{
+		return manager.update();
 	}
 	
 	private void calcViewport()
 	{
+		SCREEN = new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		VIEWPORT = null;
+		
+		//Screen Size
 		int w = Gdx.graphics.getWidth();
 		int h = Gdx.graphics.getHeight();
 		float GCD = (int)(gcd(w, h));
-		Gdx.app.debug("SCREEN", "W: "+w+" H: "+h);
+		
+		//Aspect Ratio
 		int aW = (int) (w/GCD);
 		int aH = (int) (h/GCD);
 		
@@ -74,6 +100,9 @@ public class Assets implements Disposable, AssetErrorListener {
 		//if no suitable match reverting to 640x480
 		if(VIEWPORT==null)
 			VIEWPORT = new Vector2(640,480);
+		
+		Gdx.app.debug("VIEWPORT","Selected Viewport:"+VIEWPORT);
+		Gdx.app.debug("SCREEN", "W: "+w+" H: "+h);
 	}
 	
 	private int gcd (int a, int b) {
@@ -89,10 +118,25 @@ public class Assets implements Disposable, AssetErrorListener {
 	{
 		return SCREEN;
 	}
+	
+	public TextureAtlas getMenuAtlas()
+	{
+		return menuAtlas;
+	}
+	
+	public TextureAtlas getSpriteAtlas()
+	{
+		return spriteAtlas;
+	}
+	
+	public TextureAtlas getHUDAtlas()
+	{
+		return hudAtlas;
+	}
 
 	@Override
 	public void dispose() {
-		assetManager.dispose();
+		manager.dispose();
 	}
 
 

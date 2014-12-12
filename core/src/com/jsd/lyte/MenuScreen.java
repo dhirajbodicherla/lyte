@@ -22,10 +22,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 public class MenuScreen extends AbstractGameScreen {
 
 	private Stage stage;
-	private Image imgBackground;
-	private Skin skin; 
-	private TextureAtlas atlas;
 	private Music music;
+	TextureAtlas menuaAtlas;
 
 	public MenuScreen(LightPhysics game) {
 		super(game);
@@ -36,10 +34,9 @@ public class MenuScreen extends AbstractGameScreen {
 	
 	public void init()
 	{
-		atlas = new TextureAtlas(Gdx.files.internal("data/ui/Menu.pack"));
-		skin = new Skin(atlas);
 		music = Gdx.audio.newMusic(Gdx.files.internal("data/sounds/menu_music.mp3"));
 		music.play();
+		menuaAtlas = Assets.instance.getMenuAtlas();
 		buildStage();
 	}
 
@@ -56,41 +53,12 @@ public class MenuScreen extends AbstractGameScreen {
 	private Table buildForeground() {
 		Vector2 SCREEN = Assets.instance.queryScreen();
 		Table layer = new Table();
-		float w = (skin.getDrawable("PlayUp").getMinWidth() / 640) * SCREEN.x;
-		float h = (skin.getDrawable("PlayUp").getMinHeight() / 480) * SCREEN.y;
-		
-		Drawable PlayUp = skin.getDrawable("PlayUp");
-		Drawable PlayDown = skin.getDrawable("PlayDown");
-		Drawable OptUp = skin.getDrawable("OptUp");
-		Drawable OptDown= skin.getDrawable("OptDown");
-		BitmapFont black = new BitmapFont();
-		
-		PlayUp.setMinWidth(w);
-		PlayUp.setMinHeight(h);
-		PlayDown.setMinWidth(w);
-		PlayDown.setMinHeight(h);
-		OptUp.setMinWidth(w);
-		OptUp.setMinHeight(h);
-		OptDown.setMinWidth(w);
-		OptDown.setMinHeight(h);
-		
-		TextButtonStyle playButtonStyle = new TextButtonStyle();
-		playButtonStyle.up = PlayUp;
-		playButtonStyle.down = PlayDown;
-		playButtonStyle.pressedOffsetX = 1;
-		playButtonStyle.pressedOffsetY = -1;
-		playButtonStyle.font = black;
-		
-		TextButtonStyle optButtonStyle = new TextButtonStyle();
-		optButtonStyle.up = OptUp;
-		optButtonStyle.down = OptDown;
-		optButtonStyle.pressedOffsetX = 1;
-		optButtonStyle.pressedOffsetY = -1;
-		optButtonStyle.font = black;
-		
-		TextButton playBtn = new TextButton("", playButtonStyle);
-		TextButton optBtn = new TextButton("", optButtonStyle);
-		
+		TextButton playBtn = 
+				AssetFactory.createButton(menuaAtlas, 
+				Constants.BTN_PLAY_UP, Constants.BTN_PLAY_DOWN, false);
+		TextButton optBtn = 
+				AssetFactory.createButton(menuaAtlas, 
+				Constants.BTN_OPT_UP, Constants.BTN_OPT_DOWN, false);
 		playBtn.addListener(new ClickListener(){
 			public void clicked(InputEvent event, float x, float y) {
 				game.setScreen(new LevelSelectScreen(game));
@@ -98,8 +66,8 @@ public class MenuScreen extends AbstractGameScreen {
 		});
 		
 		
-		Image logo = new Image(skin, "Logo");
-		
+		Image logo = AssetFactory.createImage(menuaAtlas, 
+											  Constants.IMG_GAME_LOGO);
 		layer.setBounds(0, 0, SCREEN.x, SCREEN.y);
 		layer.align(Align.center);
 		layer.add(logo).padBottom(0.3f*SCREEN.y);
@@ -130,18 +98,18 @@ public class MenuScreen extends AbstractGameScreen {
 	private Table buildBackground() {
 		Vector2 SCREEN = Assets.instance.queryScreen();
 		Table layer = new Table();
-		 imgBackground = new Image(skin, "MenuBackground");
-		 imgBackground.setBounds(0, 0, SCREEN.x, SCREEN.y);
-		 layer.add(imgBackground);
+		Image imgBackground =  AssetFactory.createImage(menuaAtlas, 
+				 								   Constants.IMG_GAME_MENU);
+		imgBackground.setBounds(0, 0, SCREEN.x, SCREEN.y);
+		layer.add(imgBackground);
 		
-		 return layer;
+		return layer;
 	}
 
 	
 
 	@Override
 	public void resize(int width, int height) {
-//		stage.setViewport(new StretchViewport(68, 40));
 		stage.getViewport().update(width, height, true);
 	}
 
@@ -153,7 +121,6 @@ public class MenuScreen extends AbstractGameScreen {
 	@Override
 	public void hide() {
 		stage.dispose();
-		skin.dispose();
 		music.dispose();
 	}
 

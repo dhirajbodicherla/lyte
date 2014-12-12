@@ -8,8 +8,8 @@ import com.jsd.lyte.LightPhysics;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.width = 1280; 
-		config.height = 800;
+		config.width = 640; 
+		config.height = 480;
 		new LwjglApplication(new LightPhysics(), config);
 	}
 }

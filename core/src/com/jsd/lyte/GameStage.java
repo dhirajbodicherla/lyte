@@ -232,7 +232,6 @@ public class GameStage extends Stage implements GestureListener{
 		{
 			((Mirror)(hitBody.getUserData())).isSelected=true;
 			m_level.setSelectedBody(hitBody);
-			System.out.println("Selected");
 		}
 		
 		return false;
