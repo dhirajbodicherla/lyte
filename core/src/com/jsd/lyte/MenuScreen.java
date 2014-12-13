@@ -34,9 +34,10 @@ public class MenuScreen extends AbstractGameScreen {
 	
 	public void init()
 	{
-		music = Gdx.audio.newMusic(Gdx.files.internal("data/sounds/menu_music.mp3"));
+		music = Gdx.audio.newMusic(Gdx.files.internal("data/sounds/menu_screen.wav"));
 		music.play();
-		music.setVolume(0.0f);
+		music.setLooping(true);
+		music.setVolume(0.6f);
 		menuaAtlas = Assets.instance.getMenuAtlas();
 		buildStage();
 	}
@@ -166,6 +167,7 @@ public class MenuScreen extends AbstractGameScreen {
 
 	@Override
 	public void pause() {
+		
 	}
 
 }

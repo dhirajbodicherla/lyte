@@ -26,6 +26,7 @@ public class Level implements ContactListener{
 	int currentLevel;
 	//level over? 
 	public boolean isSolved;	//initially set to false
+	public boolean isGameOver;
 	
 	
 	//Number of photons hits
@@ -54,7 +55,8 @@ public class Level implements ContactListener{
 	
 	public Level(String filename, World world, int level) {
 		m_world = world;
-		currentLevel = level -1 ;			// Levels always start with 0 
+		currentLevel = level -1 ;			// Levels always start with 0
+		isGameOver = false;
 		init(filename);
 		
 	}
@@ -105,10 +107,15 @@ public class Level implements ContactListener{
 		currentLevel++;
 		if(currentLevel<0)
 			currentLevel = 0;
-		if(currentLevel>mLevels.list.size()-1)
-			currentLevel = mLevels.list.size()-1;
-		
+//		if(currentLevel>mLevels.list.size()-1)
+//			currentLevel = mLevels.list.size()-1;
 		destroy();
+//		Gdx.app.debug("level", String.valueOf(currentLevel) + String.valueOf(mLevels.list.size()-1));
+		if(currentLevel == mLevels.list.size()-1){
+			Gdx.app.debug("Level", "game is over and return");
+			isGameOver = true;
+//			return;
+		}
 		initLevel();
 	}
 	

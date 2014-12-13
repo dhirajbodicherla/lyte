@@ -49,6 +49,7 @@ public class GameStage extends Stage implements GestureListener{
 	public GestureDetector gd;
 	private LightPhysics game;
 	public Level m_level; 
+	private Boolean gameIsPaused = false;
 	
 	
 	public GameStage(int level, LightPhysics game)
@@ -56,6 +57,7 @@ public class GameStage extends Stage implements GestureListener{
 		VIEWPORT = Assets.instance.queryViewport();
 		gd = new GestureDetector(this);
 //        Gdx.input.setInputProcessor(gd);
+		gd.setLongPressSeconds(2);
 		this.game = game;
 		this.init(level);
 	}
@@ -65,7 +67,7 @@ public class GameStage extends Stage implements GestureListener{
 		world = new World(new Vector2(0.0f, 0.0f), false);
 		renderer = new Box2DDebugRenderer();
 		m_level = new Level("data/level.js", world, level);
-//		photonShootSound = Gdx.audio.newSound(Gdx.files.internal("data/sounds/photon_shoot.mp3"));
+		photonShootSound = Gdx.audio.newSound(Gdx.files.internal("data/sounds/game.wav"));
 	}
 	
 	public void setupCamera()
@@ -110,7 +112,6 @@ public class GameStage extends Stage implements GestureListener{
 		setupCamera();
 		initRendering();
 		initInteractivity();
-		
 	}
 	
 	
@@ -204,12 +205,14 @@ public class GameStage extends Stage implements GestureListener{
 		Matrix4 cameraCopy = camera.combined.cpy();
 		batch.setProjectionMatrix(camera.combined);
 		//Render Level here
+		
 		m_level.render(batch);
 		m_level.update(mouse);
-		
-		
+	
 		//renderer.render(world, cameraCopy.scl(Constants.BOX_TO_WORLD));
-		world.step(1/60f, 6, 2);
+		if(!gameIsPaused){
+			world.step(1/60f, 6, 2);
+		}
 	}
 	
 	
@@ -312,4 +315,13 @@ public class GameStage extends Stage implements GestureListener{
 			Vector2 pointer1, Vector2 pointer2) {
 		return false;
 	}
+	
+	public void pause(){
+		gameIsPaused = true;
+	}
+	
+	public void resume(){
+		gameIsPaused = false;
+	}
+	
 }

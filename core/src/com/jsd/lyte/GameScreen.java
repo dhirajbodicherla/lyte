@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.input.GestureDetector;
 
@@ -13,6 +14,7 @@ public class GameScreen extends AbstractGameScreen{
 	private GameStage gameStage;
 	private HUDStage  hud;
 	private LightPhysics game;
+	private Music music;
 	
 	public GameScreen(LightPhysics g, int level)
 	{
@@ -26,6 +28,11 @@ public class GameScreen extends AbstractGameScreen{
 		im.addProcessor(gameStage.gd);
 		im.addProcessor(hud);
 		Gdx.input.setInputProcessor(im);
+		
+		music = Gdx.audio.newMusic(Gdx.files.internal("data/sounds/level_1.wav"));
+		music.play();
+		music.setLooping(true);
+		music.setVolume(0.6f);
 		
 	}
 
@@ -60,13 +67,13 @@ public class GameScreen extends AbstractGameScreen{
 	@Override
 	public void pause() {
 		// TODO Auto-generated method stub
-		
+		gameStage.pause();
 	}
 
 	@Override
 	public void resume() {
 		// TODO Auto-generated method stub
-		
+		gameStage.resume();
 	}
 
 	@Override
