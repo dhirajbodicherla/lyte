@@ -1,6 +1,8 @@
 package com.jsd.lyte;
 
 
+import java.awt.Label;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Sound;
@@ -9,11 +11,13 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 
 public class HUDStage extends Stage
@@ -35,15 +39,21 @@ public class HUDStage extends Stage
 	private TextureAtlas menuaAtlas;
 	private Window gameOverMessageWindow;
 	private Sound levelCompleteSound;
+	private TextButton pauseVolumeBtn;
+	private GamePreferences prefs;
+	private float defaultVolume;
 	
 	public HUDStage(Level lv, LightPhysics g)
 	{
 		m_level = lv;
+		game = g;
 		SCREEN = Assets.instance.queryScreen();
 		atlas = Assets.instance.getHUDAtlas();
+		prefs = GamePreferences.instance;
+		prefs.load();
+		defaultVolume = prefs.volSound;
 		init();
-		game = g;
-//		Gdx.input.setInputProcessor(this);
+		
 		Gdx.input.setCatchBackKey(true);
 	}
 	
@@ -113,17 +123,50 @@ public class HUDStage extends Stage
 		bottom.add();
 		bottom.add(right).padLeft(0.84f*SCREEN.x);
 		
-		/* pause screen screen */
+		/* pause screen screen ::: need to change BackUp and BackDown */
 		
+		String pauseVolumeDefaultBtn = "SoundUp";
+		String pauseVolumeActiveBtn = "SoundDown";
+		if(!prefs.sound){
+			pauseVolumeDefaultBtn = "SoundDown";
+			pauseVolumeActiveBtn = "SoundUp";
+		}
+		
+		TextButton pauseGameCloseBtn = 
+				AssetFactory.createButton(atlas, 
+				"BackUp", "BackDown", false);
 		TextButton pauseCloseBtn = 
-				AssetFactory.createButton(menuaAtlas, 
-				Constants.BTN_OPT_UP, Constants.BTN_OPT_DOWN, false);
+				AssetFactory.createButton(atlas, 
+				"QuitUp", "QuitDown", false);
+		pauseVolumeBtn = 
+				AssetFactory.createButton(atlas, 
+				pauseVolumeDefaultBtn, pauseVolumeActiveBtn, false);
+		
 		TextButton proceedToNextLevelBtn = 
 				AssetFactory.createButton(menuaAtlas, 
 				Constants.BTN_OPT_UP, Constants.BTN_OPT_DOWN, false);
 		TextButton gameOverRestartBtn = 
 				AssetFactory.createButton(menuaAtlas, 
 				Constants.BTN_OPT_UP, Constants.BTN_OPT_DOWN, false);
+		
+		pauseGameCloseBtn.addListener(new ClickListener(){
+			public void clicked(InputEvent event, float x, float y) {
+				game.setScreen(new MenuScreen(game));
+			}
+		});
+		
+		pauseVolumeBtn.addListener(new ClickListener(){
+			public void clicked(InputEvent event, float x, float y) {
+				Drawable temp = pauseVolumeBtn.getStyle().up;
+				pauseVolumeBtn.getStyle().up = pauseVolumeBtn.getStyle().down;
+				pauseVolumeBtn.getStyle().down = temp;
+				if(prefs.sound){
+					
+				}else{
+					
+				}
+			}
+		});
 		
 		pauseCloseBtn.addListener(new ClickListener(){
 			public void clicked(InputEvent event, float x, float y) {
@@ -150,9 +193,14 @@ public class HUDStage extends Stage
 			}
 		});
 		
-		pauseWindow = new Window("PAUSE", skin);
+		pauseWindow = new Window("", skin);
 		pauseWindow.padTop(64);
+		Image heading = AssetFactory.createImage(atlas, "PauseText");
+		pauseWindow.add(heading).padBottom(75.0f).colspan(3);
+		pauseWindow.row();
+		pauseWindow.add(pauseGameCloseBtn);
 		pauseWindow.add(pauseCloseBtn);
+		pauseWindow.add(pauseVolumeBtn);
 		pauseWindow.setSize(this.getWidth(), this.getHeight());
 		//pauseWindow.setPosition(this.getWidth() / 2 - pause.getWidth()/2, this.getHeight() / 2 - pause.getHeight()/2);
 		pauseWindow.setVisible(false);

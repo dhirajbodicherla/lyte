@@ -55,7 +55,7 @@ public class GameStage extends Stage implements GestureListener{
 		VIEWPORT = Assets.instance.queryViewport();
 		gd = new GestureDetector(this);
 //        Gdx.input.setInputProcessor(gd);
-		gd.setLongPressSeconds(2);
+		gd.setLongPressSeconds(1);
 		this.game = game;
 		this.init(level);
 	}

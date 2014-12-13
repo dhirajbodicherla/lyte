@@ -12,6 +12,8 @@ public class Constants {
 	public static final String TEXTURE_ATLAS_UI     = "data/ui/Menu.pack";
 	public static final String IMG_SPLASH_SCREEN 	= "data/img/SplashScreen.png" ;
 	
+	public static final String PREFERENCES = "lyte_prefs";
+	
 	//Atlas Region Names
 	
 	//Sprites
@@ -25,7 +27,7 @@ public class Constants {
 	public static final String TEXT_GAME_COMPLETE     = "CompleteText";
 	
 	//Misc
-	
+	public static final String IMG_GAME_LOGO     = "Logo";
 	public static final String IMG_GAME_MENU     = "MenuBackground";
 	public static final String IMG_GAME_PAUSE    = "Panel";
 	
