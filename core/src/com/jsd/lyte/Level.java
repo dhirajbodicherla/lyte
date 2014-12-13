@@ -48,9 +48,6 @@ public class Level implements ContactListener{
 	private ArrayList<Asteroid> mAsteroids;
 	private ArrayList<Mirror> mMirrors;
 	private ArrayList<Photon> mPhotons;
-	
-	//direction of shoot
-	float dx, dy;
 
 	
 	public Level(String filename, World world, int level) {
@@ -222,7 +219,7 @@ public class Level implements ContactListener{
 	public void update(Vector3 mouse) {
 		if(gameState == 2)
 		{
-			TrackMouse(mouse);
+			//TrackMouse(mouse);
 			blackHoleInfluence();
 		}
 	}
@@ -287,22 +284,7 @@ public class Level implements ContactListener{
 			SelectedBody.setTransform(SelectedBody.getWorldCenter(), currentRotation);
 		}
 	}
-	
-	
-	public void TrackMouse(Vector3 mouse)
-	{
-		if(gameState == 2)
-		{
-			dx = 320*Constants.WORLD_TO_BOX - mSource.getPhysicsBody().getWorldCenter().x;
-			dy = 240*Constants.WORLD_TO_BOX - mSource.getPhysicsBody().getWorldCenter().y;
-			float angle = (float)Math.atan2(dy,dx);
-			Vector2 norm = new Vector2(dx, dy);
-			norm.nor();
-			dx = norm.x;
-			dy = norm.y;
-			mSource.getPhysicsBody().setTransform(mSource.getPhysicsBody().getWorldCenter(), angle);
-		}
-	}
+
 	
 	public void setSelectedBody(Body b)
 	{
@@ -345,8 +327,16 @@ public class Level implements ContactListener{
 	{
 		if(gameState == 2)
 		{
+			float dx, dy;
+			float fireAngle = (float) mSource.getPhysicsBody().getAngle();  //in radians
+
+			dx = (float) (Constants.WORLD_TO_BOX*Math.cos(fireAngle));
+			dy = (float) (Constants.WORLD_TO_BOX*Math.sin(fireAngle));
+			Vector2 nor = new Vector2(dx,dy);
+			nor.nor();
+				
 			float fireRadius= (float)(mSource.getSize().x * 0.5 * Constants.WORLD_TO_BOX) ;
-			Vector2 dir = new Vector2(dx*fireRadius, dy*fireRadius);
+			Vector2 dir = new Vector2((float)(nor.x*fireRadius), (float)(nor.y*fireRadius));
 			Vector2 firePoint = dir.add(mSource.getPhysicsBody().getWorldCenter());
 			EntityDef ed = new EntityDef();
 			ed.name = "p";
@@ -357,7 +347,7 @@ public class Level implements ContactListener{
 			Body circleBody = PhysicsBuilder.createPhysicsBody(ed, p, m_world);
 
 			p.setPhysicsBody(circleBody);
-			p.getPhysicsBody().applyLinearImpulse(dx*Constants.WORLD_TO_BOX, dy*Constants.WORLD_TO_BOX, circleBody.getWorldCenter().x, circleBody.getWorldCenter().y, true);
+			p.getPhysicsBody().applyLinearImpulse(nor.x*Constants.WORLD_TO_BOX, nor.y*Constants.WORLD_TO_BOX, circleBody.getWorldCenter().x, circleBody.getWorldCenter().y, true);
 			mPhotons.add(p);
 			++photonCount;
 			

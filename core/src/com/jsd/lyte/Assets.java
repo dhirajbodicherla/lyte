@@ -95,7 +95,7 @@ public class Assets implements Disposable, AssetErrorListener {
 		
 		//3:2
 		if(aW==3 && aH==2)
-			VIEWPORT = new Vector2(600, 480);
+			VIEWPORT = new Vector2(960, 640);
 		
 		//if no suitable match reverting to 640x480
 		if(VIEWPORT==null)

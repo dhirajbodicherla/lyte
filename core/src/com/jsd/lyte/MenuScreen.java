@@ -86,7 +86,7 @@ public class MenuScreen extends AbstractGameScreen {
 		
 		
 		Image logo = AssetFactory.createImage(menuaAtlas, 
-											  Constants.IMG_GAME_LOGO);
+											  Constants.TEXT_GAME_LOGO);
 		
 		float h = quitBtn.getMinHeight();
 		center.setBounds(0, 0, SCREEN.x, SCREEN.y);

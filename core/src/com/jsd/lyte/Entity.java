@@ -9,7 +9,7 @@ public class Entity {
 	protected String name;
 	protected Vector2 pos; 			//Maintain position in pixels
 	protected Vector2 size;			//Maintain size in pixels
-	protected float angle; 
+	protected float angle; 			//Maintain angle in degrees
 	protected Body physicsBody;
 	protected String type;
 	protected float ir;				//Maintain influence radius in pixels
@@ -43,7 +43,7 @@ public class Entity {
 		//update position and angle
 		this.pos.x = this.physicsBody.getPosition().x * Constants.BOX_TO_WORLD;
 		this.pos.y = this.physicsBody.getPosition().y * Constants.BOX_TO_WORLD;
-		this.angle = this.physicsBody.getAngle();
+		this.angle = this.physicsBody.getAngle(); //get angle in radias from physics body;
 	}
 	public void render(SpriteBatch sb)
 	{
