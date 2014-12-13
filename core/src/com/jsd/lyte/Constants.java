@@ -27,7 +27,7 @@ public class Constants {
 	public static final String TEXT_GAME_COMPLETE     = "CompleteText";
 	
 	//Misc
-	
+	public static final String IMG_GAME_LOGO     = "Logo";
 	public static final String IMG_GAME_MENU     = "MenuBackground";
 	public static final String IMG_GAME_PAUSE    = "Panel";
 	

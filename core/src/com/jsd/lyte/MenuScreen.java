@@ -22,6 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
@@ -56,11 +57,11 @@ public class MenuScreen extends AbstractGameScreen {
 		menuaAtlas = Assets.instance.getMenuAtlas();
 		String locRoot = "data/ui/uimenuskin.json";
 		switch (Gdx.app.getType()) {
-			case Desktop:
-				locRoot = Gdx.files.getLocalStoragePath() + locRoot;
-				break;
-			case Android:
-				break;
+		case Desktop:
+			locRoot = Gdx.files.getLocalStoragePath() + locRoot;
+			break;
+		case Android:
+			break;
 		}
 		skin = new Skin(Gdx.files.internal(locRoot));
 		skin.getFont("default").setScale(0.25f, 0.25f);
@@ -155,7 +156,6 @@ public class MenuScreen extends AbstractGameScreen {
 		stack.add(background);
 		stack.add(foreground);
 		stage.addActor(layerOptionsWindow);
-
 	}
 
 	private Table buildBackground() {
@@ -209,40 +209,61 @@ public class MenuScreen extends AbstractGameScreen {
 		// Move options window to bottom right corner
 		// winOptions.setPosition(Constants.VIEWPORT_GUI_WIDTH -
 		// winOptions.getWidth() - 50, 50);
-		winOptions.setSize(Gdx.graphics.getWidth()/2f - winOptions.getWidth()/2, 
-							Gdx.graphics.getHeight()/2f - winOptions.getHeight()/2);
-		winOptions.setPosition(Gdx.graphics.getWidth()/1.5f,
-								Gdx.graphics.getHeight()/1.5f);
+		winOptions.setSize(Gdx.graphics.getWidth() / 2f,
+				Gdx.graphics.getHeight() / 2f);
+		winOptions.setPosition(
+				Gdx.graphics.getWidth() / 2f - winOptions.getWidth() / 2f,
+				Gdx.graphics.getHeight() / 2f - winOptions.getWidth() / 2f);
+		loadSettings();
 		return winOptions;
 	}
 
 	private Table buildOptWinAudioSettings() {
 		Table tbl = new Table();
-		// + Title: "Audio"
 //		tbl.pad(10, 10, 0, 10);
-//		Label l = new Label("Audio", skin, "default", Color.ORANGE);
-//		l.setFontScale(0.25f);
-//		tbl.add(l).colspan(3);
-//		tbl.row();
-//		tbl.columnDefaults(0).padRight(10);
-//		tbl.columnDefaults(1).padRight(10);
 		// + Checkbox, "Sound" label, sound volume slider
-		chkSound = new CheckBox(" Music", skin);
-		tbl.add(chkSound);
-//		tbl.row();
-//		Label l2 = new Label("Sounds", skin, "default", Color.ORANGE);
-//		l2.setFontScale(0.25f);
-//		tbl.add(l2);
-//		sldSound = new Slider(0.0f, 1.0f, 0.1f, false, skin);
-//		tbl.add(sldSound);
-//		tbl.row();
-		// + Checkbox, "Music" label, music volume slider
-//		chkMusic = new CheckBox("", skin);
-//		tbl.add(chkMusic);
-//		tbl.add(new Label("Music", skin));
-//		sldMusic = new Slider(0.0f, 1.0f, 0.1f, false, skin);
-//		tbl.add(sldMusic);
-//		tbl.row();
+		chkSound = new CheckBox(" Sound", skin);
+		tbl.add(chkSound).padBottom(20.0f);
+
+		sldSound = new Slider(0.0f, 1.0f, 0.1f, false, skin);
+		sldSound.setValue(0.6f);
+		tbl.add(sldSound).padBottom(20.0f);
+		tbl.row();
+
+		// + Separator
+		Label lbl = null;
+		lbl = new Label("", skin);
+		lbl.setColor(0.75f, 0.75f, 0.75f, 1);
+		// lbl.setStyle(new LabelStyle(lbl.getStyle()));
+		lbl.getStyle().background = skin.newDrawable("white");
+		tbl.add(lbl).colspan(2).height(1).width(220).pad(0, 0, 0, 1);
+		tbl.row();
+		lbl = new Label("", skin);
+		lbl.setColor(0.5f, 0.5f, 0.5f, 1);
+		// lbl.setStyle(new LabelStyle(lbl.getStyle()));
+		lbl.getStyle().background = skin.newDrawable("white");
+		tbl.add(lbl).colspan(2).height(1).width(220).pad(0, 1, 5, 0);
+		tbl.row();
+
+		TextButton btnWinOptSave = new TextButton("Save", skin);
+		tbl.add(btnWinOptSave).padRight(30).padTop(10f);
+		btnWinOptSave.addListener(new ClickListener() {
+			public void clicked(InputEvent event, float x, float y) {
+				onSaveClicked();
+				return;
+			}
+		});
+
+		// + Cancel Button with event handler
+		TextButton btnWinOptCancel = new TextButton("Cancel", skin);
+		tbl.add(btnWinOptCancel).padTop(10f);
+		btnWinOptCancel.addListener(new ClickListener() {
+			public void clicked(InputEvent event, float x, float y) {
+				onCancelClicked();
+				return;
+			}
+		});
+
 		return tbl;
 	}
 
@@ -251,22 +272,34 @@ public class MenuScreen extends AbstractGameScreen {
 		prefs.load();
 		chkSound.setChecked(prefs.sound);
 		sldSound.setValue(prefs.volSound);
-		chkMusic.setChecked(prefs.music);
-		sldMusic.setValue(prefs.volMusic);
-//		selCharSkin.setse.setSelection(prefs.charSkin);
-//		onCharSkinSelected(prefs.charSkin);
-		chkShowFpsCounter.setChecked(prefs.showFpsCounter);
+//		chkMusic.setChecked(prefs.music);
+//		sldMusic.setValue(prefs.volMusic);
+		// selCharSkin.setse.setSelection(prefs.charSkin);
+		// onCharSkinSelected(prefs.charSkin);
+//		chkShowFpsCounter.setChecked(prefs.showFpsCounter);
 	}
 
 	private void saveSettings() {
 		GamePreferences prefs = GamePreferences.instance;
 		prefs.sound = chkSound.isChecked();
 		prefs.volSound = sldSound.getValue();
-		prefs.music = chkMusic.isChecked();
-		prefs.volMusic = sldMusic.getValue();
-//		prefs.charSkin = selCharSkin.getSelectionIndex();
-		prefs.showFpsCounter = chkShowFpsCounter.isChecked();
+//		prefs.music = chkMusic.isChecked();
+//		prefs.volMusic = sldMusic.getValue();
+//		// prefs.charSkin = selCharSkin.getSelectionIndex();
+//		prefs.showFpsCounter = chkShowFpsCounter.isChecked();
 		prefs.save();
+	}
+	
+	private void onSaveClicked(){
+		saveSettings();
+		winOptions.setVisible(false);
+	}
+
+	private void onCancelClicked() {
+		// btnMenuPlay.setVisible(true);
+		// btnMenuOptions.setVisible(true);
+		winOptions.setVisible(false);
+		// AudioManager.instance.onSettingsUpdated();
 	}
 
 }
