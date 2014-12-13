@@ -1,0 +1,66 @@
+ {
+        mName: "Level 1",
+        mBaseWidth: 640,
+        mBaseHeight: 480,
+        mSource:{name:"s", type:"K", shape:"rect", x:80, y:80, w:40, h:10, angle: 30},
+        mTarget:{name:"e", type:"S", shape:"circle", x:450, y:300, r:40},
+    }, 
+
+
+    {
+        mName: "Level 2",
+        mBaseWidth: 640,
+        mBaseHeight: 480,
+        mSource:{name:"s", type:"K", shape:"rect", x:80, y:80, w:40, h:10, angle: 50},
+        mTarget:{name:"e", type:"S", shape:"circle", x:500, y:200, r:40},
+        mMirrors: [{name:"m",type:"S",shape:"rect",x:350,y:400,w:60,h:20, angle:0, fixedRotation:0, fixedPosition:0}] 
+    }, 
+
+    {
+        mName: "Level 3",
+        mBaseWidth: 640,
+        mBaseHeight: 480,
+        mSource:{name:"s", type:"K", shape:"rect", x:300, y:40, w:50, h:10, angle: 150},
+        mTarget:{name:"e", type:"S", shape:"circle", x:450, y:300, r:40},
+        mMirrors: [{name:"m",type:"S",shape:"rect",x:85,y:150,w:50,h:10, angle:120, fixedRotation:1, fixedPosition:0}] 
+    }, 
+
+     {
+        mName: "Level 4",
+        mBaseWidth: 640,
+        mBaseHeight: 480,
+        mSource:{name:"s", type:"K", shape:"rect", x:80, y:60, w:60, h:15, angle: 75},
+        mTarget:{name:"e", type:"S", shape:"circle", x:570, y:350, r:40},
+        mMirrors: [{name:"m",type:"S",shape:"rect",x:140,y:350,w:60,h:15, angle:20, fixedRotation:1, fixedPosition:0}, 
+                   {name:"m",type:"S",shape:"rect",x:400,y:130,w:60,h:15, angle:0, fixedRotation:0, fixedPosition:1}], 
+    },
+
+    {
+        mName: "Level 5",
+        mBaseWidth: 640,
+        mBaseHeight: 480,
+        mSource:{name:"s", type:"K", shape:"rect", x:80, y:80, w:40, h:10, angle: 25},
+        mTarget:{name:"e", type:"S", shape:"circle", x:480, y:440, r:50},
+        mMirrors: [{name:"m",type:"S",shape:"rect",x:30,y:300,w:90,h:25, angle:95, fixedRotation:1, fixedPosition:0},
+                   {name:"m",type:"S",shape:"rect",x:340,y:200,w:90,h:25, angle:90, fixedRotation:0, fixedPosition:1}],
+        mAsteroids: [{name:"a",type:"k",shape:"circle",x:400,y:200,r:30}], 
+    },
+
+    {
+        mName: "Level 6",
+        mBaseWidth: 640,
+        mBaseHeight: 480,
+        mSource:{name:"s", type:"K", shape:"rect", x:80, y:80, w:40, h:10, angle:25},
+        mTarget:{name:"e", type:"S", shape:"circle", x:320, y:470, r:40},
+        mBlackholes: [{name:"b",type:"k",shape:"circle",x:200,y:300,r:12, ir: 150, g:2}]
+    },
+
+    {
+        mName: "Level 7",
+        mBaseWidth: 640,
+        mBaseHeight: 480,
+        mSource:{name:"s", type:"K", shape:"rect", x:80, y:80, w:40, h:10, angle:15},
+        mTarget:{name:"e", type:"S", shape:"circle", x:590, y:460, r:40},
+        mMirrors: [{name:"m",type:"S",shape:"rect",x:300,y:400,w:90,h:25, angle:73, fixedRotation:1, fixedPosition:0}],
+        mBlackholes: [{name:"b",type:"k",shape:"circle",x:300,y:250,r:15, ir: 120, g:2}]
+    },
