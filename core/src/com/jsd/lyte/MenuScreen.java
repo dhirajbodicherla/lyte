@@ -2,12 +2,17 @@ package com.jsd.lyte;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -15,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -23,7 +29,16 @@ public class MenuScreen extends AbstractGameScreen {
 
 	private Stage stage;
 	private Music music;
+	private Window winOptions;
 	TextureAtlas menuaAtlas;
+	private Skin skin;
+	private CheckBox chkSound;
+	private Slider sldSound;
+	private CheckBox chkMusic;
+	private Slider sldMusic;
+	private SelectBox selCharSkin;
+	private Image imgCharSkin;
+	private CheckBox chkShowFpsCounter;
 
 	public MenuScreen(LightPhysics game) {
 		super(game);
@@ -31,14 +46,24 @@ public class MenuScreen extends AbstractGameScreen {
 		Gdx.input.setInputProcessor(stage);
 		init();
 	}
-	
-	public void init()
-	{
-		music = Gdx.audio.newMusic(Gdx.files.internal("data/sounds/menu_screen.wav"));
+
+	public void init() {
+		music = Gdx.audio.newMusic(Gdx.files
+				.internal("data/sounds/menu_screen.wav"));
 		music.play();
 		music.setLooping(true);
-		music.setVolume(0.6f);
+		music.setVolume(0.1f);
 		menuaAtlas = Assets.instance.getMenuAtlas();
+		String locRoot = "data/ui/uimenuskin.json";
+		switch (Gdx.app.getType()) {
+			case Desktop:
+				locRoot = Gdx.files.getLocalStoragePath() + locRoot;
+				break;
+			case Android:
+				break;
+		}
+		skin = new Skin(Gdx.files.internal(locRoot));
+		skin.getFont("default").setScale(0.25f, 0.25f);
 		buildStage();
 	}
 
@@ -46,10 +71,10 @@ public class MenuScreen extends AbstractGameScreen {
 	public void render(float deltaTime) {
 		Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
+
 		stage.act(deltaTime);
 		stage.draw();
-		
+
 	}
 
 	private Table buildForeground() {
@@ -57,74 +82,70 @@ public class MenuScreen extends AbstractGameScreen {
 		Table layer = new Table();
 		Table center = new Table();
 		Table bottomStrip = new Table();
-		TextButton playBtn = 
-				AssetFactory.createButton(menuaAtlas, 
+		TextButton playBtn = AssetFactory.createButton(menuaAtlas,
 				Constants.BTN_PLAY_UP, Constants.BTN_PLAY_DOWN, false);
-		TextButton optBtn = 
-				AssetFactory.createButton(menuaAtlas, 
+		TextButton optBtn = AssetFactory.createButton(menuaAtlas,
 				Constants.BTN_OPT_UP, Constants.BTN_OPT_DOWN, false);
-		TextButton creditsBtn = 
-				AssetFactory.createButton(menuaAtlas, 
+		TextButton creditsBtn = AssetFactory.createButton(menuaAtlas,
 				Constants.BTN_CREDITS_UP, Constants.BTN_CREDITS_DOWN, false);
-		TextButton helpBtn = 
-				AssetFactory.createButton(menuaAtlas, 
+		TextButton helpBtn = AssetFactory.createButton(menuaAtlas,
 				Constants.BTN_HELP_UP, Constants.BTN_HELP_DOWN, false);
-		TextButton quitBtn = 
-				AssetFactory.createButton(menuaAtlas, 
+		TextButton quitBtn = AssetFactory.createButton(menuaAtlas,
 				Constants.BTN_QUIT_UP, Constants.BTN_QUIT_DOWN, false);
-		playBtn.addListener(new ClickListener(){
+		playBtn.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
 				game.setScreen(new LevelSelectScreen(game));
 			}
 		});
-		
-		quitBtn.addListener(new ClickListener(){
+
+		optBtn.addListener(new ClickListener() {
+			public void clicked(InputEvent event, float x, float y) {
+				winOptions.setVisible(true);
+				return;
+			}
+		});
+
+		quitBtn.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
 				Gdx.app.exit();
 			}
 		});
-		
-		
-		Image logo = AssetFactory.createImage(menuaAtlas, 
-											  Constants.IMG_GAME_LOGO);
-		
+
+		Image logo = AssetFactory.createImage(menuaAtlas,
+				Constants.IMG_GAME_LOGO);
+
 		float h = quitBtn.getMinHeight();
 		center.setBounds(0, 0, SCREEN.x, SCREEN.y);
 		bottomStrip.setBounds(0, 0, SCREEN.x, h);
-		
-		
-		
+
 		center.add(logo);
 		center.row();
-		
-		
-		center.add(playBtn).padTop(0.05f*SCREEN.y);
+
+		center.add(playBtn).padTop(0.05f * SCREEN.y);
 		center.row();
-		
-		
-		center.add(optBtn).padTop(0.03f*SCREEN.y);
+
+		center.add(optBtn).padTop(0.03f * SCREEN.y);
 		center.row();
-		
-		
-		center.add(creditsBtn).padTop(0.03f*SCREEN.y);
+
+		center.add(creditsBtn).padTop(0.03f * SCREEN.y);
 		center.row();
-		
-		
+
 		bottomStrip.add(quitBtn);
 		bottomStrip.add();
-		bottomStrip.add(helpBtn).padLeft(0.84f*SCREEN.x);
-		
+		bottomStrip.add(helpBtn).padLeft(0.84f * SCREEN.x);
+
 		layer.align(Align.center);
 		layer.add(center);
 		layer.row();
-		layer.add(bottomStrip).padTop(0.30f*SCREEN.y);
+		layer.add(bottomStrip).padTop(0.30f * SCREEN.y);
 		return layer;
 	}
-	
+
 	private void buildStage() {
 
 		Table foreground = buildForeground();
 		Table background = buildBackground();
+		Table layerOptionsWindow = buildOptionsWindowLayer();
 		Vector2 SCREEN = Assets.instance.queryScreen();
 
 		stage.clear();
@@ -133,21 +154,20 @@ public class MenuScreen extends AbstractGameScreen {
 		stack.setSize(SCREEN.x, SCREEN.y);
 		stack.add(background);
 		stack.add(foreground);
-		
+		stage.addActor(layerOptionsWindow);
+
 	}
 
 	private Table buildBackground() {
 		Vector2 SCREEN = Assets.instance.queryScreen();
 		Table layer = new Table();
-		Image imgBackground =  AssetFactory.createImage(menuaAtlas, 
-				 								   Constants.IMG_GAME_MENU);
+		Image imgBackground = AssetFactory.createImage(menuaAtlas,
+				Constants.IMG_GAME_MENU);
 		imgBackground.setBounds(0, 0, SCREEN.x, SCREEN.y);
 		layer.add(imgBackground);
-		
+
 		return layer;
 	}
-
-	
 
 	@Override
 	public void resize(int width, int height) {
@@ -156,7 +176,7 @@ public class MenuScreen extends AbstractGameScreen {
 
 	@Override
 	public void show() {
-		
+
 	}
 
 	@Override
@@ -167,7 +187,86 @@ public class MenuScreen extends AbstractGameScreen {
 
 	@Override
 	public void pause() {
-		
+
+	}
+
+	private Table buildOptionsWindowLayer() {
+		winOptions = new Window("Options", skin);
+		// + Audio Settings: Sound/Music CheckBox and Volume Slider
+		winOptions.add(buildOptWinAudioSettings()).row();
+		// + Character Skin: Selection Box (White, Gray, Brown)
+		// winOptions.add(buildOptWinSkinSelection()).row();
+		// + Debug: Show FPS Counter
+		// winOptions.add(buildOptWinDebug()).row();
+		// + Separator and Buttons (Save, Cancel)
+		// winOptions.add(buildOptWinButtons()).pad(10, 0, 10, 0);
+		// Make options window slightly transparent
+		winOptions.setColor(255, 255, 255, 1f);
+		// Hide options window by default
+		winOptions.setVisible(false);
+		// Let TableLayout recalculate widget sizes and positions
+		winOptions.pack();
+		// Move options window to bottom right corner
+		// winOptions.setPosition(Constants.VIEWPORT_GUI_WIDTH -
+		// winOptions.getWidth() - 50, 50);
+		winOptions.setSize(Gdx.graphics.getWidth()/2f - winOptions.getWidth()/2, 
+							Gdx.graphics.getHeight()/2f - winOptions.getHeight()/2);
+		winOptions.setPosition(Gdx.graphics.getWidth()/1.5f,
+								Gdx.graphics.getHeight()/1.5f);
+		return winOptions;
+	}
+
+	private Table buildOptWinAudioSettings() {
+		Table tbl = new Table();
+		// + Title: "Audio"
+//		tbl.pad(10, 10, 0, 10);
+//		Label l = new Label("Audio", skin, "default", Color.ORANGE);
+//		l.setFontScale(0.25f);
+//		tbl.add(l).colspan(3);
+//		tbl.row();
+//		tbl.columnDefaults(0).padRight(10);
+//		tbl.columnDefaults(1).padRight(10);
+		// + Checkbox, "Sound" label, sound volume slider
+		chkSound = new CheckBox(" Music", skin);
+		tbl.add(chkSound);
+//		tbl.row();
+//		Label l2 = new Label("Sounds", skin, "default", Color.ORANGE);
+//		l2.setFontScale(0.25f);
+//		tbl.add(l2);
+//		sldSound = new Slider(0.0f, 1.0f, 0.1f, false, skin);
+//		tbl.add(sldSound);
+//		tbl.row();
+		// + Checkbox, "Music" label, music volume slider
+//		chkMusic = new CheckBox("", skin);
+//		tbl.add(chkMusic);
+//		tbl.add(new Label("Music", skin));
+//		sldMusic = new Slider(0.0f, 1.0f, 0.1f, false, skin);
+//		tbl.add(sldMusic);
+//		tbl.row();
+		return tbl;
+	}
+
+	private void loadSettings() {
+		GamePreferences prefs = GamePreferences.instance;
+		prefs.load();
+		chkSound.setChecked(prefs.sound);
+		sldSound.setValue(prefs.volSound);
+		chkMusic.setChecked(prefs.music);
+		sldMusic.setValue(prefs.volMusic);
+//		selCharSkin.setse.setSelection(prefs.charSkin);
+//		onCharSkinSelected(prefs.charSkin);
+		chkShowFpsCounter.setChecked(prefs.showFpsCounter);
+	}
+
+	private void saveSettings() {
+		GamePreferences prefs = GamePreferences.instance;
+		prefs.sound = chkSound.isChecked();
+		prefs.volSound = sldSound.getValue();
+		prefs.music = chkMusic.isChecked();
+		prefs.volMusic = sldMusic.getValue();
+//		prefs.charSkin = selCharSkin.getSelectionIndex();
+		prefs.showFpsCounter = chkShowFpsCounter.isChecked();
+		prefs.save();
 	}
 
 }
