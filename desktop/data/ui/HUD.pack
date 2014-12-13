@@ -3,72 +3,135 @@ HUD.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-LeftDown
+Panel
   rotate: false
   xy: 1, 1
+  size: 400, 240
+  orig: 400, 240
+  offset: 0, 0
+  index: -1
+CompleteText
+  rotate: false
+  xy: 403, 211
+  size: 300, 30
+  orig: 300, 30
+  offset: 0, 0
+  index: -1
+PauseText
+  rotate: false
+  xy: 403, 174
+  size: 145, 35
+  orig: 145, 35
+  offset: 0, 0
+  index: -1
+BackDown
+  rotate: false
+  xy: 403, 122
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+BackUp
+  rotate: false
+  xy: 403, 70
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+LeftDown
+  rotate: false
+  xy: 455, 122
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
 LeftUp
   rotate: false
-  xy: 53, 1
+  xy: 403, 18
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
 PauseDown
   rotate: false
-  xy: 105, 1
+  xy: 455, 70
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
 PauseUp
   rotate: false
-  xy: 157, 1
+  xy: 455, 18
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+QuitDown
+  rotate: false
+  xy: 507, 122
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+QuitUp
+  rotate: false
+  xy: 507, 70
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
 ReplayDown
   rotate: false
-  xy: 209, 1
+  xy: 507, 18
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
 ReplayUp
   rotate: false
-  xy: 261, 1
+  xy: 705, 191
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
 RightDown
   rotate: false
-  xy: 313, 1
+  xy: 757, 191
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
 RightUp
   rotate: false
-  xy: 365, 1
+  xy: 809, 191
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+SoundDown
+  rotate: false
+  xy: 861, 191
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+SoundUp
+  rotate: false
+  xy: 913, 191
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
 StartDown
   rotate: false
-  xy: 417, 1
+  xy: 965, 191
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
 StartUp
   rotate: false
-  xy: 469, 1
+  xy: 559, 159
   size: 50, 50
   orig: 50, 50
   offset: 0, 0

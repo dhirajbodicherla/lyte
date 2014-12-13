@@ -19,9 +19,15 @@ public class Constants {
 	public static final String SPRITE_MIRROR = "mirror"; 
 	public static final String SPRITE_ASTEROID = "asteroid";
 	
+	//Text
+	public static final String TEXT_GAME_LOGO     = "Logo";
+	public static final String TEXT_GAME_PAUSE     = "PauseText";
+	public static final String TEXT_GAME_COMPLETE     = "CompleteText";
+	
 	//Misc
-	public static final String IMG_GAME_LOGO     = "Logo";
+	
 	public static final String IMG_GAME_MENU     = "MenuBackground";
+	public static final String IMG_GAME_PAUSE    = "Panel";
 	
 	//Buttons
 	public static final String BTN_PLAY_UP 	 = "PlayUp";
@@ -38,6 +44,12 @@ public class Constants {
 	
 	public static final String BTN_QUIT_UP 	 = "QuitUp";
 	public static final String BTN_QUIT_DOWN  = "QuitDown";
+	
+	public static final String BTN_SOUND_UP = "SoundUp";
+	public static final String BTN_SOUND_DOWN = "SoundDown";
+	
+	public static final String BTN_BACK_UP = "BackUp";
+	public static final String BTN_BACK_DOWN = "BackDown";
 	
 	public static final String BTN_PAUSE_UP 	 = "PauseUp";
 	public static final String BTN_PAUSE_DOWN  = "PauseDown";
