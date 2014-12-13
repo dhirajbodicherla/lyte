@@ -30,6 +30,15 @@ public class Constants {
 	public static final String BTN_OPT_UP 	 = "OptUp";
 	public static final String BTN_OPT_DOWN  = "OptDown";
 	
+	public static final String BTN_CREDITS_UP 	 = "CreditsUp";
+	public static final String BTN_CREDITS_DOWN  = "CreditsDown";
+	
+	public static final String BTN_HELP_UP 	 = "HelpUp";
+	public static final String BTN_HELP_DOWN  = "HelpDown";
+	
+	public static final String BTN_QUIT_UP 	 = "QuitUp";
+	public static final String BTN_QUIT_DOWN  = "QuitDown";
+	
 	public static final String BTN_PAUSE_UP 	 = "PauseUp";
 	public static final String BTN_PAUSE_DOWN  = "PauseDown";
 	

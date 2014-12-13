@@ -54,6 +54,8 @@ public class MenuScreen extends AbstractGameScreen {
 	private Table buildForeground() {
 		Vector2 SCREEN = Assets.instance.queryScreen();
 		Table layer = new Table();
+		Table center = new Table();
+		Table bottomStrip = new Table();
 		TextButton playBtn = 
 				AssetFactory.createButton(menuaAtlas, 
 				Constants.BTN_PLAY_UP, Constants.BTN_PLAY_DOWN, false);
@@ -62,13 +64,13 @@ public class MenuScreen extends AbstractGameScreen {
 				Constants.BTN_OPT_UP, Constants.BTN_OPT_DOWN, false);
 		TextButton creditsBtn = 
 				AssetFactory.createButton(menuaAtlas, 
-				Constants.BTN_OPT_UP, Constants.BTN_OPT_DOWN, false);
+				Constants.BTN_CREDITS_UP, Constants.BTN_CREDITS_DOWN, false);
 		TextButton helpBtn = 
 				AssetFactory.createButton(menuaAtlas, 
-				Constants.BTN_OPT_UP, Constants.BTN_OPT_DOWN, false);
+				Constants.BTN_HELP_UP, Constants.BTN_HELP_DOWN, false);
 		TextButton quitBtn = 
 				AssetFactory.createButton(menuaAtlas, 
-				Constants.BTN_OPT_UP, Constants.BTN_OPT_DOWN, false);
+				Constants.BTN_QUIT_UP, Constants.BTN_QUIT_DOWN, false);
 		playBtn.addListener(new ClickListener(){
 			public void clicked(InputEvent event, float x, float y) {
 				game.setScreen(new LevelSelectScreen(game));
@@ -84,22 +86,37 @@ public class MenuScreen extends AbstractGameScreen {
 		
 		Image logo = AssetFactory.createImage(menuaAtlas, 
 											  Constants.IMG_GAME_LOGO);
-//		layer.debug();
-		layer.setBounds(0, 0, SCREEN.x, SCREEN.y);
-//		layer.align(Align.center);
-		layer.add(logo);//.padTop(100.0f);
-		layer.row();
-		layer.add(playBtn);//.padTop(150.0f);
-		layer.row();
-		layer.add(optBtn);//.padTop(200.0f);
-		layer.row();
-		layer.add(creditsBtn);//.padTop(250.0f);
-		layer.row();
-		layer.add(helpBtn);//.padTop(300.0f);
-		layer.row();
-		layer.add(quitBtn);//.padTop(350.0f);
+		
+		float h = quitBtn.getMinHeight();
+		center.setBounds(0, 0, SCREEN.x, SCREEN.y);
+		bottomStrip.setBounds(0, 0, SCREEN.x, h);
 		
 		
+		
+		center.add(logo);
+		center.row();
+		
+		
+		center.add(playBtn).padTop(0.05f*SCREEN.y);
+		center.row();
+		
+		
+		center.add(optBtn).padTop(0.03f*SCREEN.y);
+		center.row();
+		
+		
+		center.add(creditsBtn).padTop(0.03f*SCREEN.y);
+		center.row();
+		
+		
+		bottomStrip.add(quitBtn);
+		bottomStrip.add();
+		bottomStrip.add(helpBtn).padLeft(0.84f*SCREEN.x);
+		
+		layer.align(Align.center);
+		layer.add(center);
+		layer.row();
+		layer.add(bottomStrip).padTop(0.30f*SCREEN.y);
 		return layer;
 	}
 	
