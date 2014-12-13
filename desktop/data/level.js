@@ -11,8 +11,8 @@
         mBaseWidth: 640,
         mBaseHeight: 480,
         mSource:{name:"s", type:"K", shape:"rect", x:80, y:80, w:40, h:10, angle:15},
-        mTarget:{name:"e", type:"S", shape:"circle", x:590, y:460, r:40},
-        mMirrors: [{name:"m",type:"S",shape:"rect",x:300,y:400,w:90,h:25, angle:73, fixedRotation:1, fixedPosition:0}],
+        mTarget:{name:"e", type:"S", shape:"circle", x:350, y:460, r:40},
+        mMirrors: [{name:"m",type:"S",shape:"rect",x:300,y:400,w:90,h:25, angle:90, fixedRotation:1, fixedPosition:1}],
         mBlackholes: [{name:"b",type:"k",shape:"circle",x:300,y:250,r:10, ir: 130, g:2},
         				{name:"b",type:"k",shape:"circle",x:300,y:250,r:20, ir: 150, g:2}]
     },
