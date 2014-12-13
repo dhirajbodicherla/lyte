@@ -1,7 +1,5 @@
 package com.jsd.lyte;
 
-
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
@@ -67,7 +65,7 @@ public class GameStage extends Stage implements GestureListener{
 		world = new World(new Vector2(0.0f, 0.0f), false);
 		renderer = new Box2DDebugRenderer();
 		m_level = new Level("data/level.js", world, level);
-		photonShootSound = Gdx.audio.newSound(Gdx.files.internal("data/sounds/game.wav"));
+		//photonShootSound = Gdx.audio.newSound(Gdx.files.internal("data/sounds/game.wav"));
 	}
 	
 	public void setupCamera()

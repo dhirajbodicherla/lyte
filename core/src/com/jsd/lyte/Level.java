@@ -161,7 +161,7 @@ public class Level implements ContactListener{
 			Vector2 bs = new Vector2(ld.mBaseWidth, ld.mBaseHeight);
 			
 			
-			mTarget = new Entity(ld.mTarget,bs, 0); 
+			mTarget = new Earth(ld.mTarget,bs, 0); 
 			mTarget.setPhysicsBody(PhysicsBuilder.createPhysicsBody(ld.mTarget, mTarget, bs, m_world));
 			
 			mSource = new Entity(ld.mSource,bs, 0); 
@@ -203,6 +203,9 @@ public class Level implements ContactListener{
 	}
 	
 	public void render(SpriteBatch batch) {
+		
+		mTarget.render(batch);
+		
 		for(BlackHole b : mBlackholes )
 		{b.render(batch);}
 		
