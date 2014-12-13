@@ -3,6 +3,7 @@ package com.jsd.lyte;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
@@ -32,6 +33,8 @@ public class HUDStage extends Stage
 	private Window pauseWindow;
 	private Window levelCompleteMessageWindow;
 	private TextureAtlas menuaAtlas;
+	private Window gameOverMessageWindow;
+	private Sound levelCompleteSound;
 	
 	public HUDStage(Level lv, LightPhysics g)
 	{
@@ -89,6 +92,7 @@ public class HUDStage extends Stage
 		
 		pause.addListener(new ClickListener(){
 			public void clicked(InputEvent event, float x, float y){
+				game.pause();
 				pauseWindow.setVisible(true);
 				return;
 			}
@@ -117,9 +121,13 @@ public class HUDStage extends Stage
 		TextButton proceedToNextLevelBtn = 
 				AssetFactory.createButton(menuaAtlas, 
 				Constants.BTN_OPT_UP, Constants.BTN_OPT_DOWN, false);
+		TextButton gameOverRestartBtn = 
+				AssetFactory.createButton(menuaAtlas, 
+				Constants.BTN_OPT_UP, Constants.BTN_OPT_DOWN, false);
 		
 		pauseCloseBtn.addListener(new ClickListener(){
 			public void clicked(InputEvent event, float x, float y) {
+				game.resume();
 				pauseWindow.setVisible(false);
 			}
 		});
@@ -127,31 +135,50 @@ public class HUDStage extends Stage
 		proceedToNextLevelBtn.addListener(new ClickListener(){
 			public void clicked(InputEvent event, float x, float y) {
 				levelCompleteMessageWindow.setVisible(false);
-				m_level.nextLevel();
+				if(!m_level.isGameOver){
+					m_level.nextLevel();
+					game.resume();
+				}else{
+					gameOverMessageWindow.setVisible(true);
+				}
+			}
+		});
+		
+		gameOverRestartBtn.addListener(new ClickListener(){
+			public void clicked(InputEvent event, float x, float y) {
+				game.setScreen(new MenuScreen(game));
 			}
 		});
 		
 		pauseWindow = new Window("PAUSE", skin);
 		pauseWindow.padTop(64);
 		pauseWindow.add(pauseCloseBtn);
-		pauseWindow.setSize(this.getWidth() / 1.5f, this.getHeight() / 1.5f);
-		pauseWindow.setPosition(this.getWidth() / 2 - pause.getWidth()/2, 
-						  this.getHeight() / 2 - pause.getHeight()/2);
+		pauseWindow.setSize(this.getWidth(), this.getHeight());
+		//pauseWindow.setPosition(this.getWidth() / 2 - pause.getWidth()/2, this.getHeight() / 2 - pause.getHeight()/2);
 		pauseWindow.setVisible(false);
 		
 		levelCompleteMessageWindow = new Window("Level complete", skin);
 		levelCompleteMessageWindow.padTop(64);
 		levelCompleteMessageWindow.add(proceedToNextLevelBtn);
-		levelCompleteMessageWindow.setSize(this.getWidth() / 1.5f, this.getHeight() / 1.5f);
-		levelCompleteMessageWindow.setPosition(this.getWidth() / 2 - levelCompleteMessageWindow.getWidth()/2, 
-						  this.getHeight() / 2 - pause.getHeight()/2);
+		levelCompleteMessageWindow.setSize(this.getWidth(), this.getHeight());
+//		levelCompleteMessageWindow.setPosition(this.getWidth() / 2 - levelCompleteMessageWindow.getWidth()/2, this.getHeight() / 2 - pause.getHeight()/2);
 		levelCompleteMessageWindow.setVisible(false);
+		
+		gameOverMessageWindow = new Window("Game over", skin);
+		gameOverMessageWindow.padTop(64);
+		gameOverMessageWindow.add(gameOverRestartBtn);
+		gameOverMessageWindow.setSize(this.getWidth(), this.getHeight());
+//		gameOverMessageWindow.setPosition(this.getWidth() / 2 - levelCompleteMessageWindow.getWidth()/2, this.getHeight() / 2 - pause.getHeight()/2);
+		gameOverMessageWindow.setVisible(false);
 		
 		
 		this.addActor(top);
 		this.addActor(bottom);
 		this.addActor(pauseWindow);
 		this.addActor(levelCompleteMessageWindow);
+		this.addActor(gameOverMessageWindow);
+		
+		levelCompleteSound = Gdx.audio.newSound(Gdx.files.internal("data/sounds/level_complete_sound.wav"));
 	}
 	
 	public void render()
@@ -161,6 +188,7 @@ public class HUDStage extends Stage
 		
 		if(m_level.isSolved)
 		{
+			game.pause();
 			levelCompleteMessageWindow.setVisible(true);
 		}
 	}
@@ -175,7 +203,9 @@ public class HUDStage extends Stage
 	}
 	private void backToMenu() {
 		// switch to menu screen
-		game.setScreen(new MenuScreen(game));
+//		game.setScreen(new MenuScreen(game));
+		game.pause();
+		pauseWindow.setVisible(true);
 	}
 
 	 

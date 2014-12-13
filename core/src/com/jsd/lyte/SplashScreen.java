@@ -90,6 +90,7 @@ public class SplashScreen extends AbstractGameScreen {
 
 	@Override
 	public void pause() {
+		
 	}
 
 }

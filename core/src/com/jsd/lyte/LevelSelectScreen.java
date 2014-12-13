@@ -1,6 +1,7 @@
 package com.jsd.lyte;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -23,6 +24,7 @@ public class LevelSelectScreen extends AbstractGameScreen {
 	private Image imgBackground;
 	private Skin skin; 
 	private TextureAtlas atlas;
+	private Music music;
 
 	public LevelSelectScreen(LightPhysics game) {
 		super(game);
@@ -34,6 +36,10 @@ public class LevelSelectScreen extends AbstractGameScreen {
 	
 	public void init()
 	{
+		music = Gdx.audio.newMusic(Gdx.files.internal("data/sounds/level_select_sound.mp3"));
+		music.play();
+		music.setLooping(true);
+		music.setVolume(0.6f);
 		atlas = new TextureAtlas(Gdx.files.internal("data/ui/Menu.pack"));
 		skin = new Skin(atlas);
 		buildStage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
