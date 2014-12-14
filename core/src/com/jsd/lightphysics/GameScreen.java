@@ -14,7 +14,7 @@ public class GameScreen extends AbstractGameScreen{
 	private GameStage gameStage;
 	private HUDStage  hud;
 	private LightPhysics game;
-	private Music music;
+	public Music music;
 	
 	public GameScreen(LightPhysics g, int level)
 	{
@@ -80,7 +80,8 @@ public class GameScreen extends AbstractGameScreen{
 
 	@Override
 	public void dispose() {
-		gameStage.dispose();
+		/* for github issue https://github.com/dhirajbodicherla/lyte/issues/20 */
+//		gameStage.dispose();
 		music.dispose();
 	}
 }

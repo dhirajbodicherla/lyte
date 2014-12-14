@@ -152,7 +152,8 @@ public class HUDStage extends Stage
 		
 		pauseGameCloseBtn.addListener(new ClickListener(){
 			public void clicked(InputEvent event, float x, float y) {
-				game.setScreen(new MenuScreen(game));
+				game.resume();
+				pauseWindow.setVisible(false);
 			}
 		});
 		
@@ -171,8 +172,8 @@ public class HUDStage extends Stage
 		
 		pauseCloseBtn.addListener(new ClickListener(){
 			public void clicked(InputEvent event, float x, float y) {
-				game.resume();
-				pauseWindow.setVisible(false);
+				game.getScreen().dispose();
+				game.setScreen(new MenuScreen(game));
 			}
 		});
 		
@@ -219,7 +220,7 @@ public class HUDStage extends Stage
 		Table levelCompleteTable = new Table();
 		Image headingLevelComplete = AssetFactory.createImage(atlas, "CompleteText");
 		
-		levelCompleteTable.add(headingLevelComplete).padBottom(75.0f).colspan(3);
+		levelCompleteTable.add(headingLevelComplete).padBottom(75.0f).colspan(2);
 		levelCompleteTable.row();
 		levelCompleteTable.add(proceedToNextLevelBtn);
 		
