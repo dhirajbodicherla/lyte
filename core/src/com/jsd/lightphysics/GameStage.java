@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
@@ -21,6 +22,9 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.joints.MouseJoint;
 import com.badlogic.gdx.physics.box2d.joints.MouseJointDef;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 public class GameStage extends Stage implements GestureListener{
 	
@@ -102,6 +106,26 @@ public class GameStage extends Stage implements GestureListener{
 		tmp2 = new Vector2();
 		
 	}
+	
+	private void buildStage() {		
+		Vector2 SCREEN = Assets.instance.queryScreen();
+		Vector2 VIEWPORT = Assets.instance.queryViewport();
+		Table layer = new Table();
+		Image imgBackground = new Image(Assets.instance.getGameScreen());
+		
+		float w = (imgBackground.getWidth()/VIEWPORT.x) * SCREEN.x;
+		float h = (imgBackground.getHeight()/VIEWPORT.y) * SCREEN.x;
+		
+		imgBackground.setWidth(w);
+		imgBackground.setHeight(h);
+		
+		layer.setBounds(0, 0, SCREEN.x, SCREEN.y);
+		layer.add(imgBackground);
+		
+		this.addActor(layer);
+		
+			
+	}
 
 
 	public void init(int level)
@@ -110,6 +134,7 @@ public class GameStage extends Stage implements GestureListener{
 		setupCamera();
 		initRendering();
 		initInteractivity();
+		buildStage();
 	}
 	
 	
@@ -148,41 +173,6 @@ public class GameStage extends Stage implements GestureListener{
 		}
 	};
 	
-//	@Override
-//	public boolean touchDown(int x, int y, int pointer, int button) 
-//	{
-//		Gdx.app.log("my app", "touchdown");
-//		return false;
-//	}
-
-//	@Override
-//	public boolean touchUp(int x, int y, int pointer, int button) {
-//		Gdx.app.log("my app", "touchup");
-//		//mouse = new Vector2(Gdx.input.getX(), Gdx.input.getY());
-//		
-//		//isMouseDown = false;
-//		if(mJoint!=null)
-//		{
-//			((Mirror)hitBody.getUserData()).isSelected = false;
-//			hitBody.setType(BodyType.StaticBody);
-//			world.destroyJoint(mJoint);
-//            mJoint = null;
-//            hitBody=null;
-//		}
-//		return false;
-//	}
-
-//	@Override
-//	public boolean touchDragged(int x, int y, int pointer) {
-//		Gdx.app.log("my app", "touchdragged");
-//		if(mJoint!=null){
-//			tmp = new Vector3(x, y, 0);
-//			camera.unproject(tmp);
-//			tmp.scl(Constants.WORLD_TO_BOX);
-//			mJoint.setTarget(tmp2.set(tmp.x,tmp.y));
-//		}
-//		return false;
-//	}
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
@@ -192,12 +182,12 @@ public class GameStage extends Stage implements GestureListener{
 		return false;
 	}
 	
-	public void draw()
+	public void render()
 	{
-		super.draw();
 		Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1); 	//Black Background
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
+		this.act();
+		this.draw();
 		camera.update();
 		
 		Matrix4 cameraCopy = camera.combined.cpy();
@@ -207,7 +197,8 @@ public class GameStage extends Stage implements GestureListener{
 		m_level.render(batch);
 		m_level.update(mouse);
 	
-		renderer.render(world, cameraCopy.scl(Constants.BOX_TO_WORLD));
+		//Box2d Renderer
+		//renderer.render(world, cameraCopy.scl(Constants.BOX_TO_WORLD));
 		if(!gameIsPaused){
 			world.step(1/60f, 6, 2);
 		}

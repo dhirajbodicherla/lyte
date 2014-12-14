@@ -43,7 +43,7 @@ public class GameScreen extends AbstractGameScreen{
 		Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1); 	//Black Background
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
-		gameStage.draw();
+		gameStage.render();
 		hud.render();
 		
 	}

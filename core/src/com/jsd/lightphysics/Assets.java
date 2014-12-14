@@ -7,6 +7,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.jsd.lightphysics.Constants;
@@ -27,6 +28,7 @@ public class Assets implements Disposable, AssetErrorListener {
 	private TextureAtlas menuAtlas;
 	private TextureAtlas spriteAtlas;
 	private TextureAtlas hudAtlas;
+	private Texture gameScreen;
 
 	// singleton: prevent instantiation from other classes
 	private Assets() {}
@@ -44,6 +46,7 @@ public class Assets implements Disposable, AssetErrorListener {
 		manager.load(Constants.TEXTURE_ATLAS_UI, TextureAtlas.class);
 		manager.load(Constants.TEXTURE_ATLAS_HUD, TextureAtlas.class);
 		manager.load(Constants.TEXTURE_ATLAS_SPRITE, TextureAtlas.class);
+		manager.load(Constants.IMG_GAME_SCREEN, Texture.class);
 	}
 	
 	//call this after asset manager finishes loading everything
@@ -52,6 +55,7 @@ public class Assets implements Disposable, AssetErrorListener {
 		menuAtlas = manager.get(Constants.TEXTURE_ATLAS_UI);
 		hudAtlas = manager.get(Constants.TEXTURE_ATLAS_HUD);
 		spriteAtlas = manager.get(Constants.TEXTURE_ATLAS_SPRITE);
+		gameScreen = manager.get(Constants.IMG_GAME_SCREEN);
 	}
 	
 	public boolean update()
@@ -132,6 +136,11 @@ public class Assets implements Disposable, AssetErrorListener {
 	public TextureAtlas getHUDAtlas()
 	{
 		return hudAtlas;
+	}
+	
+	public Texture getGameScreen()
+	{
+		return gameScreen;
 	}
 
 	@Override

@@ -1,7 +1,5 @@
 package com.jsd.lightphysics;
 
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
@@ -9,8 +7,6 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Earth extends Entity{
 	Sprite sprite; 
-	Texture tex; 
-	Pixmap pix; 
 	
 	public Earth(EntityDef ed,Vector2 bs, int index)
 	{
@@ -19,7 +15,6 @@ public class Earth extends Entity{
 	}
 	public void dispose()
 	{
-		tex.dispose();
 	}
 	
 	public void init()

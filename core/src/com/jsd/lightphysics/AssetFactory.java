@@ -16,15 +16,16 @@ public class AssetFactory {
 	public static TextButton createButton(TextureAtlas atlas, String up, String down, boolean isAspEqual)
 	{
 		Vector2 SCREEN = Assets.instance.queryScreen();
+		Vector2 VIEWPORT = Assets.instance.queryViewport();
 		Skin skin = new Skin(atlas);
 		Drawable upDraw = skin.getDrawable(up);
 		Drawable downDraw= skin.getDrawable(down);
 		
-		float w = (skin.getDrawable(up).getMinWidth() / 640) * SCREEN.x;
+		float w = (skin.getDrawable(up).getMinWidth() / VIEWPORT.x) * SCREEN.x;
 		float h;
 		//is width and height equal? 
 		if(!isAspEqual)
-			h = (skin.getDrawable(up).getMinHeight() / 480) * SCREEN.y;
+			h = (skin.getDrawable(up).getMinHeight() / VIEWPORT.y) * SCREEN.y;
 		else
 			h = w; 
 		

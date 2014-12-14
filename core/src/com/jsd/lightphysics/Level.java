@@ -44,8 +44,8 @@ public class Level implements ContactListener{
 	
 	
 	//Game Elements
-	private Entity mTarget;
-	private Entity mSource;
+	private Earth mTarget;
+	private Star mSource;
 	private ArrayList<BlackHole> mBlackholes;
 	private ArrayList<Asteroid> mAsteroids;
 	private ArrayList<Mirror> mMirrors;
@@ -166,7 +166,7 @@ public class Level implements ContactListener{
 			mTarget = new Earth(ld.mTarget,bs, 0); 
 			mTarget.setPhysicsBody(PhysicsBuilder.createPhysicsBody(ld.mTarget, mTarget, bs, m_world));
 			
-			mSource = new Entity(ld.mSource,bs, 0); 
+			mSource = new Star(ld.mSource,bs, 0); 
 			mSource.setPhysicsBody(PhysicsBuilder.createPhysicsBody(ld.mSource, mSource, bs, m_world));
 			
 			
@@ -207,6 +207,7 @@ public class Level implements ContactListener{
 	public void render(SpriteBatch batch) {
 		
 		mTarget.render(batch);
+		mSource.render(batch);
 		
 		for(BlackHole b : mBlackholes )
 		{b.render(batch);}

@@ -11,6 +11,7 @@ public class Constants {
 	public static final String TEXTURE_ATLAS_HUD    = "data/ui/HUD.pack";
 	public static final String TEXTURE_ATLAS_UI     = "data/ui/Menu.pack";
 	public static final String IMG_SPLASH_SCREEN 	= "data/img/SplashScreen.png" ;
+	public static final String IMG_GAME_SCREEN 		= "data/img/GameBackground43.png" ;
 	
 	public static final String PREFERENCES = "lyte_prefs";
 	
@@ -20,6 +21,8 @@ public class Constants {
 	public static final String SPRITE_EARTH = "earth";
 	public static final String SPRITE_MIRROR = "mirror"; 
 	public static final String SPRITE_ASTEROID = "asteroid";
+	public static final String SPRITE_STAR = "star";
+	public static final String SPRITE_PHOTON = "photon";
 	
 	//Text
 	public static final String TEXT_GAME_LOGO     = "Logo";

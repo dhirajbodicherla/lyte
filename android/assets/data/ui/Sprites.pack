@@ -3,24 +3,38 @@ Sprites.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+star
+  rotate: false
+  xy: 1, 69
+  size: 170, 170
+  orig: 170, 170
+  offset: 0, 0
+  index: -1
 mirror
   rotate: false
-  xy: 1, 51
+  xy: 173, 174
   size: 250, 65
   orig: 250, 65
   offset: 0, 0
   index: -1
 earth
   rotate: false
-  xy: 253, 1
-  size: 130, 115
-  orig: 130, 115
+  xy: 173, 47
+  size: 140, 125
+  orig: 140, 125
   offset: 0, 0
   index: -1
 asteroid
   rotate: false
-  xy: 385, 50
+  xy: 1, 1
   size: 80, 66
   orig: 80, 66
+  offset: 0, 0
+  index: -1
+photon
+  rotate: false
+  xy: 425, 189
+  size: 50, 50
+  orig: 50, 50
   offset: 0, 0
   index: -1

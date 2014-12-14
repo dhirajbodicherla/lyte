@@ -15,8 +15,6 @@ public class Photon extends Entity{
 	
 	PointLight light;
 	Sprite sprite;
-	Texture tex;
-	Pixmap pix; 
 	private boolean isDeleted;
 	
 	
@@ -27,17 +25,12 @@ public class Photon extends Entity{
 	
 	public void init()
 	{
-		int r = (int)(this.getRadius());
-		pix = new Pixmap(r*2, r*2,Pixmap.Format.RGBA8888);
-		int x = (int)(pix.getWidth()*0.5);
-		int y = (int)(pix.getHeight()*0.5);
-		
-		pix.setColor(Color.MAROON);
-		pix.drawCircle(x, y, r);
-		pix.fillCircle(x, y, r);
-		
-		tex = new Texture(pix);
-		sprite = new Sprite(tex);
+		sprite = Assets.instance.getSpriteAtlas().createSprite(Constants.SPRITE_PHOTON);
+		float w = sprite.getWidth();
+		float h = sprite.getHeight();
+		float sx = AssetFactory.setToScale(w, 2*this.radius);
+		float sy = AssetFactory.setToScale(h, 2*this.radius);
+		sprite.setScale(sx, sy);
 		isDeleted = false;
 	}
 	
@@ -46,14 +39,14 @@ public class Photon extends Entity{
 		if(!isDeleted)
 		{
 			super.update();
-			float pixdim = (this.getRadius());
-			float x = (this.pos.x) - (pixdim);
-			float y = (this.pos.y) - (pixdim);
-		
+			float x = this.pos.x;// - (pixdim);
+			float y = this.pos.y;// - (pixdim);
+			
 			sb.begin();
 			sprite.setPosition(x, y);
+			sprite.setCenter(x, y);
 			sprite.setRotation(angle*MathUtils.radiansToDegrees);
-			sprite.draw(sb);
+	        sprite.draw(sb);
 			sb.end();
 		}
 	}
