@@ -17,6 +17,7 @@ public class Photon extends Entity{
 	Sprite sprite;
 	Texture tex;
 	Pixmap pix; 
+	private boolean isDeleted;
 	
 	
 	public Photon(EntityDef ed, Vector2 bs,int index) {
@@ -37,19 +38,28 @@ public class Photon extends Entity{
 		
 		tex = new Texture(pix);
 		sprite = new Sprite(tex);
+		isDeleted = false;
 	}
 	
 	public void render(SpriteBatch sb)
 	{
-		super.update();
-		float pixdim = (this.getRadius());
-		float x = (this.pos.x) - (pixdim);
-		float y = (this.pos.y) - (pixdim);
+		if(!isDeleted)
+		{
+			super.update();
+			float pixdim = (this.getRadius());
+			float x = (this.pos.x) - (pixdim);
+			float y = (this.pos.y) - (pixdim);
 		
-		sb.begin();
-		sprite.setPosition(x, y);
-		sprite.setRotation(angle*MathUtils.radiansToDegrees);
-        sprite.draw(sb);
-		sb.end();
+			sb.begin();
+			sprite.setPosition(x, y);
+			sprite.setRotation(angle*MathUtils.radiansToDegrees);
+			sprite.draw(sb);
+			sb.end();
+		}
+	}
+	
+	public void setDelete(boolean b)
+	{
+		isDeleted = b;
 	}
 }

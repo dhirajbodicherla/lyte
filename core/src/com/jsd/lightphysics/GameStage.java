@@ -211,6 +211,11 @@ public class GameStage extends Stage implements GestureListener{
 		if(!gameIsPaused){
 			world.step(1/60f, 6, 2);
 		}
+		m_level.disposeGarbage();
+		if(m_level.isSolved)
+		{
+			hitBody=null;
+		}
 	}
 	
 	

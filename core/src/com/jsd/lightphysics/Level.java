@@ -15,6 +15,8 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.utils.Json;
 
 public class Level implements ContactListener{
@@ -48,6 +50,8 @@ public class Level implements ContactListener{
 	private ArrayList<Asteroid> mAsteroids;
 	private ArrayList<Mirror> mMirrors;
 	private ArrayList<Photon> mPhotons;
+	private ArrayList<Body> garbagePhotons;
+	
 
 	
 	public Level(String filename, World world, int level) {
@@ -137,6 +141,7 @@ public class Level implements ContactListener{
 		mAsteroids = new ArrayList<Asteroid>();
 		mMirrors = new ArrayList<Mirror>();
 		mPhotons = new ArrayList<Photon>();
+		garbagePhotons = new ArrayList<Body>();
 	}
 	
 	private void initLevel()
@@ -214,15 +219,20 @@ public class Level implements ContactListener{
 		
 		for(Asteroid a : mAsteroids)
 		{a.render(batch);}
+		
 	}
+	
+	
 
 	public void update(Vector3 mouse) {
 		if(gameState == 2)
 		{
 			//TrackMouse(mouse);
+			//disposeGarbagePhoton();
 			blackHoleInfluence();
 		}
 	}
+	
 	
 	public void destroy()
 	{
@@ -263,7 +273,22 @@ public class Level implements ContactListener{
 			mAsteroids.clear();
 			mBlackholes.clear();
 			mPhotons.clear();
+			garbagePhotons.clear();
 			gameState = 3;
+		}
+	}
+	
+	public void disposeGarbage()
+	{
+		if(!m_world.isLocked())
+		{
+			for(int i = 0 ; i < garbagePhotons.size(); ++i)
+			{
+				Body b = garbagePhotons.get(i);
+				m_world.destroyBody(b);
+				
+			}
+			garbagePhotons.clear();
 		}
 	}
 
@@ -354,11 +379,6 @@ public class Level implements ContactListener{
 		}
 	}
 	
-	public void removePhoton(Photon p)
-	{
-		int index = p.getId();
-		mPhotons.remove(index);
-	}
 
 	@Override
 	public void beginContact(Contact contact) {
@@ -369,13 +389,10 @@ public class Level implements ContactListener{
 		if(ed1 != null && ed2!= null){
 			if((ed1.name.equals("b") ||  ed1.name.equals("a"))&& ed2.name.equals("p")){
 				final Fixture toRemove = fb;
-				removePhoton(((Photon)fb.getBody().getUserData()));
-				Gdx.app.postRunnable(new Runnable() {
-					@Override
-					public void run () {
-						m_world.destroyBody(toRemove.getBody());
-					}
-				});
+				Photon p = ((Photon)toRemove.getBody().getUserData());
+				p.setDelete(true);
+				garbagePhotons.add(p.getPhysicsBody());
+				
 			}
 			
 			if(ed1.name.equals("e") && ed2.name.equals("p")){
@@ -398,7 +415,6 @@ public class Level implements ContactListener{
 	@Override
 	public void postSolve(Contact contact, ContactImpulse impulse) {
 		// TODO Auto-generated method stub
-		
 	}
 }
 

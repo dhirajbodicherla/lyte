@@ -64,3 +64,27 @@
         mMirrors: [{name:"m",type:"S",shape:"rect",x:300,y:400,w:90,h:25, angle:73, fixedRotation:1, fixedPosition:0}],
         mBlackholes: [{name:"b",type:"k",shape:"circle",x:300,y:250,r:15, ir: 120, g:2}]
     },
+
+  {
+        mName: "Level 8",
+        mBaseWidth: 640,
+        mBaseHeight: 480,
+        mSource:{name:"s", type:"K", shape:"rect", x:60, y:80, w:40, h:10, angle:55},
+        mTarget:{name:"e", type:"S", shape:"circle", x:400, y:460, r:40},
+        mMirrors: [{name:"m",type:"S",shape:"rect",x:580,y:350,w:90,h:25, angle:90, fixedRotation:1, fixedPosition:1}],
+        mBlackholes: [{name:"b",type:"k",shape:"circle",x:250,y:200,r:10, ir: 100, g:2},
+                      {name:"b",type:"k",shape:"circle",x:430,y:300,r:10, ir: 75, g:2}]
+    },
+
+    {
+        mName: "Level 9",
+        mBaseWidth: 640,
+        mBaseHeight: 480,
+        mSource:{name:"s", type:"K", shape:"rect", x:50, y:80, w:40, h:10, angle:90},
+        mTarget:{name:"e", type:"S", shape:"circle", x:600, y:240, r:40},
+        mMirrors: [{name:"m",type:"S",shape:"rect",x:180,y:350,w:90,h:25, angle:0, fixedRotation:1, fixedPosition:1},
+                    {name:"m",type:"S",shape:"rect",x:320,y:130,w:90,h:25, angle:0, fixedRotation:1, fixedPosition:1},
+                    {name:"m",type:"S",shape:"rect",x:500,y:90,w:90,h:25, angle:-10, fixedRotation:1, fixedPosition:1}],
+        mBlackholes: [{name:"b",type:"k",shape:"circle",x:100,y:200,r:7, ir: 55, g:2},
+                      {name:"b",type:"k",shape:"circle",x:420,y:250,r:5, ir: 65, g:2}]
+    },
