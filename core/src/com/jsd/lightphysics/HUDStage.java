@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
@@ -193,21 +194,42 @@ public class HUDStage extends Stage
 			}
 		});
 		
+		Stack pauseWindowStack = new Stack();
+		Table pauseTable = new Table();
+		Image heading = AssetFactory.createImage(atlas, "PauseText");
+		pauseTable.add(heading).padBottom(75.0f).colspan(3);
+		pauseTable.row();
+		pauseTable.add(pauseGameCloseBtn);
+		pauseTable.add(pauseCloseBtn);
+		pauseTable.add(pauseVolumeBtn);
+		
+		Image bg = AssetFactory.createImage(atlas, "Panel");
+		pauseWindowStack.add(bg);
+		pauseWindowStack.add(pauseTable);
+		
 		pauseWindow = new Window("", skin);
 		pauseWindow.padTop(64);
-		Image heading = AssetFactory.createImage(atlas, "PauseText");
-		pauseWindow.add(heading).padBottom(75.0f).colspan(3);
-		pauseWindow.row();
-		pauseWindow.add(pauseGameCloseBtn);
-		pauseWindow.add(pauseCloseBtn);
-		pauseWindow.add(pauseVolumeBtn);
+		pauseWindow.setColor(1, 1, 1, 1);
+		pauseWindow.add(pauseWindowStack);
 		pauseWindow.setSize(this.getWidth(), this.getHeight());
 		//pauseWindow.setPosition(this.getWidth() / 2 - pause.getWidth()/2, this.getHeight() / 2 - pause.getHeight()/2);
 		pauseWindow.setVisible(false);
 		
-		levelCompleteMessageWindow = new Window("Level complete", skin);
+		Stack levelCompleteWindowStack = new Stack();
+		Table levelCompleteTable = new Table();
+		Image headingLevelComplete = AssetFactory.createImage(atlas, "CompleteText");
+		
+		levelCompleteTable.add(headingLevelComplete).padBottom(75.0f).colspan(3);
+		levelCompleteTable.row();
+		levelCompleteTable.add(proceedToNextLevelBtn);
+		
+		Image bgLevelComplete = AssetFactory.createImage(atlas, "Panel");
+		levelCompleteWindowStack.add(bgLevelComplete);
+		levelCompleteWindowStack.add(levelCompleteTable);
+		
+		levelCompleteMessageWindow = new Window("", skin);
 		levelCompleteMessageWindow.padTop(64);
-		levelCompleteMessageWindow.add(proceedToNextLevelBtn);
+		levelCompleteMessageWindow.add(levelCompleteWindowStack);
 		levelCompleteMessageWindow.setSize(this.getWidth(), this.getHeight());
 //		levelCompleteMessageWindow.setPosition(this.getWidth() / 2 - levelCompleteMessageWindow.getWidth()/2, this.getHeight() / 2 - pause.getHeight()/2);
 		levelCompleteMessageWindow.setVisible(false);
@@ -254,7 +276,5 @@ public class HUDStage extends Stage
 //		game.setScreen(new MenuScreen(game));
 		game.pause();
 		pauseWindow.setVisible(true);
-	}
-
-	 
+	}	 
 }
