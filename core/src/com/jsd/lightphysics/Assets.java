@@ -112,7 +112,11 @@ public class Assets implements Disposable, AssetErrorListener {
 		
 		//if no suitable match reverting to 640x480
 		if(VIEWPORT==null)
+		{
+			aW=16;
+			aH=9;
 			VIEWPORT = new Vector2(640,360);
+		}
 		
 		suffix = (aW+""+aH);
 	}

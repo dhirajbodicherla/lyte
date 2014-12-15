@@ -239,7 +239,7 @@ public class GameStage extends Stage implements GestureListener{
 		if(hitBody!=null && ((Entity)hitBody.getUserData()).getFixedRotation()!=0)
 		{
 			Gdx.input.vibrate(25);
-			((Mirror)(hitBody.getUserData())).isSelected=true;
+			((Mirror)(hitBody.getUserData())).isRotSelected=true;
 			m_level.setSelectedBody(hitBody);
 		}
 		
@@ -274,7 +274,7 @@ public class GameStage extends Stage implements GestureListener{
 			mJointDef.maxForce = 1000.f * hitBody.getMass();
 			mJoint = (MouseJoint)world.createJoint(mJointDef);
 			hitBody.setAwake(true);
-			((Mirror)hitBody.getUserData()).isSelected = true;
+			((Mirror)hitBody.getUserData()).isMoveSelected = true;
 		}
 		return false;
 	}
@@ -303,7 +303,7 @@ public class GameStage extends Stage implements GestureListener{
 		//isMouseDown = false;
 		if(mJoint!=null)
 		{
-			((Mirror)hitBody.getUserData()).isSelected = false;
+			((Mirror)hitBody.getUserData()).isMoveSelected = false;
 			hitBody.setType(BodyType.StaticBody);
 			world.destroyJoint(mJoint);
             mJoint = null;

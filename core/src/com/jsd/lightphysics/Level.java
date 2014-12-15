@@ -276,6 +276,7 @@ public class Level implements ContactListener{
 			m_world.destroyBody(mSource.getPhysicsBody());
 			mTarget = null;
 			mSource = null;
+			SelectedBody=null;
 			mMirrors.clear();
 			mAsteroids.clear();
 			mBlackholes.clear();

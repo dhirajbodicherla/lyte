@@ -35,11 +35,16 @@ public class BlackHole extends Entity{
 		pix.setColor(blue);
 		//influence circle
 		
-		pix.drawCircle(x, y, (int)((ir-2)));
+		pix.drawCircle(x, y, (int)((ir-10)));
+		pix.drawCircle(x, y, (int)((ir-20)));
 		pix.drawCircle(x, y, (int)((ir-1)));
+		pix.drawCircle(x, y, (int)((ir-2)));
 		pix.drawCircle(x, y, (int)((ir+0)));
-		pix.drawCircle(x, y, (int)((ir+1)));
-		pix.drawCircle(x, y, (int)((ir+2)));
+		pix.drawCircle(x, y, (int)((ir+0)));
+		pix.drawCircle(x, y, (int)((ir-1)));
+		pix.drawCircle(x, y, (int)((ir-2)));
+		pix.drawCircle(x, y, (int)((ir-10+1)));
+		pix.drawCircle(x, y, (int)((ir-20+2)));
 		
 		
 		pix.setColor(yellow);
@@ -52,7 +57,7 @@ public class BlackHole extends Entity{
 		//black fill
 		pix.setColor(Color.BLACK);
 		pix.fillCircle(x, y, (int)(r));
-		Pixmap blurred = BlurUtils.blur(pix, 2, 2, true);
+		Pixmap blurred = BlurUtils.blur(pix, 1, 1, true);
 
 		
 		tex = new Texture(blurred);

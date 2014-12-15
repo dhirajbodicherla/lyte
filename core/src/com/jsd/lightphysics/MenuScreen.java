@@ -123,13 +123,13 @@ public class MenuScreen extends AbstractGameScreen {
 		center.add(logo);
 		center.row();
 
-		center.add(playBtn).padTop(0.05f * SCREEN.y);
+		center.add(playBtn).padTop(0.1f*SCREEN.y);
 		center.row();
 
-		center.add(optBtn).padTop(0.03f * SCREEN.y);
+		center.add(optBtn);
 		center.row();
 
-		center.add(creditsBtn).padTop(0.03f * SCREEN.y);
+		center.add(creditsBtn);
 		center.row();
 
 		bottomStrip.add(quitBtn);
@@ -139,7 +139,7 @@ public class MenuScreen extends AbstractGameScreen {
 		layer.align(Align.center);
 		layer.add(center);
 		layer.row();
-		layer.add(bottomStrip).padTop(0.30f * SCREEN.y);
+		layer.add(bottomStrip).padTop(0.10f * SCREEN.y);
 		return layer;
 	}
 
