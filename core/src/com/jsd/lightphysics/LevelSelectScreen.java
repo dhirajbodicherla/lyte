@@ -58,7 +58,10 @@ public class LevelSelectScreen extends AbstractGameScreen {
 	}
 
 	private Table buildForeground(float stageW, float stageH) {
+		Table main = new Table();
 		Table table = new Table();
+		main.debug();
+		table.debug();
 		table.setFillParent(true);
 
 		TextButton level1 = AssetFactory.createButton(atlas, Constants.BTN_1_UP, Constants.BTN_1_UP, false);
@@ -126,12 +129,16 @@ public class LevelSelectScreen extends AbstractGameScreen {
 		Image logo = AssetFactory.createImage(atlas, 
 				  Constants.TEXT_LEVEL_SELECT, false);
 
-		table.center();
+		main.setBounds(0, 0, stageW, stageH);
+		main.align(Align.center);
+		main.add(logo).fill().expand().row();
+		
+		
 		// layer.setDebug(true);
-		table.setBounds(0, 0, stageW, stageH);
+//		table.setBounds(0, 0, stageW, stageH);
 		// layer.align(Align.center);
 
-		table.add(logo).colspan(4).row(); //.padBottom(0.05f * stageH);
+//		table.add(logo).fill().colspan(4).row(); //.padBottom(0.05f * stageH);
 		// layer.row();
 		table.add(level1);
 		table.add(level2);
@@ -141,10 +148,12 @@ public class LevelSelectScreen extends AbstractGameScreen {
 		table.add(level6);
 		table.add(level7);
 		table.add(level8).row().padBottom(0.01f * stageH);
-		table.add(level9);
-		table.add(level10);
+		table.add(level9).colspan(2);
+		table.add(level10).colspan(2);
+		
+		main.add(table);
 
-		return table;
+		return main;
 	}
 
 	private void buildStage(float stageW, float stageH) {

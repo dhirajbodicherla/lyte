@@ -205,11 +205,13 @@ public class HUDStage extends Stage
 		Stack pauseWindowStack = new Stack();
 		Table pauseTable = new Table();
 		Image heading = AssetFactory.createImage(atlas, "PauseText", false);
-		pauseTable.add(heading).padBottom(75.0f).colspan(3);
+		pauseTable.add(heading).padBottom(0.05f * SCREEN.y).fill().expand().colspan(3);
 		pauseTable.row();
 		pauseTable.add(pauseGameCloseBtn);
 		pauseTable.add(pauseCloseBtn);
 		pauseTable.add(pauseVolumeBtn);
+		pauseTable.debug();
+		pauseTable.setFillParent(true);
 		
 		Image bg = AssetFactory.createImage(atlas, "Panel", false);
 		pauseWindowStack.add(bg);
@@ -219,7 +221,7 @@ public class HUDStage extends Stage
 		pauseWindow.padTop(64);
 		pauseWindow.setColor(1, 1, 1, 1);
 		pauseWindow.add(pauseWindowStack);
-		pauseWindow.setSize(this.getWidth(), this.getHeight());
+		pauseWindow.setSize(SCREEN.x, SCREEN.y);
 		//pauseWindow.setPosition(this.getWidth() / 2 - pause.getWidth()/2, this.getHeight() / 2 - pause.getHeight()/2);
 		pauseWindow.setVisible(false);
 		
@@ -227,7 +229,7 @@ public class HUDStage extends Stage
 		Table levelCompleteTable = new Table();
 		Image headingLevelComplete = AssetFactory.createImage(atlas, "CompleteText", false);
 		
-		levelCompleteTable.add(headingLevelComplete).colspan(2).padBottom(0.1f * SCREEN.y);
+		levelCompleteTable.add(headingLevelComplete).colspan(2).fill().expand().padBottom(0.1f * SCREEN.y);
 		levelCompleteTable.row();
 		levelCompleteTable.add(levelGameCloseBtn);
 		levelCompleteTable.add(proceedToNextLevelBtn);
@@ -237,7 +239,7 @@ public class HUDStage extends Stage
 		levelCompleteWindowStack.add(levelCompleteTable);
 		
 		levelCompleteMessageWindow = new Window("", skin);
-		levelCompleteMessageWindow.padTop(64);
+		levelCompleteMessageWindow.padTop(0.01f * SCREEN.y);
 		levelCompleteMessageWindow.add(levelCompleteWindowStack);
 		levelCompleteMessageWindow.setSize(this.getWidth(), this.getHeight());
 //		levelCompleteMessageWindow.setPosition(this.getWidth() / 2 - levelCompleteMessageWindow.getWidth()/2, this.getHeight() / 2 - pause.getHeight()/2);
@@ -283,7 +285,9 @@ public class HUDStage extends Stage
 	private void backToMenu() {
 		// switch to menu screen
 //		game.setScreen(new MenuScreen(game));
-		game.pause();
-		pauseWindow.setVisible(true);
+		if(!pauseWindow.isVisible()){
+			game.pause();
+			pauseWindow.setVisible(true);
+		}
 	}	 
 }

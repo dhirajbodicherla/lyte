@@ -64,7 +64,7 @@ public class MenuScreen extends AbstractGameScreen {
 			break;
 		}
 		skin = new Skin(Gdx.files.internal(locRoot));
-		skin.getFont("default").setScale(0.25f, 0.25f);
+//		skin.getFont("default").setScale(0.25f, 0.25f);
 		buildStage();
 	}
 
@@ -80,9 +80,11 @@ public class MenuScreen extends AbstractGameScreen {
 
 	private Table buildForeground() {
 		Vector2 SCREEN = Assets.instance.queryScreen();
+		
 		Table layer = new Table();
 		Table center = new Table();
 		Table bottomStrip = new Table();
+		
 		TextButton playBtn = AssetFactory.createButton(menuAtlas,
 				Constants.BTN_PLAY_UP, Constants.BTN_PLAY_DOWN, false);
 		TextButton optBtn = AssetFactory.createButton(menuAtlas,
@@ -115,13 +117,10 @@ public class MenuScreen extends AbstractGameScreen {
 		
 		Image logo = AssetFactory.createImage(menuAtlas, 
 											  Constants.TEXT_GAME_LOGO, false);
-
+		
 		float h = quitBtn.getMinHeight();
 		center.setBounds(0, 0, SCREEN.x, SCREEN.y);
 		bottomStrip.setBounds(0, 0, SCREEN.x, h);
-
-		center.add(logo);
-		center.row();
 
 		center.add(playBtn).padTop(0.1f*SCREEN.y);
 		center.row();
@@ -135,10 +134,10 @@ public class MenuScreen extends AbstractGameScreen {
 		bottomStrip.add(quitBtn);
 		bottomStrip.add();
 		bottomStrip.add(helpBtn).padLeft(0.84f * SCREEN.x);
-
+		
 		layer.align(Align.center);
-		layer.add(center);
-		layer.row();
+		layer.add(logo).fill().expand().row();
+		layer.add(center).row();
 		layer.add(bottomStrip).padTop(0.10f * SCREEN.y);
 		return layer;
 	}

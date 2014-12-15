@@ -1,5 +1,6 @@
 package com.jsd.lightphysics;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
@@ -53,13 +54,14 @@ public class AssetFactory {
 		Skin skin = new Skin(atlas);
 		Image img = new Image(skin, regionName);
 		
-		float w = (img.getMinWidth() / VIEWPORT.x) * SCREEN.x;
+		float w = (img.getWidth() / VIEWPORT.x) * SCREEN.x;
 		float h;
 		//is width and height equal? 
 		if(!isAspEqual)
-			h = (img.getWidth() / VIEWPORT.y) * SCREEN.y;
+			h = (img.getHeight() / VIEWPORT.y) * SCREEN.y;
 		else
-			h = w; 
+			h = w;
+		
 		img.setSize(w, h);
 		return img;
 	}
