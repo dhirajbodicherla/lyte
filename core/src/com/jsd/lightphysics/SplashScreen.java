@@ -29,7 +29,7 @@ public class SplashScreen extends AbstractGameScreen {
 	public void init()
 	{	
 		Assets.instance.init(new AssetManager());
-		animationDone = true;  //change this later to false
+		animationDone = false;  //change this later to false
 		buildStage();
 	}
 
@@ -71,7 +71,7 @@ public class SplashScreen extends AbstractGameScreen {
 		
 		//Source: http://www.toxsickproductions.com/libgdx/libgdx-basics-game-and-screens/
 		imgBackground.addAction(Actions.sequence(Actions.alpha(0)
-                ,Actions.fadeIn(0.75f),Actions.delay(5.f),Actions.run(new Runnable() {
+                ,Actions.fadeIn(0.75f),Actions.delay(7.f),Actions.run(new Runnable() {
             @Override
             public void run() {
                 animationDone = true;
