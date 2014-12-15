@@ -4,18 +4,20 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 
 
 public class SplashScreen extends AbstractGameScreen {
 
 	private Stage stage;
-	private Image imgBackground;
 	private boolean animationDone;
 
 	public SplashScreen(LightPhysics game) {
@@ -27,7 +29,7 @@ public class SplashScreen extends AbstractGameScreen {
 	public void init()
 	{
 		Assets.instance.init(new AssetManager());
-		animationDone = true;  //change this later to false
+		animationDone = false;  //change this later to false
 		buildStage();
 	}
 
@@ -50,10 +52,22 @@ public class SplashScreen extends AbstractGameScreen {
 		
 	private void buildStage() {		
 		Vector2 SCREEN = Assets.instance.queryScreen();
-		
+		Vector2 VIEWPORT = Assets.instance.queryViewport();
+		String suf = Assets.instance.getSuffix();
+		String ext = ".pack";
 		Table layer = new Table();
-		Texture texBackground = new Texture(Gdx.files.internal(Constants.IMG_SPLASH_SCREEN));
-		imgBackground = new Image(texBackground);
+		
+		TextureAtlas atlas = new TextureAtlas(Gdx.files.internal(Constants.TEXTURE_ATLAS_BG+suf+ext));
+		Skin skin = new Skin(atlas);
+		Drawable background = skin.getDrawable(Constants.IMG_SPLASH_SCREEN+suf);
+		
+		float w = (background.getMinWidth()/VIEWPORT.x) * SCREEN.x;
+		float h = (background.getMinHeight()/VIEWPORT.y) * SCREEN.y;
+		
+		background.setMinWidth(w);
+		background.setMinHeight(h);
+		
+		Image imgBackground = new Image(background);
 		
 		//Source: http://www.toxsickproductions.com/libgdx/libgdx-basics-game-and-screens/
 		imgBackground.addAction(Actions.sequence(Actions.alpha(0)
@@ -74,7 +88,6 @@ public class SplashScreen extends AbstractGameScreen {
 	
 	@Override
 	public void resize(int width, int height) {
-//		stage.setViewport(new StretchViewport(68, 40));
 		stage.getViewport().update(width, height, true);
 	}
 

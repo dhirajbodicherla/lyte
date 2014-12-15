@@ -161,9 +161,23 @@ public class MenuScreen extends AbstractGameScreen {
 
 	private Table buildBackground() {
 		Vector2 SCREEN = Assets.instance.queryScreen();
+		Vector2 VIEWPORT = Assets.instance.queryViewport();
+		String suf = Assets.instance.getSuffix();
+		String ext = ".pack";
 		Table layer = new Table();
-		Image imgBackground = new Image(Assets.instance.getMenuScreen());
-		imgBackground.setBounds(0, 0, SCREEN.x, SCREEN.y);
+		TextureAtlas atlas = new TextureAtlas(Gdx.files.internal(Constants.TEXTURE_ATLAS_BG+suf+ext));
+		Skin skin = new Skin(atlas);
+		Drawable background = skin.getDrawable(Constants.IMG_MENU_SCREEN+suf);
+		
+		float w = (background.getMinWidth()/VIEWPORT.x) * SCREEN.x;
+		float h = (background.getMinHeight()/VIEWPORT.y) * SCREEN.y;
+		
+		background.setMinWidth(w);
+		background.setMinHeight(h);
+		
+		Image imgBackground = new Image(background);
+		
+		layer.setBounds(0, 0, SCREEN.x, SCREEN.y);
 		layer.add(imgBackground);
 
 		return layer;

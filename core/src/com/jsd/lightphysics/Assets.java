@@ -24,12 +24,13 @@ public class Assets implements Disposable, AssetErrorListener {
 	private AssetManager manager;
 	private Vector2 VIEWPORT;
 	private Vector2 SCREEN;
+	private String suffix;
 	
 	private TextureAtlas menuAtlas;
 	private TextureAtlas hudAtlas;
 	private TextureAtlas spriteAtlas;
-	private Texture menuScreen;
-	private Texture gameScreen;
+	private TextureAtlas bgAtlas;
+	
 
 	// singleton: prevent instantiation from other classes
 	private Assets() {}
@@ -44,21 +45,26 @@ public class Assets implements Disposable, AssetErrorListener {
 	
 	public void load()
 	{
+		String suf = Assets.instance.getSuffix();
+		String ext = ".pack";
 		manager.load(Constants.TEXTURE_ATLAS_UI, TextureAtlas.class);
 		manager.load(Constants.TEXTURE_ATLAS_SPRITE, TextureAtlas.class);
 		manager.load(Constants.TEXTURE_ATLAS_HUD, TextureAtlas.class);
-		manager.load(Constants.IMG_GAME_MENU, Texture.class);
-		manager.load(Constants.IMG_GAME_SCREEN, Texture.class);
+		manager.load(Constants.TEXTURE_ATLAS_BG+suf+ext, TextureAtlas.class);
+		
+		
 	}
 	
 	//call this after asset manager finishes loading everything
 	public void setupAssets()
 	{
+		String suf = Assets.instance.getSuffix();
+		String ext = ".pack";
 		menuAtlas = manager.get(Constants.TEXTURE_ATLAS_UI);
 		spriteAtlas = manager.get(Constants.TEXTURE_ATLAS_SPRITE);
 		hudAtlas = manager.get(Constants.TEXTURE_ATLAS_HUD);
-		menuScreen = manager.get(Constants.IMG_GAME_MENU);
-		gameScreen = manager.get(Constants.IMG_GAME_SCREEN);
+		bgAtlas = (manager.get(Constants.TEXTURE_ATLAS_BG+suf+ext));
+
 	}
 	
 	public boolean update()
@@ -108,8 +114,7 @@ public class Assets implements Disposable, AssetErrorListener {
 		if(VIEWPORT==null)
 			VIEWPORT = new Vector2(640,480);
 		
-		Gdx.app.debug("VIEWPORT","Selected Viewport:"+VIEWPORT);
-		Gdx.app.debug("SCREEN", "W: "+w+" H: "+h);
+		suffix = (aW+""+aH);
 	}
 	
 	private int gcd (int a, int b) {
@@ -141,15 +146,14 @@ public class Assets implements Disposable, AssetErrorListener {
 		return spriteAtlas;
 	}
 	
-	public Texture getMenuScreen()
-	{
-		return menuScreen;
+	public TextureAtlas getBgAtlas() {
+		return bgAtlas;
 	}
 	
-	public Texture getGameScreen()
-	{
-		return gameScreen;
+	public String getSuffix() {
+		return suffix;
 	}
+	
 
 	@Override
 	public void dispose() {
@@ -162,6 +166,8 @@ public class Assets implements Disposable, AssetErrorListener {
 		// TODO Auto-generated method stub
 		Gdx.app.error(TAG, "Couldnt load asset" + asset);
 	}
+
+
 
 	
 

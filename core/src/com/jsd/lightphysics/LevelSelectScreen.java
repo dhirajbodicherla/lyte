@@ -5,6 +5,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
@@ -125,10 +126,27 @@ public class LevelSelectScreen extends AbstractGameScreen {
 	}
 
 	private Table buildBackground(float stageW, float stageH) {
+		Vector2 SCREEN = Assets.instance.queryScreen();
+		Vector2 VIEWPORT = Assets.instance.queryViewport();
+		String suf = Assets.instance.getSuffix();
+		String ext = ".pack";
 		Table layer = new Table();
-		imgBackground = new Image(Assets.instance.getMenuScreen());
-		imgBackground.setBounds(0, 0, stageW, stageH);
+		
+		TextureAtlas atlas = new TextureAtlas(Gdx.files.internal(Constants.TEXTURE_ATLAS_BG+suf+ext));
+		Skin skin = new Skin(atlas);
+		Drawable background = skin.getDrawable(Constants.IMG_MENU_SCREEN+suf);
+		
+		float w = (background.getMinWidth()/VIEWPORT.x) * SCREEN.x;
+		float h = (background.getMinHeight()/VIEWPORT.y) * SCREEN.y;
+		
+		background.setMinWidth(w);
+		background.setMinHeight(h);
+		
+		Image imgBackground = new Image(background);
+		
+		layer.setBounds(0, 0, SCREEN.x, SCREEN.y);
 		layer.add(imgBackground);
+
 
 		return layer;
 	}

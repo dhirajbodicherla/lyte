@@ -4,17 +4,22 @@ public class Constants {
 	
 	public static final double DEGTORAD = 0.0174532925199432957f;
 	public static final float WORLD_TO_BOX = 0.01f; 
-	public static final float BOX_TO_WORLD = 100.f; 
+	public static final float BOX_TO_WORLD = 100.f;
+	
+	//Level File
+	public static final String LEVEL_JS = "data/level";
 	
 	//Image file paths
 	public static final String TEXTURE_ATLAS_SPRITE = "data/ui/Sprites.pack";
 	public static final String TEXTURE_ATLAS_UI     = "data/ui/Menu.pack";
 	public static final String TEXTURE_ATLAS_HUD 	= "data/ui/HUD.pack";
-	public static final String IMG_SPLASH_SCREEN 	= "data/img/SplashScreen.png" ;
-	public static final String IMG_GAME_MENU     	= "data/img/MenuBackground43.png";
-	public static final String IMG_GAME_SCREEN 		= "data/img/GameBackground43.png" ;
+	public static final String TEXTURE_ATLAS_BG 	= "data/ui/BG";
+	public static final String PREFERENCES 			= "lyte_prefs";
 	
-	public static final String PREFERENCES = "lyte_prefs";
+	//Backgrounds
+	public static final String IMG_MENU_SCREEN     = "MenuBackground";
+	public static final String IMG_GAME_SCREEN     = "GameBackground";
+	public static final String IMG_SPLASH_SCREEN   = "SplashScreen";
 	
 	//Atlas Region Names
 	

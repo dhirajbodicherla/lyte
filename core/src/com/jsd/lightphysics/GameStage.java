@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Matrix4;
@@ -24,7 +25,9 @@ import com.badlogic.gdx.physics.box2d.joints.MouseJointDef;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 public class GameStage extends Stage implements GestureListener{
 	
@@ -66,9 +69,11 @@ public class GameStage extends Stage implements GestureListener{
 	
 	public void initWorld(int level)
 	{
+		String suf = Assets.instance.getSuffix();
+		String ext = ".js";
 		world = new World(new Vector2(0.0f, 0.0f), false);
 		renderer = new Box2DDebugRenderer();
-		m_level = new Level("data/level.js", world, level);
+		m_level = new Level(Constants.LEVEL_JS+suf+ext, world, level);
 		//photonShootSound = Gdx.audio.newSound(Gdx.files.internal("data/sounds/game.wav"));
 	}
 	
@@ -110,14 +115,20 @@ public class GameStage extends Stage implements GestureListener{
 	private void buildStage() {		
 		Vector2 SCREEN = Assets.instance.queryScreen();
 		Vector2 VIEWPORT = Assets.instance.queryViewport();
+		String suf = Assets.instance.getSuffix();
+		String ext = ".pack";
 		Table layer = new Table();
-		Image imgBackground = new Image(Assets.instance.getGameScreen());
+		TextureAtlas atlas = new TextureAtlas(Gdx.files.internal(Constants.TEXTURE_ATLAS_BG+suf+ext));
+		Skin skin = new Skin(atlas);
+		Drawable background = skin.getDrawable(Constants.IMG_GAME_SCREEN+suf);
 		
-		float w = (imgBackground.getWidth()/VIEWPORT.x) * SCREEN.x;
-		float h = (imgBackground.getHeight()/VIEWPORT.y) * SCREEN.x;
+		float w = (background.getMinWidth()/VIEWPORT.x) * SCREEN.x;
+		float h = (background.getMinHeight()/VIEWPORT.y) * SCREEN.y;
 		
-		imgBackground.setWidth(w);
-		imgBackground.setHeight(h);
+		background.setMinWidth(w);
+		background.setMinHeight(h);
+		
+		Image imgBackground = new Image(background);
 		
 		layer.setBounds(0, 0, SCREEN.x, SCREEN.y);
 		layer.add(imgBackground);
