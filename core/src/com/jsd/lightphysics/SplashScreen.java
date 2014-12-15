@@ -27,9 +27,9 @@ public class SplashScreen extends AbstractGameScreen {
 	}
 	
 	public void init()
-	{
+	{	
 		Assets.instance.init(new AssetManager());
-		animationDone = false;  //change this later to false
+		animationDone = true;  //change this later to false
 		buildStage();
 	}
 

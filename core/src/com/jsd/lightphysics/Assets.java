@@ -95,7 +95,7 @@ public class Assets implements Disposable, AssetErrorListener {
 			VIEWPORT = new Vector2(640,360);
 		
 		//8:5
-		if(aW==8 && aH==5)
+		/*if(aW==8 && aH==5)
 			VIEWPORT = new Vector2(640,400);
 		
 		//5:3
@@ -108,11 +108,11 @@ public class Assets implements Disposable, AssetErrorListener {
 		
 		//3:2
 		if(aW==3 && aH==2)
-			VIEWPORT = new Vector2(960, 640);
+			VIEWPORT = new Vector2(960, 640);*/
 		
 		//if no suitable match reverting to 640x480
 		if(VIEWPORT==null)
-			VIEWPORT = new Vector2(640,480);
+			VIEWPORT = new Vector2(640,360);
 		
 		suffix = (aW+""+aH);
 	}

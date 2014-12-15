@@ -1,0 +1,31 @@
+
+BG169.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+GameBackground169
+  rotate: false
+  xy: 1, 363
+  size: 640, 360
+  orig: 640, 360
+  offset: 0, 0
+  index: -1
+MenuBackground169
+  rotate: false
+  xy: 1, 1
+  size: 640, 360
+  orig: 640, 360
+  offset: 0, 0
+  index: -1
+
+BG1692.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+SplashScreen169
+  rotate: false
+  xy: 1, 1
+  size: 640, 360
+  orig: 640, 360
+  offset: 0, 0
+  index: -1
