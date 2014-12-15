@@ -64,7 +64,7 @@ public class HUDStage extends Stage
 		bottom = new Table();
 		String locRoot = "data/ui/uiskin.json";
 		skin = new Skin(Gdx.files.internal(locRoot));
-		menuAtlas = Assets.instance.getMenuAtlas();
+		menuAtlas = new TextureAtlas(Gdx.files.internal("data/ui/Menu.pack"));
 		
 		replay = AssetFactory.createButton(atlas, Constants.BTN_REPLAY_UP, Constants.BTN_REPLAY_DOWN, true);
 		pause = AssetFactory.createButton(atlas, Constants.BTN_PAUSE_UP, Constants.BTN_PAUSE_DOWN, true);

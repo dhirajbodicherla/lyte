@@ -40,7 +40,7 @@ public class LevelSelectScreen extends AbstractGameScreen {
 		music.play();
 		music.setLooping(true);
 		music.setVolume(0.6f);
-		atlas = Assets.instance.getMenuAtlas();
+		atlas = new TextureAtlas(Gdx.files.internal("data/ui/Menu.pack"));
 		skin = new Skin(atlas);
 		buildStage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}

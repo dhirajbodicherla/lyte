@@ -54,7 +54,7 @@ public class MenuScreen extends AbstractGameScreen {
 		music.play();
 		music.setLooping(true);
 		music.setVolume(0.1f);
-		menuAtlas = Assets.instance.getMenuAtlas();
+		menuAtlas = new TextureAtlas(Gdx.files.internal("data/ui/Menu.pack"));
 		String locRoot = "data/ui/uimenuskin.json";
 		switch (Gdx.app.getType()) {
 		case Desktop:
