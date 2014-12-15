@@ -43,7 +43,8 @@ public class LevelSelectScreen extends AbstractGameScreen {
 		music.setVolume(0.6f);
 		atlas = new TextureAtlas(Gdx.files.internal("data/ui/Menu.pack"));
 		skin = new Skin(atlas);
-		buildStage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		Vector2 SCREEN = Assets.instance.queryScreen();
+		buildStage(SCREEN.x, SCREEN.y);
 	}
 
 	@Override
@@ -57,8 +58,8 @@ public class LevelSelectScreen extends AbstractGameScreen {
 	}
 
 	private Table buildForeground(float stageW, float stageH) {
-		Table layer = new Table();
-		layer.setFillParent(true);
+		Table table = new Table();
+		table.setFillParent(true);
 
 		TextButton level1 = AssetFactory.createButton(atlas, Constants.BTN_1_UP, Constants.BTN_1_UP, false);
 		TextButton level2 = AssetFactory.createButton(atlas, Constants.BTN_2_UP, Constants.BTN_2_UP, false);
@@ -71,9 +72,6 @@ public class LevelSelectScreen extends AbstractGameScreen {
 		TextButton level9 = AssetFactory.createButton(atlas, Constants.BTN_9_UP, Constants.BTN_9_UP, false);
 		TextButton level10 = AssetFactory.createButton(atlas, Constants.BTN_10_UP, Constants.BTN_10_UP, false);
 		
-		
-		
-
 		level1.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
 				game.setScreen(new GameScreen(game, 1));
@@ -86,29 +84,67 @@ public class LevelSelectScreen extends AbstractGameScreen {
 		});
 		level3.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
-				game.setScreen(new GameScreen(game, 1));
+				game.setScreen(new GameScreen(game, 3));
 			}
 		});
 		level4.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
-				game.setScreen(new GameScreen(game, 2));
+				game.setScreen(new GameScreen(game, 4));
 			}
 		});
+		level5.addListener(new ClickListener() {
+			public void clicked(InputEvent event, float x, float y) {
+				game.setScreen(new GameScreen(game, 5));
+			}
+		});
+		level6.addListener(new ClickListener() {
+			public void clicked(InputEvent event, float x, float y) {
+				game.setScreen(new GameScreen(game, 6));
+			}
+		});
+		level7.addListener(new ClickListener() {
+			public void clicked(InputEvent event, float x, float y) {
+				game.setScreen(new GameScreen(game, 7));
+			}
+		});
+		level8.addListener(new ClickListener() {
+			public void clicked(InputEvent event, float x, float y) {
+				game.setScreen(new GameScreen(game, 8));
+			}
+		});
+		level9.addListener(new ClickListener() {
+			public void clicked(InputEvent event, float x, float y) {
+				game.setScreen(new GameScreen(game, 9));
+			}
+		});
+		level10.addListener(new ClickListener() {
+			public void clicked(InputEvent event, float x, float y) {
+				game.setScreen(new GameScreen(game, 10));
+			}
+		});
+		
+		Image logo = AssetFactory.createImage(atlas, 
+				  Constants.TEXT_LEVEL_SELECT, false);
 
-		layer.top().left();
-		Image logo = new Image(skin, "Logo");
+		table.center();
 		// layer.setDebug(true);
-		layer.setBounds(0, 0, stageW, stageH);
+		table.setBounds(0, 0, stageW, stageH);
 		// layer.align(Align.center);
 
-		// layer.add(logo).padBottom(stageH);
+		table.add(logo).colspan(4).row(); //.padBottom(0.05f * stageH);
 		// layer.row();
-		layer.add(level1);
-		layer.add(level2).padTop(100.0f);
-		layer.add(level3).padTop(150.0f);
-		layer.add(level4).padTop(200.0f);
+		table.add(level1);
+		table.add(level2);
+		table.add(level3);
+		table.add(level4).row();
+		table.add(level5);
+		table.add(level6);
+		table.add(level7);
+		table.add(level8).row().padBottom(0.01f * stageH);
+		table.add(level9);
+		table.add(level10);
 
-		return layer;
+		return table;
 	}
 
 	private void buildStage(float stageW, float stageH) {

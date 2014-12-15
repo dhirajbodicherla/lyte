@@ -65,6 +65,7 @@ public class HUDStage extends Stage
 		String locRoot = "data/ui/uiskin.json";
 		skin = new Skin(Gdx.files.internal(locRoot));
 		menuAtlas = new TextureAtlas(Gdx.files.internal("data/ui/Menu.pack"));
+		Vector2 SCREEN = Assets.instance.queryScreen();
 		
 		replay = AssetFactory.createButton(atlas, Constants.BTN_REPLAY_UP, Constants.BTN_REPLAY_DOWN, true);
 		pause = AssetFactory.createButton(atlas, Constants.BTN_PAUSE_UP, Constants.BTN_PAUSE_DOWN, true);
@@ -90,7 +91,6 @@ public class HUDStage extends Stage
 				return;
 			}
 		});
-		
 		
 		right.addListener(new ClickListener(){
 			public void clicked(InputEvent event, float x, float y) {
@@ -134,6 +134,9 @@ public class HUDStage extends Stage
 		TextButton pauseGameCloseBtn = 
 				AssetFactory.createButton(atlas, 
 				"BackUp", "BackDown", false);
+		TextButton levelGameCloseBtn = 
+				AssetFactory.createButton(atlas, 
+				"BackUp", "BackDown", false);
 		TextButton pauseCloseBtn = 
 				AssetFactory.createButton(atlas, 
 				"QuitUp", "QuitDown", false);
@@ -142,8 +145,8 @@ public class HUDStage extends Stage
 				pauseVolumeDefaultBtn, pauseVolumeActiveBtn, false);
 		
 		TextButton proceedToNextLevelBtn = 
-				AssetFactory.createButton(menuAtlas, 
-				Constants.BTN_OPT_UP, Constants.BTN_OPT_DOWN, false);
+				AssetFactory.createButton(atlas, 
+				Constants.BTN_NEXT_UP, Constants.BTN_NEXT_DOWN, false);
 		TextButton gameOverRestartBtn = 
 				AssetFactory.createButton(menuAtlas, 
 				Constants.BTN_OPT_UP, Constants.BTN_OPT_DOWN, false);
@@ -152,6 +155,12 @@ public class HUDStage extends Stage
 			public void clicked(InputEvent event, float x, float y) {
 				game.resume();
 				pauseWindow.setVisible(false);
+			}
+		});
+		levelGameCloseBtn.addListener(new ClickListener(){
+			public void clicked(InputEvent event, float x, float y) {
+				game.getScreen().dispose();
+				game.setScreen(new MenuScreen(game));
 			}
 		});
 		
@@ -195,14 +204,14 @@ public class HUDStage extends Stage
 		
 		Stack pauseWindowStack = new Stack();
 		Table pauseTable = new Table();
-		Image heading = AssetFactory.createImage(atlas, "PauseText");
+		Image heading = AssetFactory.createImage(atlas, "PauseText", false);
 		pauseTable.add(heading).padBottom(75.0f).colspan(3);
 		pauseTable.row();
 		pauseTable.add(pauseGameCloseBtn);
 		pauseTable.add(pauseCloseBtn);
 		pauseTable.add(pauseVolumeBtn);
 		
-		Image bg = AssetFactory.createImage(atlas, "Panel");
+		Image bg = AssetFactory.createImage(atlas, "Panel", false);
 		pauseWindowStack.add(bg);
 		pauseWindowStack.add(pauseTable);
 		
@@ -216,13 +225,14 @@ public class HUDStage extends Stage
 		
 		Stack levelCompleteWindowStack = new Stack();
 		Table levelCompleteTable = new Table();
-		Image headingLevelComplete = AssetFactory.createImage(atlas, "CompleteText");
+		Image headingLevelComplete = AssetFactory.createImage(atlas, "CompleteText", false);
 		
-		levelCompleteTable.add(headingLevelComplete).padBottom(75.0f).colspan(2);
+		levelCompleteTable.add(headingLevelComplete).colspan(2).padBottom(0.1f * SCREEN.y);
 		levelCompleteTable.row();
+		levelCompleteTable.add(levelGameCloseBtn);
 		levelCompleteTable.add(proceedToNextLevelBtn);
 		
-		Image bgLevelComplete = AssetFactory.createImage(atlas, "Panel");
+		Image bgLevelComplete = AssetFactory.createImage(atlas, "Panel", false);
 		levelCompleteWindowStack.add(bgLevelComplete);
 		levelCompleteWindowStack.add(levelCompleteTable);
 		

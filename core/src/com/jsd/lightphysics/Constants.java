@@ -34,6 +34,7 @@ public class Constants {
 	public static final String TEXT_GAME_LOGO     = "Logo";
 	public static final String TEXT_GAME_PAUSE     = "PauseText";
 	public static final String TEXT_GAME_COMPLETE     = "CompleteText";
+	public static final String TEXT_LEVEL_SELECT     = "LevelSelect";
 	
 	//Misc
 	public static final String IMG_GAME_LOGO     = "Logo";
@@ -87,5 +88,8 @@ public class Constants {
 	
 	public static final String BTN_RIGHT_UP 	 = "RightUp";
 	public static final String BTN_RIGHT_DOWN  = "RightDown";
+	
+	public static final String BTN_NEXT_UP 	 	= "NextUp";
+	public static final String BTN_NEXT_DOWN 	 = "NextDown";
 	
 }

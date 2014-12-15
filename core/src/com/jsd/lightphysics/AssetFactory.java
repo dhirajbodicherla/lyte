@@ -46,10 +46,22 @@ public class AssetFactory {
 		return btn;
 	}
 	
-	public static Image createImage(TextureAtlas atlas, String regionName)
+	public static Image createImage(TextureAtlas atlas, String regionName, Boolean isAspEqual)
 	{
+		Vector2 SCREEN = Assets.instance.queryScreen();
+		Vector2 VIEWPORT = Assets.instance.queryViewport();
 		Skin skin = new Skin(atlas);
-		return new Image(skin, regionName);
+		Image img = new Image(skin, regionName);
+		
+		float w = (img.getMinWidth() / VIEWPORT.x) * SCREEN.x;
+		float h;
+		//is width and height equal? 
+		if(!isAspEqual)
+			h = (img.getWidth() / VIEWPORT.y) * SCREEN.y;
+		else
+			h = w; 
+		img.setSize(w, h);
+		return img;
 	}
 	
 	//returns the scale value necessary to attain the new value
