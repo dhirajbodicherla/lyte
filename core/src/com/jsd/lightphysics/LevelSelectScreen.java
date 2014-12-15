@@ -40,7 +40,7 @@ public class LevelSelectScreen extends AbstractGameScreen {
 		music.play();
 		music.setLooping(true);
 		music.setVolume(0.6f);
-		atlas = new TextureAtlas(Gdx.files.internal("data/ui/Menu.pack"));
+		atlas = Assets.instance.getMenuAtlas();
 		skin = new Skin(atlas);
 		buildStage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}
@@ -58,42 +58,20 @@ public class LevelSelectScreen extends AbstractGameScreen {
 	private Table buildForeground(float stageW, float stageH) {
 		Table layer = new Table();
 		layer.setFillParent(true);
-		float w = (skin.getDrawable("PlayUp").getMinWidth() / 640) * stageW;
-		float h = (skin.getDrawable("PlayUp").getMinHeight() / 480) * stageH;
 
-		Drawable PlayUp = skin.getDrawable("PlayUp");
-		Drawable PlayDown = skin.getDrawable("PlayDown");
-		Drawable OptUp = skin.getDrawable("OptUp");
-		Drawable OptDown = skin.getDrawable("OptDown");
-		BitmapFont black = new BitmapFont();
-
-		PlayUp.setMinWidth(w);
-		PlayUp.setMinHeight(h);
-		PlayDown.setMinWidth(w);
-		PlayDown.setMinHeight(h);
-		OptUp.setMinWidth(w);
-		OptUp.setMinHeight(h);
-		OptDown.setMinWidth(w);
-		OptDown.setMinHeight(h);
-
-		TextButtonStyle playButtonStyle = new TextButtonStyle();
-		playButtonStyle.up = PlayUp;
-		playButtonStyle.down = PlayDown;
-		playButtonStyle.pressedOffsetX = 1;
-		playButtonStyle.pressedOffsetY = -1;
-		playButtonStyle.font = black;
-
-		TextButtonStyle optButtonStyle = new TextButtonStyle();
-		optButtonStyle.up = OptUp;
-		optButtonStyle.down = OptDown;
-		optButtonStyle.pressedOffsetX = 1;
-		optButtonStyle.pressedOffsetY = -1;
-		optButtonStyle.font = black;
-
-		TextButton level1 = new TextButton("Level 1", playButtonStyle);
-		TextButton level2 = new TextButton("Level 2", optButtonStyle);
-		TextButton level3 = new TextButton("Level 3", optButtonStyle);
-		TextButton level4 = new TextButton("Level 4", optButtonStyle);
+		TextButton level1 = AssetFactory.createButton(atlas, Constants.BTN_1_UP, Constants.BTN_1_UP, false);
+		TextButton level2 = AssetFactory.createButton(atlas, Constants.BTN_2_UP, Constants.BTN_2_UP, false);
+		TextButton level3 = AssetFactory.createButton(atlas, Constants.BTN_3_UP, Constants.BTN_3_UP, false);
+		TextButton level4 = AssetFactory.createButton(atlas, Constants.BTN_4_UP, Constants.BTN_4_UP, false);
+		TextButton level5 = AssetFactory.createButton(atlas, Constants.BTN_5_UP, Constants.BTN_5_UP, false);
+		TextButton level6 = AssetFactory.createButton(atlas, Constants.BTN_6_UP, Constants.BTN_6_UP, false);
+		TextButton level7 = AssetFactory.createButton(atlas, Constants.BTN_7_UP, Constants.BTN_7_UP, false);
+		TextButton level8 = AssetFactory.createButton(atlas, Constants.BTN_8_UP, Constants.BTN_8_UP, false);
+		TextButton level9 = AssetFactory.createButton(atlas, Constants.BTN_9_UP, Constants.BTN_9_UP, false);
+		TextButton level10 = AssetFactory.createButton(atlas, Constants.BTN_10_UP, Constants.BTN_10_UP, false);
+		
+		
+		
 
 		level1.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
@@ -148,7 +126,7 @@ public class LevelSelectScreen extends AbstractGameScreen {
 
 	private Table buildBackground(float stageW, float stageH) {
 		Table layer = new Table();
-		imgBackground = new Image(skin, "MenuBackground");
+		imgBackground = new Image(Assets.instance.getMenuScreen());
 		imgBackground.setBounds(0, 0, stageW, stageH);
 		layer.add(imgBackground);
 

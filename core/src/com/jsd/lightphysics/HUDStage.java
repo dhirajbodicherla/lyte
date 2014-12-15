@@ -37,7 +37,7 @@ public class HUDStage extends Stage
 	private Skin skin;
 	private Window pauseWindow;
 	private Window levelCompleteMessageWindow;
-	private TextureAtlas menuaAtlas;
+	private TextureAtlas menuAtlas;
 	private Window gameOverMessageWindow;
 	private Sound levelCompleteSound;
 	private TextButton pauseVolumeBtn;
@@ -63,16 +63,8 @@ public class HUDStage extends Stage
 		top = new Table();
 		bottom = new Table();
 		String locRoot = "data/ui/uiskin.json";
-		switch(Gdx.app.getType())
-		{
-			case Desktop:
-				locRoot = Gdx.files.getLocalStoragePath() + locRoot;
-				break;
-			case Android:
-				break;
-		}
 		skin = new Skin(Gdx.files.internal(locRoot));
-		menuaAtlas = Assets.instance.getMenuAtlas();
+		menuAtlas = Assets.instance.getMenuAtlas();
 		
 		replay = AssetFactory.createButton(atlas, Constants.BTN_REPLAY_UP, Constants.BTN_REPLAY_DOWN, true);
 		pause = AssetFactory.createButton(atlas, Constants.BTN_PAUSE_UP, Constants.BTN_PAUSE_DOWN, true);
@@ -83,6 +75,12 @@ public class HUDStage extends Stage
 		start.addListener(new ClickListener(){
 			public void clicked(InputEvent event, float x, float y) {
 				m_level.launchPhoton();
+			}
+		});
+		
+		replay.addListener(new ClickListener(){
+			public void clicked(InputEvent event, float x, float y) {
+				m_level.replay();
 			}
 		});
 		
@@ -144,10 +142,10 @@ public class HUDStage extends Stage
 				pauseVolumeDefaultBtn, pauseVolumeActiveBtn, false);
 		
 		TextButton proceedToNextLevelBtn = 
-				AssetFactory.createButton(menuaAtlas, 
+				AssetFactory.createButton(menuAtlas, 
 				Constants.BTN_OPT_UP, Constants.BTN_OPT_DOWN, false);
 		TextButton gameOverRestartBtn = 
-				AssetFactory.createButton(menuaAtlas, 
+				AssetFactory.createButton(menuAtlas, 
 				Constants.BTN_OPT_UP, Constants.BTN_OPT_DOWN, false);
 		
 		pauseGameCloseBtn.addListener(new ClickListener(){

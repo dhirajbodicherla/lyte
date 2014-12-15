@@ -52,86 +52,100 @@ LeftUp
   orig: 50, 50
   offset: 0, 0
   index: -1
-PauseDown
+NextDown
   rotate: false
   xy: 455, 70
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
-PauseUp
+NextUp
   rotate: false
   xy: 455, 18
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
-QuitDown
+PauseDown
   rotate: false
   xy: 507, 122
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
-QuitUp
+PauseUp
   rotate: false
   xy: 507, 70
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
-ReplayDown
+QuitDown
   rotate: false
   xy: 507, 18
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
-ReplayUp
+QuitUp
   rotate: false
   xy: 705, 191
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
-RightDown
+ReplayDown
   rotate: false
   xy: 757, 191
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
-RightUp
+ReplayUp
   rotate: false
   xy: 809, 191
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
-SoundDown
+RightDown
   rotate: false
   xy: 861, 191
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
-SoundUp
+RightUp
   rotate: false
   xy: 913, 191
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
-StartDown
+SoundDown
   rotate: false
   xy: 965, 191
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
-StartUp
+SoundUp
   rotate: false
   xy: 559, 159
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+StartDown
+  rotate: false
+  xy: 559, 107
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+StartUp
+  rotate: false
+  xy: 611, 159
   size: 50, 50
   orig: 50, 50
   offset: 0, 0

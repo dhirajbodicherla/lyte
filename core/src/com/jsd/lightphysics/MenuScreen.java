@@ -31,7 +31,7 @@ public class MenuScreen extends AbstractGameScreen {
 	private Stage stage;
 	private Music music;
 	private Window winOptions;
-	TextureAtlas menuaAtlas;
+	TextureAtlas menuAtlas;
 	private Skin skin;
 	private CheckBox chkSound;
 	private Slider sldSound;
@@ -54,7 +54,7 @@ public class MenuScreen extends AbstractGameScreen {
 		music.play();
 		music.setLooping(true);
 		music.setVolume(0.1f);
-		menuaAtlas = Assets.instance.getMenuAtlas();
+		menuAtlas = Assets.instance.getMenuAtlas();
 		String locRoot = "data/ui/uimenuskin.json";
 		switch (Gdx.app.getType()) {
 		case Desktop:
@@ -83,15 +83,15 @@ public class MenuScreen extends AbstractGameScreen {
 		Table layer = new Table();
 		Table center = new Table();
 		Table bottomStrip = new Table();
-		TextButton playBtn = AssetFactory.createButton(menuaAtlas,
+		TextButton playBtn = AssetFactory.createButton(menuAtlas,
 				Constants.BTN_PLAY_UP, Constants.BTN_PLAY_DOWN, false);
-		TextButton optBtn = AssetFactory.createButton(menuaAtlas,
+		TextButton optBtn = AssetFactory.createButton(menuAtlas,
 				Constants.BTN_OPT_UP, Constants.BTN_OPT_DOWN, false);
-		TextButton creditsBtn = AssetFactory.createButton(menuaAtlas,
+		TextButton creditsBtn = AssetFactory.createButton(menuAtlas,
 				Constants.BTN_CREDITS_UP, Constants.BTN_CREDITS_DOWN, false);
-		TextButton helpBtn = AssetFactory.createButton(menuaAtlas,
+		TextButton helpBtn = AssetFactory.createButton(menuAtlas,
 				Constants.BTN_HELP_UP, Constants.BTN_HELP_DOWN, false);
-		TextButton quitBtn = AssetFactory.createButton(menuaAtlas,
+		TextButton quitBtn = AssetFactory.createButton(menuAtlas,
 				Constants.BTN_QUIT_UP, Constants.BTN_QUIT_DOWN, false);
 		playBtn.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
@@ -113,7 +113,7 @@ public class MenuScreen extends AbstractGameScreen {
 		});
 
 		
-		Image logo = AssetFactory.createImage(menuaAtlas, 
+		Image logo = AssetFactory.createImage(menuAtlas, 
 											  Constants.TEXT_GAME_LOGO);
 
 		float h = quitBtn.getMinHeight();
@@ -162,8 +162,7 @@ public class MenuScreen extends AbstractGameScreen {
 	private Table buildBackground() {
 		Vector2 SCREEN = Assets.instance.queryScreen();
 		Table layer = new Table();
-		Image imgBackground = AssetFactory.createImage(menuaAtlas,
-				Constants.IMG_GAME_MENU);
+		Image imgBackground = new Image(Assets.instance.getMenuScreen());
 		imgBackground.setBounds(0, 0, SCREEN.x, SCREEN.y);
 		layer.add(imgBackground);
 

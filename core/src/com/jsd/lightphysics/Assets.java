@@ -26,8 +26,9 @@ public class Assets implements Disposable, AssetErrorListener {
 	private Vector2 SCREEN;
 	
 	private TextureAtlas menuAtlas;
-	private TextureAtlas spriteAtlas;
 	private TextureAtlas hudAtlas;
+	private TextureAtlas spriteAtlas;
+	private Texture menuScreen;
 	private Texture gameScreen;
 
 	// singleton: prevent instantiation from other classes
@@ -44,8 +45,9 @@ public class Assets implements Disposable, AssetErrorListener {
 	public void load()
 	{
 		manager.load(Constants.TEXTURE_ATLAS_UI, TextureAtlas.class);
-		manager.load(Constants.TEXTURE_ATLAS_HUD, TextureAtlas.class);
 		manager.load(Constants.TEXTURE_ATLAS_SPRITE, TextureAtlas.class);
+		manager.load(Constants.TEXTURE_ATLAS_HUD, TextureAtlas.class);
+		manager.load(Constants.IMG_GAME_MENU, Texture.class);
 		manager.load(Constants.IMG_GAME_SCREEN, Texture.class);
 	}
 	
@@ -53,8 +55,9 @@ public class Assets implements Disposable, AssetErrorListener {
 	public void setupAssets()
 	{
 		menuAtlas = manager.get(Constants.TEXTURE_ATLAS_UI);
-		hudAtlas = manager.get(Constants.TEXTURE_ATLAS_HUD);
 		spriteAtlas = manager.get(Constants.TEXTURE_ATLAS_SPRITE);
+		hudAtlas = manager.get(Constants.TEXTURE_ATLAS_HUD);
+		menuScreen = manager.get(Constants.IMG_GAME_MENU);
 		gameScreen = manager.get(Constants.IMG_GAME_SCREEN);
 	}
 	
@@ -128,14 +131,19 @@ public class Assets implements Disposable, AssetErrorListener {
 		return menuAtlas;
 	}
 	
+	public TextureAtlas getHUDAtlas()
+	{
+		return hudAtlas;
+	}
+	
 	public TextureAtlas getSpriteAtlas()
 	{
 		return spriteAtlas;
 	}
 	
-	public TextureAtlas getHUDAtlas()
+	public Texture getMenuScreen()
 	{
-		return hudAtlas;
+		return menuScreen;
 	}
 	
 	public Texture getGameScreen()

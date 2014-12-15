@@ -8,9 +8,10 @@ public class Constants {
 	
 	//Image file paths
 	public static final String TEXTURE_ATLAS_SPRITE = "data/ui/Sprites.pack";
-	public static final String TEXTURE_ATLAS_HUD    = "data/ui/HUD.pack";
 	public static final String TEXTURE_ATLAS_UI     = "data/ui/Menu.pack";
+	public static final String TEXTURE_ATLAS_HUD 	= "data/ui/HUD.pack";
 	public static final String IMG_SPLASH_SCREEN 	= "data/img/SplashScreen.png" ;
+	public static final String IMG_GAME_MENU     	= "data/img/MenuBackground43.png";
 	public static final String IMG_GAME_SCREEN 		= "data/img/GameBackground43.png" ;
 	
 	public static final String PREFERENCES = "lyte_prefs";
@@ -31,10 +32,21 @@ public class Constants {
 	
 	//Misc
 	public static final String IMG_GAME_LOGO     = "Logo";
-	public static final String IMG_GAME_MENU     = "MenuBackground";
 	public static final String IMG_GAME_PAUSE    = "Panel";
 	
 	//Buttons
+	
+	public static final String BTN_1_UP 	 = "1";
+	public static final String BTN_2_UP 	 = "2";
+	public static final String BTN_3_UP 	 = "3";
+	public static final String BTN_4_UP 	 = "4";
+	public static final String BTN_5_UP 	 = "5";
+	public static final String BTN_6_UP 	 = "6";
+	public static final String BTN_7_UP 	 = "7";
+	public static final String BTN_8_UP 	 = "8";
+	public static final String BTN_9_UP 	 = "9";
+	public static final String BTN_10_UP 	 = "10";
+	
 	public static final String BTN_PLAY_UP 	 = "PlayUp";
 	public static final String BTN_PLAY_DOWN = "PlayDown";
 	

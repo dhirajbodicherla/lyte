@@ -132,6 +132,12 @@ public class Level implements ContactListener{
 		initLevel();
 	}
 	
+	public void replay()
+	{		
+		destroy();
+		initLevel();
+	}
+	
 	private void setupGameObjects()
 	{
 		mTarget = null;
