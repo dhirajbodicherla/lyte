@@ -3,7 +3,26 @@ BG43.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+Credits43
+  rotate: false
+  xy: 1, 483
+  size: 640, 480
+  orig: 640, 480
+  offset: 0, 0
+  index: -1
 GameBackground43
+  rotate: false
+  xy: 1, 1
+  size: 640, 480
+  orig: 640, 480
+  offset: 0, 0
+  index: -1
+
+BG432.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+Help43
   rotate: false
   xy: 1, 483
   size: 640, 480
@@ -18,7 +37,7 @@ MenuBackground43
   offset: 0, 0
   index: -1
 
-BG432.png
+BG433.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
