@@ -122,11 +122,14 @@ public class MenuScreen extends AbstractGameScreen {
 		center.setBounds(0, 0, SCREEN.x, SCREEN.y);
 		bottomStrip.setBounds(0, 0, SCREEN.x, h);
 
-		center.add(playBtn).padTop(0.1f*SCREEN.y);
+		center.add(logo);
+		center.row();
+		
+		center.add(playBtn).padTop(0.2f*SCREEN.y);
 		center.row();
 
-		center.add(optBtn);
-		center.row();
+//		center.add(optBtn);
+//		center.row();
 
 		center.add(creditsBtn);
 		center.row();
@@ -136,9 +139,9 @@ public class MenuScreen extends AbstractGameScreen {
 		bottomStrip.add(helpBtn).padLeft(0.84f * SCREEN.x);
 		
 		layer.align(Align.center);
-		layer.add(logo).fill().expand().row();
+		//layer.add(logo);
 		layer.add(center).row();
-		layer.add(bottomStrip).padTop(0.10f * SCREEN.y);
+		layer.add(bottomStrip).padTop(0.2f * SCREEN.y);
 		return layer;
 	}
 
@@ -204,7 +207,10 @@ public class MenuScreen extends AbstractGameScreen {
 	}
 
 	private Table buildOptionsWindowLayer() {
-		winOptions = new Window("Options", skin);
+		Vector2 SCREEN = Assets.instance.queryScreen();
+		Vector2 VIEWPORT = Assets.instance.queryViewport();
+		
+		winOptions = new Window("", skin);
 		// + Audio Settings: Sound/Music CheckBox and Volume Slider
 		winOptions.add(buildOptWinAudioSettings()).row();
 		// + Character Skin: Selection Box (White, Gray, Brown)
@@ -215,6 +221,7 @@ public class MenuScreen extends AbstractGameScreen {
 		// winOptions.add(buildOptWinButtons()).pad(10, 0, 10, 0);
 		// Make options window slightly transparent
 		winOptions.setColor(255, 255, 255, 1f);
+		winOptions.setScale(0.5f, 0.5f);
 		// Hide options window by default
 		winOptions.setVisible(false);
 		// Let TableLayout recalculate widget sizes and positions
@@ -224,6 +231,8 @@ public class MenuScreen extends AbstractGameScreen {
 		// winOptions.getWidth() - 50, 50);
 		winOptions.setSize(Gdx.graphics.getWidth() / 2f,
 				Gdx.graphics.getHeight() / 2f);
+		
+		//(background.getMinWidth()/VIEWPORT.x) * SCREEN.x;
 		winOptions.setPosition(
 				Gdx.graphics.getWidth() / 2f - winOptions.getWidth() / 2f,
 				Gdx.graphics.getHeight() / 2f - winOptions.getWidth() / 2f);
