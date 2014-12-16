@@ -52,18 +52,17 @@ public class AssetFactory {
 		Vector2 SCREEN = Assets.instance.queryScreen();
 		Vector2 VIEWPORT = Assets.instance.queryViewport();
 		Skin skin = new Skin(atlas);
-		Image img = new Image(skin, regionName);
+		Drawable panel = skin.getDrawable(regionName);
 		
-		float w = (img.getWidth() / VIEWPORT.x) * SCREEN.x;
-		float h;
-		//is width and height equal? 
-		if(!isAspEqual)
-			h = (img.getHeight() / VIEWPORT.y) * SCREEN.y;
-		else
-			h = w;
+		float w = (panel.getMinWidth()/VIEWPORT.x) * SCREEN.x;
+		float h = (panel.getMinHeight()/VIEWPORT.y) * SCREEN.y;
 		
-		img.setSize(w, h);
-		return img;
+		panel.setMinWidth(w);
+		panel.setMinHeight(h);
+		
+		Image imgBackground = new Image(panel);
+		
+		return imgBackground;
 	}
 	
 	//returns the scale value necessary to attain the new value

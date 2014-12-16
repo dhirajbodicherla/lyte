@@ -205,7 +205,8 @@ public class HUDStage extends Stage
 		Stack pauseWindowStack = new Stack();
 		Table pauseTable = new Table();
 		Image heading = AssetFactory.createImage(atlas, "PauseText", false);
-		pauseTable.add(heading).padBottom(0.05f * SCREEN.y).fill().expand().colspan(3);
+		pauseTable.add();
+		pauseTable.add(heading).padBottom(0.05f * SCREEN.y);
 		pauseTable.row();
 		pauseTable.add(pauseGameCloseBtn);
 		pauseTable.add(pauseCloseBtn);
@@ -214,6 +215,7 @@ public class HUDStage extends Stage
 		pauseTable.setFillParent(true);
 		
 		Image bg = AssetFactory.createImage(atlas, "Panel", false);
+		bg.setColor(1.0f, 1.0f, 1.0f, 0.4f);
 		pauseWindowStack.add(bg);
 		pauseWindowStack.add(pauseTable);
 		
@@ -222,6 +224,7 @@ public class HUDStage extends Stage
 		pauseWindow.setColor(1, 1, 1, 1);
 		pauseWindow.add(pauseWindowStack);
 		pauseWindow.setSize(SCREEN.x, SCREEN.y);
+//		pauseWindow.setColor(1,1,1,0.5);
 		//pauseWindow.setPosition(this.getWidth() / 2 - pause.getWidth()/2, this.getHeight() / 2 - pause.getHeight()/2);
 		pauseWindow.setVisible(false);
 		

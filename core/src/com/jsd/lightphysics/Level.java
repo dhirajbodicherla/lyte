@@ -106,16 +106,14 @@ public class Level implements ContactListener{
 	public void nextLevel()
 	{
 		currentLevel++;
-		if(currentLevel<0)
-			currentLevel = 0;
 //		if(currentLevel>mLevels.list.size()-1)
 //			currentLevel = mLevels.list.size()-1;
 		destroy();
 //		Gdx.app.debug("level", String.valueOf(currentLevel) + String.valueOf(mLevels.list.size()-1));
-		if(currentLevel == mLevels.list.size()-1){
+		if(currentLevel > mLevels.list.size()-1){
 			Gdx.app.debug("Level", "game is over and return");
 			isGameOver = true;
-//			return;
+			return;
 		}
 		initLevel();
 	}
