@@ -1,3 +1,7 @@
+
+
+{
+    list: [
    {
         mName: "Level 1",
         mBaseWidth: 640,
@@ -89,3 +93,18 @@
         mBlackholes: [{name:"b",type:"k",shape:"circle",x:100,y:200,r:7, ir: 55, g:2},
                       {name:"b",type:"k",shape:"circle",x:420,y:250,r:5, ir: 65, g:2}]
     },
+
+        {
+        mName: "Level 10",
+        mBaseWidth: 640,
+        mBaseHeight: 360,
+        mSource:{name:"s", type:"K", shape:"rect", x:80, y:80, w:40, h:10, angle:0},
+        mTarget:{name:"e", type:"S", shape:"circle", x:590, y:340, r:40},
+        mMirrors: [{name:"m",type:"S",shape:"rect",x:450,y:100,w:90,h:25, angle:-20, fixedRotation:1, fixedPosition:0}, 
+                   {name:"m",type:"S",shape:"rect",x:400,y:300,w:90,h:25, angle:0, fixedRotation:0, fixedPosition:1}], 
+        mAsteroids: [{name:"a",type:"k",shape:"circle",x:100,y:200,r:20}],
+        mBlackholes: [{name:"b",type:"k",shape:"circle",x:300,y:150,r:10, ir: 80, g:4}]
+    }
+
+    ]
+}
