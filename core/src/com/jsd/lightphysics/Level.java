@@ -108,13 +108,14 @@ public class Level implements ContactListener{
 		currentLevel++;
 //		if(currentLevel>mLevels.list.size()-1)
 //			currentLevel = mLevels.list.size()-1;
-		destroy();
-//		Gdx.app.debug("level", String.valueOf(currentLevel) + String.valueOf(mLevels.list.size()-1));
 		if(currentLevel > mLevels.list.size()-1){
 			Gdx.app.debug("Level", "game is over and return");
 			isGameOver = true;
 			return;
 		}
+		destroy();
+//		Gdx.app.debug("level", String.valueOf(currentLevel) + String.valueOf(mLevels.list.size()-1));
+		
 		initLevel();
 	}
 	
@@ -209,6 +210,8 @@ public class Level implements ContactListener{
 	}
 	
 	public void render(SpriteBatch batch) {
+		
+		if(isGameOver) return;
 		
 		mTarget.render(batch);
 		mSource.render(batch);

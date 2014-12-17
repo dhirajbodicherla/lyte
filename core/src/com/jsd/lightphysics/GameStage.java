@@ -238,7 +238,7 @@ public class GameStage extends Stage implements GestureListener{
 		
 		if(hitBody!=null && ((Entity)hitBody.getUserData()).getFixedRotation()!=0)
 		{
-			Gdx.input.vibrate(25);
+//			Gdx.input.vibrate(25);
 			((Mirror)(hitBody.getUserData())).isRotSelected=true;
 			m_level.setSelectedBody(hitBody);
 		}

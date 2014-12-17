@@ -25,6 +25,7 @@ public class LevelSelectScreen extends AbstractGameScreen {
 	private Image imgBackground;
 	private Skin skin;
 	private TextureAtlas atlas;
+	private TextureAtlas menuAtlas;
 	private Music music;
 
 	public LevelSelectScreen(LightPhysics game) {
@@ -42,6 +43,7 @@ public class LevelSelectScreen extends AbstractGameScreen {
 		music.setLooping(true);
 		music.setVolume(0.6f);
 		atlas = new TextureAtlas(Gdx.files.internal("data/ui/Menu.pack"));
+		menuAtlas = Assets.instance.getHUDAtlas();
 		skin = new Skin(atlas);
 		Vector2 SCREEN = Assets.instance.queryScreen();
 		buildStage(SCREEN.x, SCREEN.y);
@@ -60,10 +62,7 @@ public class LevelSelectScreen extends AbstractGameScreen {
 	private Table buildForeground(float stageW, float stageH) {
 		Table main = new Table();
 		Table table = new Table();
-		main.debug();
-		table.debug();
-		table.setFillParent(true);
-
+		
 		TextButton level1 = AssetFactory.createButton(atlas, Constants.BTN_1_UP, Constants.BTN_1_UP, false);
 		TextButton level2 = AssetFactory.createButton(atlas, Constants.BTN_2_UP, Constants.BTN_2_UP, false);
 		TextButton level3 = AssetFactory.createButton(atlas, Constants.BTN_3_UP, Constants.BTN_3_UP, false);
@@ -74,6 +73,8 @@ public class LevelSelectScreen extends AbstractGameScreen {
 		TextButton level8 = AssetFactory.createButton(atlas, Constants.BTN_8_UP, Constants.BTN_8_UP, false);
 		TextButton level9 = AssetFactory.createButton(atlas, Constants.BTN_9_UP, Constants.BTN_9_UP, false);
 		TextButton level10 = AssetFactory.createButton(atlas, Constants.BTN_10_UP, Constants.BTN_10_UP, false);
+		
+		
 		
 		level1.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
@@ -130,16 +131,10 @@ public class LevelSelectScreen extends AbstractGameScreen {
 				  Constants.TEXT_LEVEL_SELECT, false);
 
 		main.setBounds(0, 0, stageW, stageH);
+		main.setSize(stageW, stageH);
 		main.align(Align.center);
-		main.add(logo).fill().expand().row();
+		main.add(logo).row();
 		
-		
-		// layer.setDebug(true);
-//		table.setBounds(0, 0, stageW, stageH);
-		// layer.align(Align.center);
-
-//		table.add(logo).fill().colspan(4).row(); //.padBottom(0.05f * stageH);
-		// layer.row();
 		table.add(level1);
 		table.add(level2);
 		table.add(level3);
@@ -147,11 +142,13 @@ public class LevelSelectScreen extends AbstractGameScreen {
 		table.add(level5);
 		table.add(level6);
 		table.add(level7);
-		table.add(level8).row().padBottom(0.01f * stageH);
+		table.add(level8).row();
 		table.add(level9).colspan(2);
 		table.add(level10).colspan(2);
-		
-		main.add(table);
+				
+		main.setBounds(0, 0, stageW, stageH);
+		main.setHeight(stageH);
+		main.add(table).width(stageW).row();
 
 		return main;
 	}
@@ -167,6 +164,19 @@ public class LevelSelectScreen extends AbstractGameScreen {
 		stack.setSize(stageW, stageH);
 		stack.add(background);
 		stack.add(foreground);
+		
+		TextButton backToMenuButton = AssetFactory.createButton(menuAtlas, "BackUp", "BackDown", false);
+		
+		Table bottom = new Table();
+		bottom.add(backToMenuButton);
+		bottom.bottom().left();
+		stack.add(bottom);
+		
+		backToMenuButton.addListener(new ClickListener() {
+			public void clicked(InputEvent event, float x, float y) {
+				game.setScreen(new MenuScreen(game));
+			}
+		});
 
 	}
 

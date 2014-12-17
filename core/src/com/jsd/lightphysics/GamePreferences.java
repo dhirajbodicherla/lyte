@@ -13,6 +13,7 @@ public class GamePreferences {
 	public float volMusic;
 	public int charSkin;
 	public boolean showFpsCounter;
+	public boolean isFirstTime = true;
 	private Preferences prefs;
 
 	// singleton: prevent instantiation from other classes
@@ -21,6 +22,7 @@ public class GamePreferences {
 	}
 
 	public void load() {
+		isFirstTime = prefs.getBoolean("isFirstTime", true);
 		sound = prefs.getBoolean("sound", true);
 //		music = prefs.getBoolean("music", true);
 		volSound = MathUtils.clamp(prefs.getFloat("volSound", 0.5f), 0.0f, 1.0f);
@@ -33,6 +35,7 @@ public class GamePreferences {
 		prefs.putBoolean("sound", sound);
 //		prefs.putBoolean("music", music);
 		prefs.putFloat("volSound", volSound);
+		prefs.putBoolean("isFirstTime", isFirstTime);
 //		prefs.putFloat("volMusic", volMusic);
 //		prefs.putInteger("charSkin", charSkin);
 //		prefs.putBoolean("showFpsCounter", showFpsCounter);

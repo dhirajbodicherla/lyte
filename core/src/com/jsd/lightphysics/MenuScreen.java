@@ -49,11 +49,10 @@ public class MenuScreen extends AbstractGameScreen {
 	}
 
 	public void init() {
-		music = Gdx.audio.newMusic(Gdx.files
-				.internal("data/sounds/menu_screen.wav"));
+		music = Gdx.audio.newMusic(Gdx.files.internal("data/sounds/menu_screen.wav"));
 		music.play();
 		music.setLooping(true);
-		music.setVolume(0.1f);
+		music.setVolume(0.2f);
 		menuAtlas = new TextureAtlas(Gdx.files.internal("data/ui/Menu.pack"));
 		String locRoot = "data/ui/uimenuskin.json";
 		switch (Gdx.app.getType()) {
@@ -98,6 +97,20 @@ public class MenuScreen extends AbstractGameScreen {
 		playBtn.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
 				game.setScreen(new LevelSelectScreen(game));
+			}
+		});
+		
+		creditsBtn.addListener(new ClickListener(){
+			public void clicked(InputEvent event, float x, float y) {
+				game.setScreen(new CreditsScreen(game));
+				return;
+			}
+		});
+		
+		helpBtn.addListener(new ClickListener(){
+			public void clicked(InputEvent event, float x, float y) {
+				game.setScreen(new HelpScreen(game));
+				return;
 			}
 		});
 

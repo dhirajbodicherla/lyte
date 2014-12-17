@@ -149,7 +149,7 @@ public class HUDStage extends Stage
 				Constants.BTN_NEXT_UP, Constants.BTN_NEXT_DOWN, false);
 		TextButton gameOverRestartBtn = 
 				AssetFactory.createButton(menuAtlas, 
-				Constants.BTN_OPT_UP, Constants.BTN_OPT_DOWN, false);
+				Constants.BTN_QUIT_UP, Constants.BTN_QUIT_DOWN, false);
 		
 		pauseGameCloseBtn.addListener(new ClickListener(){
 			public void clicked(InputEvent event, float x, float y) {
@@ -198,6 +198,7 @@ public class HUDStage extends Stage
 		
 		gameOverRestartBtn.addListener(new ClickListener(){
 			public void clicked(InputEvent event, float x, float y) {
+				game.getScreen().dispose();
 				game.setScreen(new MenuScreen(game));
 			}
 		});
@@ -210,8 +211,7 @@ public class HUDStage extends Stage
 		pauseTable.row();
 		pauseTable.add(pauseGameCloseBtn);
 		pauseTable.add(pauseCloseBtn);
-		pauseTable.add(pauseVolumeBtn);
-		pauseTable.debug();
+		pauseTable.add(pauseVolumeBtn);	
 		pauseTable.setFillParent(true);
 		
 		Image bg = AssetFactory.createImage(atlas, "Panel", false);
@@ -232,7 +232,7 @@ public class HUDStage extends Stage
 		Table levelCompleteTable = new Table();
 		Image headingLevelComplete = AssetFactory.createImage(atlas, "CompleteText", false);
 		
-		levelCompleteTable.add(headingLevelComplete).colspan(2).fill().expand().padBottom(0.1f * SCREEN.y);
+		levelCompleteTable.add(headingLevelComplete).colspan(2).padBottom(0.1f * SCREEN.y);
 		levelCompleteTable.row();
 		levelCompleteTable.add(levelGameCloseBtn);
 		levelCompleteTable.add(proceedToNextLevelBtn);
@@ -272,8 +272,13 @@ public class HUDStage extends Stage
 		
 		if(m_level.isSolved)
 		{
-			game.pause();
-			levelCompleteMessageWindow.setVisible(true);
+			if(m_level.isGameOver){
+				game.pause();
+				gameOverMessageWindow.setVisible(true);
+			}else{
+				game.pause();
+				levelCompleteMessageWindow.setVisible(true);
+			}
 		}
 	}
 	@Override
