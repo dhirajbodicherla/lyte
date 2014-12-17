@@ -97,7 +97,7 @@ public class HelpScreen extends AbstractGameScreen {
 		
 		TextureAtlas atlas = new TextureAtlas(Gdx.files.internal(Constants.TEXTURE_ATLAS_BG+suf+ext));
 		Skin skin = new Skin(atlas);
-		Drawable background = skin.getDrawable(Constants.IMG_MENU_SCREEN+suf);
+		Drawable background = skin.getDrawable(Constants.IMG_HELP_SCREEN+suf);
 		
 		float w = (background.getMinWidth()/VIEWPORT.x) * SCREEN.x;
 		float h = (background.getMinHeight()/VIEWPORT.y) * SCREEN.y;

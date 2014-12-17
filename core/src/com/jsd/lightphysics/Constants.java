@@ -20,6 +20,8 @@ public class Constants {
 	public static final String IMG_MENU_SCREEN     = "MenuBackground";
 	public static final String IMG_GAME_SCREEN     = "GameBackground";
 	public static final String IMG_SPLASH_SCREEN   = "SplashScreen";
+	public static final String IMG_CREDITS_SCREEN   = "Credits";
+	public static final String IMG_HELP_SCREEN   = "Help";
 	
 	//Atlas Region Names
 	
