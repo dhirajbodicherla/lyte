@@ -21,7 +21,7 @@ public class GameScreen extends AbstractGameScreen{
 		super(g);
 		gameStage = new GameStage(level, g);
 		game = g;
-		hud = new HUDStage(gameStage.m_level, g, this);
+		hud = new HUDStage(gameStage.m_level, g);
 		GamePreferences.instance.load();
 		
 
@@ -29,8 +29,6 @@ public class GameScreen extends AbstractGameScreen{
 		im.addProcessor(gameStage.gd);
 		im.addProcessor(hud);
 		Gdx.input.setInputProcessor(im);
-		Gdx.app.debug("Gamescreen", String.valueOf(GamePreferences.instance.sound));
-		Gdx.app.debug("Gamescreen", String.valueOf(GamePreferences.instance.volSound));
 		if(GamePreferences.instance.sound){
 			music = Gdx.audio.newMusic(Gdx.files.internal("data/sounds/level_1.wav"));
 			music.play();

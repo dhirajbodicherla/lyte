@@ -1,7 +1,6 @@
 package com.jsd.lightphysics;
 
 import com.badlogic.gdx.Application;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 

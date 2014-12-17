@@ -248,12 +248,13 @@ public class GameStage extends Stage implements GestureListener{
 
 	@Override
 	public boolean tap(float x, float y, int count, int button) {
+		
 		return false;
 	}
+	
 
 	@Override
 	public boolean longPress(float x, float y) {
-		Gdx.app.log("my app", "longpress");
 		tmp = new Vector3(x, y, 0);
 		camera.unproject(tmp);
 		tmp.scl(Constants.WORLD_TO_BOX);
@@ -301,7 +302,7 @@ public class GameStage extends Stage implements GestureListener{
 		//mouse = new Vector2(Gdx.input.getX(), Gdx.input.getY());
 		
 		//isMouseDown = false;
-		if(mJoint!=null)
+		if(mJoint!=null && hitBody!=null)
 		{
 			((Mirror)hitBody.getUserData()).isMoveSelected = false;
 			hitBody.setType(BodyType.StaticBody);

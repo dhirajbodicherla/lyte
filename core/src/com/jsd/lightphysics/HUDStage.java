@@ -43,10 +43,9 @@ public class HUDStage extends Stage
 	private TextButton pauseVolumeBtn;
 	private GamePreferences prefs;
 	private float defaultVolume;
-	private GameScreen gameScreen;
 	private boolean isMuted = false;
 	
-	public HUDStage(Level lv, LightPhysics g, GameScreen gameScreen)
+	public HUDStage(Level lv, LightPhysics g)
 	{
 		m_level = lv;
 		game = g;
@@ -55,7 +54,6 @@ public class HUDStage extends Stage
 		prefs = GamePreferences.instance;
 		prefs.load();
 		defaultVolume = prefs.volSound;
-		gameScreen = gameScreen;
 		init();
 		
 		Gdx.input.setCatchBackKey(true);
