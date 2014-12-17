@@ -21,8 +21,9 @@ public class GameScreen extends AbstractGameScreen{
 		super(g);
 		gameStage = new GameStage(level, g);
 		game = g;
-		hud = new HUDStage(gameStage.m_level, g);
+		hud = new HUDStage(gameStage.m_level, g, this);
 		GamePreferences.instance.load();
+		
 
 		InputMultiplexer im = new InputMultiplexer();
 		im.addProcessor(gameStage.gd);

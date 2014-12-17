@@ -43,8 +43,10 @@ public class HUDStage extends Stage
 	private TextButton pauseVolumeBtn;
 	private GamePreferences prefs;
 	private float defaultVolume;
+	private GameScreen gameScreen;
+	private boolean isMuted = false;
 	
-	public HUDStage(Level lv, LightPhysics g)
+	public HUDStage(Level lv, LightPhysics g, GameScreen gameScreen)
 	{
 		m_level = lv;
 		game = g;
@@ -53,6 +55,7 @@ public class HUDStage extends Stage
 		prefs = GamePreferences.instance;
 		prefs.load();
 		defaultVolume = prefs.volSound;
+		gameScreen = gameScreen;
 		init();
 		
 		Gdx.input.setCatchBackKey(true);
@@ -129,14 +132,15 @@ public class HUDStage extends Stage
 		if(!prefs.sound){
 			pauseVolumeDefaultBtn = "SoundDown";
 			pauseVolumeActiveBtn = "SoundUp";
+			isMuted = true;
 		}
 		
 		TextButton pauseGameCloseBtn = 
 				AssetFactory.createButton(atlas, 
 				"BackUp", "BackDown", false);
-		TextButton levelGameCloseBtn = 
+		TextButton levelGameRepeatBtn = 
 				AssetFactory.createButton(atlas, 
-				"BackUp", "BackDown", false);
+				Constants.BTN_REPLAY_UP, Constants.BTN_REPLAY_DOWN, false);
 		TextButton pauseCloseBtn = 
 				AssetFactory.createButton(atlas, 
 				"QuitUp", "QuitDown", false);
@@ -155,12 +159,16 @@ public class HUDStage extends Stage
 			public void clicked(InputEvent event, float x, float y) {
 				game.resume();
 				pauseWindow.setVisible(false);
+				return;
 			}
 		});
-		levelGameCloseBtn.addListener(new ClickListener(){
+		levelGameRepeatBtn.addListener(new ClickListener(){
 			public void clicked(InputEvent event, float x, float y) {
-				game.getScreen().dispose();
-				game.setScreen(new MenuScreen(game));
+//				game.getScreen().dispose();
+//				game.setScreen(new MenuScreen(game));
+				m_level.replay();
+				levelCompleteMessageWindow.setVisible(false);
+				return;
 			}
 		});
 		
@@ -169,11 +177,15 @@ public class HUDStage extends Stage
 				Drawable temp = pauseVolumeBtn.getStyle().up;
 				pauseVolumeBtn.getStyle().up = pauseVolumeBtn.getStyle().down;
 				pauseVolumeBtn.getStyle().down = temp;
-				if(prefs.sound){
-					
+				
+				isMuted = !isMuted;
+				
+				if(isMuted){
+					((GameScreen)(game.getScreen())).music.stop();
 				}else{
-					
+					((GameScreen)(game.getScreen())).music.play();
 				}
+				return;
 			}
 		});
 		
@@ -193,6 +205,7 @@ public class HUDStage extends Stage
 				}else{
 					gameOverMessageWindow.setVisible(true);
 				}
+				return;
 			}
 		});
 		
@@ -234,7 +247,7 @@ public class HUDStage extends Stage
 		
 		levelCompleteTable.add(headingLevelComplete).colspan(2).padBottom(0.1f * SCREEN.y);
 		levelCompleteTable.row();
-		levelCompleteTable.add(levelGameCloseBtn);
+		levelCompleteTable.add(levelGameRepeatBtn);
 		levelCompleteTable.add(proceedToNextLevelBtn);
 		
 		Image bgLevelComplete = AssetFactory.createImage(atlas, "Panel", false);
