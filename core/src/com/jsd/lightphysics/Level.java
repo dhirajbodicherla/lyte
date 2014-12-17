@@ -104,16 +104,13 @@ public class Level implements ContactListener{
 	public void nextLevel()
 	{
 		currentLevel++;
-//		if(currentLevel>mLevels.list.size()-1)
-//			currentLevel = mLevels.list.size()-1;
+
 		if(currentLevel > mLevels.list.size()-1){
-			Gdx.app.debug("Level", "game is over and return");
+			//Gdx.app.debug("Level", "game is over and return");
 			isGameOver = true;
 			return;
 		}
 		destroy();
-//		Gdx.app.debug("level", String.valueOf(currentLevel) + String.valueOf(mLevels.list.size()-1));
-		
 		initLevel();
 	}
 	
@@ -134,6 +131,8 @@ public class Level implements ContactListener{
 		destroy();
 		initLevel();
 	}
+	
+
 	
 	private void setupGameObjects()
 	{
@@ -234,7 +233,6 @@ public class Level implements ContactListener{
 		if(gameState == 2)
 		{
 			//TrackMouse(mouse);
-			//disposeGarbagePhoton();
 			blackHoleInfluence();
 		}
 	}
@@ -268,7 +266,8 @@ public class Level implements ContactListener{
 			for(int i = 0 ; i < numPhotons; i++)
 			{
 				Body b = mPhotons.get(i).getPhysicsBody();
-				m_world.destroyBody(b);
+				if(!((Photon)mPhotons.get(i)).getIsDelete())
+					m_world.destroyBody(b);
 			}
 			
 			m_world.destroyBody(mTarget.getPhysicsBody());
@@ -398,7 +397,15 @@ public class Level implements ContactListener{
 				final Fixture toRemove = fb;
 				Photon p = ((Photon)toRemove.getBody().getUserData());
 				p.setDelete(true);
-				garbagePhotons.add(p.getPhysicsBody());
+				//garbagePhotons.add(p.getPhysicsBody());
+				
+				Gdx.app.postRunnable(new Runnable() {
+					@Override
+					public void run () {
+						//if(gameState==2)
+							m_world.destroyBody(toRemove.getBody());
+					}
+				});
 				
 			}
 			

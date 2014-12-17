@@ -201,7 +201,7 @@ public class GameStage extends Stage implements GestureListener{
 		this.draw();
 		camera.update();
 		
-		Matrix4 cameraCopy = camera.combined.cpy();
+		//Matrix4 cameraCopy = camera.combined.cpy();
 		batch.setProjectionMatrix(camera.combined);
 		//Render Level here
 		
@@ -213,7 +213,7 @@ public class GameStage extends Stage implements GestureListener{
 		if(!gameIsPaused){
 			world.step(1/60f, 6, 2);
 		}
-		m_level.disposeGarbage();
+		//m_level.disposeGarbage();
 		if(m_level.isSolved)
 		{
 			hitBody=null;
@@ -222,8 +222,8 @@ public class GameStage extends Stage implements GestureListener{
 	
 	
 	public void dispose() {
-		world.dispose();
 		m_level.destroy();
+		world.dispose();
 	}
 
 	@Override

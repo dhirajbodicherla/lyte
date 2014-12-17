@@ -82,7 +82,7 @@ public class MenuScreen extends AbstractGameScreen {
 		
 		Table layer = new Table();
 		Table center = new Table();
-		Table bottomStrip = new Table();
+	
 		
 		TextButton playBtn = AssetFactory.createButton(menuAtlas,
 				Constants.BTN_PLAY_UP, Constants.BTN_PLAY_DOWN, false);
@@ -90,10 +90,7 @@ public class MenuScreen extends AbstractGameScreen {
 				Constants.BTN_OPT_UP, Constants.BTN_OPT_DOWN, false);
 		TextButton creditsBtn = AssetFactory.createButton(menuAtlas,
 				Constants.BTN_CREDITS_UP, Constants.BTN_CREDITS_DOWN, false);
-		TextButton helpBtn = AssetFactory.createButton(menuAtlas,
-				Constants.BTN_HELP_UP, Constants.BTN_HELP_DOWN, false);
-		TextButton quitBtn = AssetFactory.createButton(menuAtlas,
-				Constants.BTN_QUIT_UP, Constants.BTN_QUIT_DOWN, false);
+		
 		playBtn.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
 				game.setScreen(new LevelSelectScreen(game));
@@ -107,12 +104,7 @@ public class MenuScreen extends AbstractGameScreen {
 			}
 		});
 		
-		helpBtn.addListener(new ClickListener(){
-			public void clicked(InputEvent event, float x, float y) {
-				game.setScreen(new HelpScreen(game));
-				return;
-			}
-		});
+		
 
 		optBtn.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
@@ -121,19 +113,14 @@ public class MenuScreen extends AbstractGameScreen {
 			}
 		});
 
-		quitBtn.addListener(new ClickListener() {
-			public void clicked(InputEvent event, float x, float y) {
-				Gdx.app.exit();
-			}
-		});
+		
 
 		
 		Image logo = AssetFactory.createImage(menuAtlas, 
 											  Constants.TEXT_GAME_LOGO, false);
 		
-		float h = quitBtn.getMinHeight();
 		center.setBounds(0, 0, SCREEN.x, SCREEN.y);
-		bottomStrip.setBounds(0, 0, SCREEN.x, h);
+		
 
 		center.add(logo);
 		center.row();
@@ -147,14 +134,11 @@ public class MenuScreen extends AbstractGameScreen {
 		center.add(creditsBtn);
 		center.row();
 
-		bottomStrip.add(quitBtn);
-		bottomStrip.add();
-		bottomStrip.add(helpBtn).padLeft(0.84f * SCREEN.x);
 		
 		layer.align(Align.center);
 		//layer.add(logo);
 		layer.add(center).row();
-		layer.add(bottomStrip).padTop(0.2f * SCREEN.y);
+	
 		return layer;
 	}
 
@@ -165,12 +149,42 @@ public class MenuScreen extends AbstractGameScreen {
 		Table layerOptionsWindow = buildOptionsWindowLayer();
 		Vector2 SCREEN = Assets.instance.queryScreen();
 
+		TextButton helpBtn = AssetFactory.createButton(menuAtlas,
+				Constants.BTN_HELP_UP, Constants.BTN_HELP_DOWN, false);
+		TextButton quitBtn = AssetFactory.createButton(menuAtlas,
+				Constants.BTN_QUIT_UP, Constants.BTN_QUIT_DOWN, false);
+		
+		Table tableQuit = new Table();
+		tableQuit.add(quitBtn);
+		
+		Table tableHelp = new Table();
+		tableHelp.add(helpBtn);
+		
+		tableHelp.bottom().right();
+		tableQuit.bottom().left();
+		
+		quitBtn.addListener(new ClickListener() {
+			public void clicked(InputEvent event, float x, float y) {
+				Gdx.app.exit();
+			}
+		});
+		
+		helpBtn.addListener(new ClickListener(){
+			public void clicked(InputEvent event, float x, float y) {
+				game.setScreen(new HelpScreen(game));
+				return;
+			}
+		});
+		
+		
 		stage.clear();
 		Stack stack = new Stack();
 		stage.addActor(stack);
 		stack.setSize(SCREEN.x, SCREEN.y);
 		stack.add(background);
 		stack.add(foreground);
+		stack.add(tableHelp);
+		stack.add(tableQuit);
 		stage.addActor(layerOptionsWindow);
 	}
 

@@ -1,7 +1,6 @@
 package com.jsd.lightphysics;
 
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.AssetManager;
 
 public abstract class AbstractGameScreen implements Screen {
 	protected LightPhysics game;
@@ -21,10 +20,8 @@ public abstract class AbstractGameScreen implements Screen {
 	public abstract void pause();
 
 	public void resume() {
-		 //Assets.instance.init(new AssetManager());
 	}
 
 	public void dispose() {
-		 //Assets.instance.dispose();
 	}
 }

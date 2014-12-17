@@ -55,4 +55,8 @@ public class Photon extends Entity{
 	{
 		isDeleted = b;
 	}
+	public boolean getIsDelete()
+	{
+		return isDeleted;
+	}
 }
