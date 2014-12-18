@@ -14,7 +14,7 @@ telescopes!
 ### Download
 [![Android](https://developer.android.com/images/brand/en_generic_rgb_wo_60.png)](https://bit.ly/lyte-game/)
 
-[![Desktop](https://cdn2.iconfinder.com/data/icons/electronics/512/PC-128.png)](https://bit.ly/lyte-pc/)
+[![Desktop](https://cdn2.iconfinder.com/data/icons/electronics/512/PC-128.png)](http://bit.ly/lyte-pc)
 
 
 ### Video 
