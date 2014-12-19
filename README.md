@@ -23,4 +23,4 @@ telescopes!
 [YouTube]:https://www.youtube.com/watch?v=6aSYtJQn5r0
 [Jaykumaran]:https://github.com/jaykumarark
 [Saikiran]:https://github.com/saikiran153
-[Dhiraj Bodicherla]:https://github.com/jaykumarark
+[Dhiraj Bodicherla]:https://github.com/dhirajbodicherla
