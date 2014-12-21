@@ -8,26 +8,30 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.input.GestureDetector;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 public class GameScreen extends AbstractGameScreen{
 	
 	private GameStage gameStage;
 	private HUDStage  hud;
-	private LightPhysics game;
 	public Music music;
+	private Stage stage;
+	private Skin skin;
 	
 	public GameScreen(LightPhysics g, int level)
 	{
 		super(g);
 		gameStage = new GameStage(level, g);
-		game = g;
-		hud = new HUDStage(gameStage.m_level, g);
+		stage = new Stage();
+		skin = new Skin(Gdx.files.internal("data/ui/uimenuskin.json"));
 		GamePreferences.instance.load();
-		
 
 		InputMultiplexer im = new InputMultiplexer();
 		im.addProcessor(gameStage.gd);
-		im.addProcessor(hud);
+		im.addProcessor(gameStage.hud);
 		Gdx.input.setInputProcessor(im);
 		if(GamePreferences.instance.sound){
 			music = Gdx.audio.newMusic(Gdx.files.internal("data/sounds/level_1.wav"));
@@ -43,7 +47,8 @@ public class GameScreen extends AbstractGameScreen{
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		gameStage.render();
-		hud.render();
+		stage.act(delta);
+		stage.draw();
 		
 	}
 

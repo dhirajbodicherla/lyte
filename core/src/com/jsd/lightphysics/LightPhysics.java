@@ -8,7 +8,7 @@ public class LightPhysics extends Game{
 
 	@Override
 	public void create() {
-		Gdx.app.setLogLevel(Application.LOG_NONE);
+		Gdx.app.setLogLevel(Application.LOG_DEBUG);
 		setScreen(new SplashScreen(this));
 	}
 

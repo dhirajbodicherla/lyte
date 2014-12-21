@@ -11,19 +11,21 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 
 public class HUDStage extends Stage
 {	
-	private Table top, bottom; 
+	private Table top, bottom, leftTop, leftBottom, rightTop, rightBottom;
 	private TextButton pause, replay, start, left, right;
 	private TextureAtlas atlas;
 	private Level m_level;
@@ -35,20 +37,25 @@ public class HUDStage extends Stage
 	private Vector2 SCREEN;
 	private LightPhysics game;
 	private Skin skin;
+	private Skin helpSkin;
 	private Window pauseWindow;
 	private Window levelCompleteMessageWindow;
-	private TextureAtlas menuAtlas;
 	private Window gameOverMessageWindow;
+	private Window hintsWindow;
+	private TextureAtlas menuAtlas;
 	private Sound levelCompleteSound;
 	private TextButton pauseVolumeBtn;
 	private GamePreferences prefs;
 	private float defaultVolume;
 	private boolean isMuted = false;
+	private Label hintsLabel;
+	private Hints hints;
 	
 	public HUDStage(Level lv, LightPhysics g)
 	{
 		m_level = lv;
 		game = g;
+		hints = new Hints(this);
 		SCREEN = Assets.instance.queryScreen();
 		atlas = Assets.instance.getHUDAtlas();
 		prefs = GamePreferences.instance;
@@ -63,9 +70,17 @@ public class HUDStage extends Stage
 	{
 		top = new Table();
 		bottom = new Table();
+		leftTop = new Table();
+		leftBottom = new Table();
+		rightTop = new Table();
+		rightBottom = new Table();
+		
 		String locRoot = "data/ui/uiskin.json";
 		skin = new Skin(Gdx.files.internal(locRoot));
 		menuAtlas = new TextureAtlas(Gdx.files.internal("data/ui/Menu.pack"));
+		
+		helpSkin = new Skin(Gdx.files.internal("data/ui/uimenuskin.json"));
+		
 		Vector2 SCREEN = Assets.instance.queryScreen();
 		
 		replay = AssetFactory.createButton(atlas, Constants.BTN_REPLAY_UP, Constants.BTN_REPLAY_DOWN, true);
@@ -76,6 +91,7 @@ public class HUDStage extends Stage
 		
 		start.addListener(new ClickListener(){
 			public void clicked(InputEvent event, float x, float y) {
+				hints.hideHint();
 				m_level.launchPhoton();
 			}
 		});
@@ -83,6 +99,7 @@ public class HUDStage extends Stage
 		replay.addListener(new ClickListener(){
 			public void clicked(InputEvent event, float x, float y) {
 				m_level.replay();
+				updateHints();
 			}
 		});
 		
@@ -108,21 +125,23 @@ public class HUDStage extends Stage
 			}
 		});
 		
+		leftTop.setBounds(0, 0, SCREEN.x, SCREEN.y);
+		leftBottom.setBounds(0, 0, SCREEN.x, SCREEN.y);
+		rightTop.setBounds(0, 0, SCREEN.x, SCREEN.y);
+		rightBottom.setBounds(0, 0, SCREEN.x, SCREEN.y);
 		
-		float h = start.getMinWidth();
-		top.setBounds(0, SCREEN.y-h, SCREEN.x, h);
-		bottom.setBounds(0, 0, SCREEN.x, h*2);
+		leftTop.add(pause);
+		leftTop.top().left();
+		
+		leftBottom.add(left);
+		leftBottom.add(right);
+		leftBottom.left().bottom();
+		leftBottom.setVisible(false);
+		
+		rightBottom.add(start);
+		rightBottom.right().bottom();
+		rightBottom.setVisible(true);
 
-		top.add(pause).padRight(0.84f*SCREEN.x);
-		top.add(replay);
-		bottom.add();
-		bottom.add();
-		bottom.add(start).padLeft(0.84f*SCREEN.x);
-		bottom.row();
-		bottom.add(left);
-		bottom.add();
-		bottom.add(right).padLeft(0.84f*SCREEN.x);
-		
 		/* pause screen screen ::: need to change BackUp and BackDown */
 		
 		String pauseVolumeDefaultBtn = "SoundUp";
@@ -165,7 +184,9 @@ public class HUDStage extends Stage
 //				game.getScreen().dispose();
 //				game.setScreen(new MenuScreen(game));
 				m_level.replay();
+				game.resume();
 				levelCompleteMessageWindow.setVisible(false);
+				updateHints();
 				return;
 			}
 		});
@@ -199,6 +220,7 @@ public class HUDStage extends Stage
 				levelCompleteMessageWindow.setVisible(false);
 				if(!m_level.isGameOver){
 					m_level.nextLevel();
+					updateHints();
 					game.resume();
 				}else{
 					gameOverMessageWindow.setVisible(true);
@@ -226,16 +248,15 @@ public class HUDStage extends Stage
 		pauseTable.setFillParent(true);
 		
 		Image bg = AssetFactory.createImage(atlas, "Panel", false);
-		bg.setColor(1.0f, 1.0f, 1.0f, 0.4f);
+		bg.setColor(1.0f, 1.0f, 1.0f, 1);
 		pauseWindowStack.add(bg);
 		pauseWindowStack.add(pauseTable);
 		
 		pauseWindow = new Window("", skin);
 		pauseWindow.padTop(64);
-		pauseWindow.setColor(1, 1, 1, 1);
 		pauseWindow.add(pauseWindowStack);
 		pauseWindow.setSize(SCREEN.x, SCREEN.y);
-//		pauseWindow.setColor(1,1,1,0.5);
+		pauseWindow.setColor(255, 255, 255, 1);
 		//pauseWindow.setPosition(this.getWidth() / 2 - pause.getWidth()/2, this.getHeight() / 2 - pause.getHeight()/2);
 		pauseWindow.setVisible(false);
 		
@@ -267,13 +288,21 @@ public class HUDStage extends Stage
 		gameOverMessageWindow.setVisible(false);
 		
 		
-		this.addActor(top);
-		this.addActor(bottom);
+//		this.addActor(top);
+//		this.addActor(bottom);
+		this.addActor(leftTop);
+		this.addActor(leftBottom);
+		this.addActor(rightTop);
+		this.addActor(rightBottom);
+		
 		this.addActor(pauseWindow);
 		this.addActor(levelCompleteMessageWindow);
 		this.addActor(gameOverMessageWindow);
 		
 		levelCompleteSound = Gdx.audio.newSound(Gdx.files.internal("data/sounds/level_complete_sound.wav"));
+		
+//		hints.draw();
+		updateHints();
 	}
 	
 	public void render()
@@ -291,6 +320,7 @@ public class HUDStage extends Stage
 				levelCompleteMessageWindow.setVisible(true);
 			}
 		}
+		
 	}
 	@Override
 	public boolean keyUp(int keycode) {
@@ -308,5 +338,48 @@ public class HUDStage extends Stage
 			game.pause();
 			pauseWindow.setVisible(true);
 		}
-	}	 
+	}
+	
+	private void showHints(){
+		switch(m_level.currentLevel){
+			case 0:
+				hints.showHint("Click the launch button to shoot towards target");
+				break;
+			case 1:
+				hints.showHint("Bubble telescope helps you direct light to target");
+				break;
+			case 2:
+				hints.showHint("Select the green bubble telescope and use the controls to rotate it");
+				break;
+			case 3:
+				hints.showHint("Hold blue bubble telescope to move around");
+				break;
+			case 5:
+				hints.showHint("This is a black hole. Light literally bends");
+				break;
+			case 6:
+				hints.showHint("White bubble telescope can be moved around and rotated.");
+				break;
+			default:
+				break;
+		}
+	}
+	
+	private void updateHints(){
+		showHints();
+		switch(m_level.currentLevel){
+			case 0: 
+			case 1:
+				leftBottom.setVisible(false);
+			break;
+			case 2:
+				leftBottom.setVisible(true);
+				leftBottom.addAction( Actions.sequence( Actions.fadeOut( 0.0001f ), 
+										Actions.fadeIn( 4f )));
+				break;
+			default:
+				leftBottom.setVisible(true);
+			break;
+		}
+	}
 }

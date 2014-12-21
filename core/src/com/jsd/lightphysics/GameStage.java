@@ -55,14 +55,14 @@ public class GameStage extends Stage implements GestureListener{
 	private LightPhysics game;
 	public Level m_level; 
 	private Boolean gameIsPaused = false;
+	public HUDStage hud;
 	
 	
 	public GameStage(int level, LightPhysics game)
 	{
 		VIEWPORT = Assets.instance.queryViewport();
 		gd = new GestureDetector(this);
-//        Gdx.input.setInputProcessor(gd);
-		gd.setLongPressSeconds(1);
+		gd.setLongPressSeconds(0.5f);
 		this.game = game;
 		this.init(level);
 	}
@@ -74,6 +74,7 @@ public class GameStage extends Stage implements GestureListener{
 		world = new World(new Vector2(0.0f, 0.0f), false);
 		renderer = new Box2DDebugRenderer();
 		m_level = new Level(Constants.LEVEL_JS+suf+ext, world, level);
+		hud = new HUDStage(this.m_level, game);
 		//photonShootSound = Gdx.audio.newSound(Gdx.files.internal("data/sounds/game.wav"));
 	}
 	
@@ -112,7 +113,8 @@ public class GameStage extends Stage implements GestureListener{
 		
 	}
 	
-	private void buildStage() {		
+	private void buildStage() {
+		
 		Vector2 SCREEN = Assets.instance.queryScreen();
 		Vector2 VIEWPORT = Assets.instance.queryViewport();
 		String suf = Assets.instance.getSuffix();
@@ -134,8 +136,6 @@ public class GameStage extends Stage implements GestureListener{
 		layer.add(imgBackground);
 		
 		this.addActor(layer);
-		
-			
 	}
 
 
@@ -218,6 +218,7 @@ public class GameStage extends Stage implements GestureListener{
 		{
 			hitBody=null;
 		}
+		hud.render();
 	}
 	
 	
@@ -235,7 +236,6 @@ public class GameStage extends Stage implements GestureListener{
 		world.QueryAABB(queryCallBack, tmp.x-0.0001f, tmp.y-0.0001f, tmp.x+0.0001f, tmp.y+0.0001f);
 		if(hitBody == virtualBody)hitBody=null;
 		
-		
 		if(hitBody!=null && ((Entity)hitBody.getUserData()).getFixedRotation()!=0)
 		{
 //			Gdx.input.vibrate(25);
@@ -248,11 +248,9 @@ public class GameStage extends Stage implements GestureListener{
 
 	@Override
 	public boolean tap(float x, float y, int count, int button) {
-		
 		return false;
 	}
 	
-
 	@Override
 	public boolean longPress(float x, float y) {
 		tmp = new Vector3(x, y, 0);
@@ -298,8 +296,6 @@ public class GameStage extends Stage implements GestureListener{
 
 	@Override
 	public boolean panStop(float x, float y, int pointer, int button) {
-//		Gdx.app.log("my app", "touchup");
-		//mouse = new Vector2(Gdx.input.getX(), Gdx.input.getY());
 		
 		//isMouseDown = false;
 		if(mJoint!=null && hitBody!=null)
