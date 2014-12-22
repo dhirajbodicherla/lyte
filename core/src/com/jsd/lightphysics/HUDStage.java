@@ -100,6 +100,7 @@ public class HUDStage extends Stage
 			public void clicked(InputEvent event, float x, float y) {
 				m_level.replay();
 				updateHints();
+				pauseWindow.setVisible(false);
 			}
 		});
 		
@@ -243,6 +244,7 @@ public class HUDStage extends Stage
 		pauseTable.add(heading).padBottom(0.05f * SCREEN.y);
 		pauseTable.row();
 		pauseTable.add(pauseGameCloseBtn);
+		pauseTable.add(replay);
 		pauseTable.add(pauseCloseBtn);
 		pauseTable.add(pauseVolumeBtn);	
 		pauseTable.setFillParent(true);

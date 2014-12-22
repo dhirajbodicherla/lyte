@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class GameScreen extends AbstractGameScreen{
 	
@@ -24,8 +25,8 @@ public class GameScreen extends AbstractGameScreen{
 	public GameScreen(LightPhysics g, int level)
 	{
 		super(g);
+		stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 		gameStage = new GameStage(level, g);
-		stage = new Stage();
 		skin = new Skin(Gdx.files.internal("data/ui/uimenuskin.json"));
 		GamePreferences.instance.load();
 
